@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>optionGroups</key>
+	<array>
+		<string>General</string>
+	</array>
+	<key>optionNames</key>
+	<dict>
+		<key>General</key>
+		<array>
+			<string>missing_strategy</string>
+		</array>
+	</dict>
+	<key>optionDescriptions</key>
+	<dict>
+		<key>missing_strategy</key>
+		<dict>
+			<key>type</key>
+			<string>indexed</string>
+			<key>categories</key>
+			<array>
+				<string>last_prediction</string>
+				<string>proportional</string>
+			</array>
+		</dict>
+	</dict>
+</dict>
+</plist>
