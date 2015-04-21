@@ -15,32 +15,6 @@
 #ifndef BigML_BigML_h
 #define BigML_BigML_h
 
-#import <TargetConditionals.h>
-
-#if TARGET_OS_IPHONE
-
-#import <UIKit/UIKit.h>
-
-#define NSView UIView
-#define NSPoint CGPoint
-#define NSSize CGSize
-#define NSButton UIButton
-#define NSImage UIImage
-
-//-- this should be checked better. inspect these constants' usage...
-#define NSOnState 1
-#define NSOffState 0
-
-#define BMGreenColor [UIColor colorWithRed:127/255.0 green:159/255.0 blue:31/255.0 alpha:1.0]
-
-#else
-
-#import <Cocoa/Cocoa.h>
-
-#endif
-
-#define kOptionsDefaultCollection @"options"
-
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -79,5 +53,6 @@ static BMLResourceType* const kProjectEntityType = @"project";
 @end
 
 #define BMLLoginFailureError -50001
+#define kOptionsDefaultCollection @"options"
 
 #endif
