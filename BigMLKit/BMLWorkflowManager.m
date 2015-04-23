@@ -12,6 +12,12 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
+#if TARGET_OS_IPHONE
+
+#warning The BMLWorkflowManager class is only available on OS X
+
+#else
+
 #import "BMLWorkflowManager.h"
 #import "BMLWorkflowTask.h"
 #import "BMLWorkflowTaskSequence.h"
@@ -101,3 +107,4 @@
 }
 
 @end
+#endif

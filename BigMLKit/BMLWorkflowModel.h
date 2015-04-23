@@ -53,4 +53,3 @@ extern NSString* const kClusterTarget;
 - (id)valueForModelProperty:(NSString*)property;
 
 @end
-

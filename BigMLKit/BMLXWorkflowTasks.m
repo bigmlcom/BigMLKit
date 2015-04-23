@@ -6,6 +6,12 @@
 //  Copyright (c) 2015 sergio. All rights reserved.
 //
 
+#if TARGET_OS_IPHONE
+
+#warning The BMLXWorkflowTaskCreatePrediction class is only available on OS X
+
+#else
+
 #import "BigMLKit.h"
 #import "BMLWorkflowTask.h"
 #import "BMLWorkflowTaskContext.h"
@@ -106,3 +112,5 @@
     return @"Making Prediction";
 }
 @end
+
+#endif
