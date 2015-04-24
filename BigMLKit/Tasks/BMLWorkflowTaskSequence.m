@@ -62,6 +62,16 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
++ (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString *)key {
+    
+    NSSet* keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
+    
+    if ([key isEqualToString:@"currentTask"])
+        keyPaths = [keyPaths setByAddingObjectsFromArray:@[@"currentStep"]];
+    return keyPaths;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)statusMessage {
     
     if (self.status == BMLWorkflowStarted)
@@ -141,7 +151,6 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 //////////////////////////////////////////////////////////////////////////////////////
 - (BMLWorkflowTask*)currentTask {
     
-    NSAssert(_currentStep > 0 && _currentStep < [_steps count], @"No current task found");
     return _steps[_currentStep];
 }
 
