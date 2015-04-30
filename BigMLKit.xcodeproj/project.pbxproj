@@ -10,7 +10,6 @@
 		4956C5D11ADFAEAA00F91E3C /* BigMLKit.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4956C5D01ADFAEAA00F91E3C /* BigMLKit.h */; };
 		4956C5D31ADFAEAA00F91E3C /* BigMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C5D21ADFAEAA00F91E3C /* BigMLKit.m */; };
 		4956C5D91ADFAEAA00F91E3C /* libBigMLKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4956C5CD1ADFAEAA00F91E3C /* libBigMLKit.a */; };
-		4956C6061ADFAEFC00F91E3C /* BMLWorkflowModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C5EB1ADFAEFC00F91E3C /* BMLWorkflowModel.m */; };
 		4956C6081ADFAEFC00F91E3C /* BMLWorkflowConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C5EF1ADFAEFC00F91E3C /* BMLWorkflowConfigurator.m */; };
 		4956C6091ADFAEFC00F91E3C /* BMLWorkflowTaskConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C5F11ADFAEFC00F91E3C /* BMLWorkflowTaskConfiguration.m */; };
 		4956C60A1ADFAEFC00F91E3C /* BMLWorkflowTaskConfigurationOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C5F31ADFAEFC00F91E3C /* BMLWorkflowTaskConfigurationOption.m */; };
@@ -47,7 +46,6 @@
 		496215751ADFF606001F1039 /* Predicate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4962151E1ADFBDC8001F1039 /* Predicate.m */; };
 		496215761ADFF611001F1039 /* BigMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C5D21ADFAEAA00F91E3C /* BigMLKit.m */; };
 		496215771ADFF611001F1039 /* BMLResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4962152E1ADFBEB0001F1039 /* BMLResourceUtils.m */; };
-		496215791ADFF611001F1039 /* BMLWorkflowModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C5EB1ADFAEFC00F91E3C /* BMLWorkflowModel.m */; };
 		4962157A1ADFF61B001F1039 /* BMLWorkflowConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C5EF1ADFAEFC00F91E3C /* BMLWorkflowConfigurator.m */; };
 		4962157B1ADFF61B001F1039 /* BMLWorkflowTaskConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C5F11ADFAEFC00F91E3C /* BMLWorkflowTaskConfiguration.m */; };
 		4962157C1ADFF61B001F1039 /* BMLWorkflowTaskConfigurationOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C5F31ADFAEFC00F91E3C /* BMLWorkflowTaskConfigurationOption.m */; };
@@ -104,8 +102,6 @@
 		4956C5E71ADFAEFC00F91E3C /* BMLResourceProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMLResourceProtocol.h; sourceTree = "<group>"; };
 		4956C5E81ADFAEFC00F91E3C /* BMLWorkflowManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMLWorkflowManager.h; sourceTree = "<group>"; };
 		4956C5E91ADFAEFC00F91E3C /* BMLWorkflowManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMLWorkflowManager.m; sourceTree = "<group>"; };
-		4956C5EA1ADFAEFC00F91E3C /* BMLWorkflowModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMLWorkflowModel.h; sourceTree = "<group>"; };
-		4956C5EB1ADFAEFC00F91E3C /* BMLWorkflowModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMLWorkflowModel.m; sourceTree = "<group>"; };
 		4956C5EE1ADFAEFC00F91E3C /* BMLWorkflowConfigurator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMLWorkflowConfigurator.h; sourceTree = "<group>"; };
 		4956C5EF1ADFAEFC00F91E3C /* BMLWorkflowConfigurator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMLWorkflowConfigurator.m; sourceTree = "<group>"; };
 		4956C5F01ADFAEFC00F91E3C /* BMLWorkflowTaskConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMLWorkflowTaskConfiguration.h; sourceTree = "<group>"; };
@@ -234,8 +230,6 @@
 				4956C5E71ADFAEFC00F91E3C /* BMLResourceProtocol.h */,
 				4956C5E81ADFAEFC00F91E3C /* BMLWorkflowManager.h */,
 				4956C5E91ADFAEFC00F91E3C /* BMLWorkflowManager.m */,
-				4956C5EA1ADFAEFC00F91E3C /* BMLWorkflowModel.h */,
-				4956C5EB1ADFAEFC00F91E3C /* BMLWorkflowModel.m */,
 				4956C5ED1ADFAEFC00F91E3C /* Configuration */,
 				4956C5F91ADFAEFC00F91E3C /* Tasks */,
 			);
@@ -571,7 +565,6 @@
 				4956C60A1ADFAEFC00F91E3C /* BMLWorkflowTaskConfigurationOption.m in Sources */,
 				4956C60F1ADFAEFC00F91E3C /* BMLWorkflowTasks.m in Sources */,
 				4956C60C1ADFAEFC00F91E3C /* BMLWorkflowTask+Private.m in Sources */,
-				4956C6061ADFAEFC00F91E3C /* BMLWorkflowModel.m in Sources */,
 				4962156C1ADFF5FD001F1039 /* LocalPredictiveModel.m in Sources */,
 				4962152F1ADFBEB0001F1039 /* BMLResourceUtils.m in Sources */,
 				4956C60B1ADFAEFC00F91E3C /* BMLWorkflow.m in Sources */,
@@ -610,7 +603,6 @@
 				496215701ADFF606001F1039 /* LocalPredictionCentroid.m in Sources */,
 				4962156F1ADFF606001F1039 /* HTTPCommsManager.m in Sources */,
 				4962157A1ADFF61B001F1039 /* BMLWorkflowConfigurator.m in Sources */,
-				496215791ADFF611001F1039 /* BMLWorkflowModel.m in Sources */,
 				496215771ADFF611001F1039 /* BMLResourceUtils.m in Sources */,
 				496215821ADFF621001F1039 /* BMLWorkflowTaskSequence.m in Sources */,
 				496215751ADFF606001F1039 /* Predicate.m in Sources */,
@@ -901,6 +893,7 @@
 				496215631ADFF592001F1039 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		496215671ADFF592001F1039 /* Build configuration list for PBXNativeTarget "BigMLKitFrameworkTests" */ = {
 			isa = XCConfigurationList;
@@ -909,6 +902,7 @@
 				496215651ADFF592001F1039 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
