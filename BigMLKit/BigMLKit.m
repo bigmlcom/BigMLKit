@@ -15,6 +15,38 @@
 #import <Foundation/Foundation.h>
 #import "BigMLKit.h"
 
+#import "BigMLKit-Swift.h"
+
+BMLResourceType* kFileEntityType = nil;
+BMLResourceType* kSourceEntityType = nil;
+BMLResourceType* kDatasetEntityType = nil;
+BMLResourceType* kModelEntityType = nil;
+BMLResourceType* kClusterEntityType = nil;
+BMLResourceType* kPredictionEntityType = nil;
+BMLResourceType* kProjectEntityType = nil;
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+@interface BMLKitInitializer : NSObject
+@end
+
+@implementation BMLKitInitializer
+
+//////////////////////////////////////////////////////////////////////////////////////
++ (void)load {
+    
+    kFileEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeFile];
+    kSourceEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeSource];
+    kDatasetEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeDataset];
+    kModelEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeModel];
+    kClusterEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeCluster];
+    kPredictionEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypePrediction];
+    kProjectEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeProject];
+}
+
+@end
+
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////

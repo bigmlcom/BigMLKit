@@ -18,7 +18,7 @@
 #import "BMLWorkflowTask.h"
 #import "BMLWorkflowTaskContext.h"
 #import "BMLResourceProtocol.h"
-#import "ML4iOS.h"
+#import "BigMLKit-Swift.h"
 
 #define kTestUsernameFilename @"username"
 #define kTestApiKeyFilename @"apikey"

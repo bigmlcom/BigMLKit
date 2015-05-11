@@ -15,16 +15,16 @@
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflow.h"
 #import "BMLResourceUtils.h"
-#import "ML4iOS.h"
+#import "BigMLKit-Swift.h"
 
 #define kMonitoringPeriod 0.25
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@interface BMLWorkflowTaskContext () <ML4iOSDelegate>
+@interface BMLWorkflowTaskContext ()
 
-@property (nonatomic, strong) ML4iOS* ml;
+@property (nonatomic, strong) BMLConnector* ml;
 @property (nonatomic, weak) BMLWorkflow* workflow;
 
 @end
@@ -43,13 +43,12 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)initWithWorkflow:(BMLWorkflow*)workflow
-                       connector:(ML4iOS*)connector {
+                       connector:(BMLConnector*)connector {
     
     if (self = [super init]) {
         
         _workflow = workflow;
         _ml = connector;
-        _ml.delegate = self;
     }
     return self;
 }
@@ -72,7 +71,7 @@
                              code:code
                      extendedInfo:response];
 }
-
+/*
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)monitorStepWithBlock:(NSDictionary*(^)(void))block
                      success:(void(^)(NSDictionary* result))success
@@ -143,8 +142,8 @@
     } else {
         self.info[kDataSourceId] = datasourceId;
         [self monitorStepWithBlock:^{
-            NSInteger status = 0;
-            return [self.ml getSourceWithIdSync:datasourceId statusCode:&status];
+//            NSInteger status = 0;
+            return (NSDictionary*)nil; //[self.ml getSourceWithIdSync:datasourceId statusCode:&status];
         } success:^(NSDictionary* result) {
             self.info[kDataSourceDefinition] = result;
         } error:NULL];
@@ -163,10 +162,11 @@
         self.info[kDataSetId] = datasetId;
         [self monitorStepWithBlock:^{
             NSInteger status = 0;
-            return [self.ml getDataSetWithIdSync:datasetId statusCode:&status];
-        } success:^(NSDictionary* result) {
-            self.info[kDataSetDefinition] = result;
-        } error:NULL];
+            return [self.ml getResource:@"source" uuid:datasetId completion:^(id<BMLResource> result, NSError * error) {
+                if (!error)
+                    self.info[kDataSetDefinition] = result;
+            }];
+        }];
     }
 }
 
@@ -232,7 +232,7 @@
         self.workflow.currentTask.bmlStatus = BMLWorkflowTaskEnded;
     });
 }
-
+*/
 #pragma mark - Error handler
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)handleError:(NSError*)error {
@@ -242,38 +242,6 @@
         [self.workflow handleError:error];
     });
 }
-
-#pragma mark - ML4iOSDelegate Silencing
-//////////////////////////////////////////////////////////////////////////////////////
--(void)dataSourceUpdated:(NSDictionary*)dataSource statusCode:(NSInteger)code {}
--(void)dataSourceDeletedWithStatusCode:(NSInteger)code {}
--(void)dataSourcesRetrieved:(NSDictionary*)dataSources statusCode:(NSInteger)code {}
--(void)dataSourceRetrieved:(NSDictionary*)dataSource statusCode:(NSInteger)code {}
--(void)dataSourceIsReady:(BOOL)ready {}
--(void)dataSetUpdated:(NSDictionary*)dataSet statusCode:(NSInteger)code {}
--(void)dataSetDeletedWithStatusCode:(NSInteger)code {}
--(void)dataSetsRetrieved:(NSDictionary*)dataSets statusCode:(NSInteger)code {}
--(void)dataSetRetrieved:(NSDictionary*)dataSet statusCode:(NSInteger)code {}
--(void)dataSetIsReady:(BOOL)ready {}
--(void)modelUpdated:(NSDictionary*)model statusCode:(NSInteger)code {}
--(void)modelDeletedWithStatusCode:(NSInteger)code {}
--(void)modelsRetrieved:(NSDictionary*)models statusCode:(NSInteger)code {}
--(void)modelIsReady:(BOOL)ready {}
--(void)clusterUpdated:(NSDictionary*)cluster statusCode:(NSInteger)code {}
--(void)clusterDeletedWithStatusCode:(NSInteger)code {}
--(void)clustersRetrieved:(NSDictionary*)clusters statusCode:(NSInteger)code {}
--(void)clusterIsReady:(BOOL)ready {}
--(void)predictionUpdated:(NSDictionary*)prediction statusCode:(NSInteger)code {}
--(void)predictionDeletedWithStatusCode:(NSInteger)code {}
--(void)predictionsRetrieved:(NSDictionary*)predictions statusCode:(NSInteger)code {}
--(void)predictionRetrieved:(NSDictionary*)prediction statusCode:(NSInteger)code {}
--(void)predictionIsReady:(BOOL)ready {}
--(void)projectCreated:(NSDictionary*)project statusCode:(NSInteger)statusCode {}
--(void)projectUpdated:(NSDictionary*)prediction statusCode:(NSInteger)code {}
--(void)projectDeletedWithStatusCode:(NSInteger)code {}
--(void)projectsRetrieved:(NSDictionary*)predictions statusCode:(NSInteger)code {}
--(void)projectRetrieved:(NSDictionary*)prediction statusCode:(NSInteger)code {}
--(void)projectIsReady:(BOOL)ready {}
 
 @end
 

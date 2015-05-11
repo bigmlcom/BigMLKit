@@ -30,20 +30,6 @@
 		496215541ADFF592001F1039 /* BigMLKitFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 496215531ADFF592001F1039 /* BigMLKitFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4962155A1ADFF592001F1039 /* BigMLKitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4962154F1ADFF592001F1039 /* BigMLKitFramework.framework */; };
 		496215611ADFF592001F1039 /* BigMLKitFrameworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 496215601ADFF592001F1039 /* BigMLKitFrameworkTests.m */; };
-		496215681ADFF5FD001F1039 /* HTTPCommsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4962150E1ADFBDC8001F1039 /* HTTPCommsManager.m */; };
-		496215691ADFF5FD001F1039 /* LocalPredictionCentroid.m in Sources */ = {isa = PBXBuildFile; fileRef = 496215141ADFBDC8001F1039 /* LocalPredictionCentroid.m */; };
-		4962156A1ADFF5FD001F1039 /* LocalPredictionCluster.m in Sources */ = {isa = PBXBuildFile; fileRef = 496215161ADFBDC8001F1039 /* LocalPredictionCluster.m */; };
-		4962156B1ADFF5FD001F1039 /* LocalPredictionTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 496215181ADFBDC8001F1039 /* LocalPredictionTree.m */; };
-		4962156C1ADFF5FD001F1039 /* LocalPredictiveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4962151A1ADFBDC8001F1039 /* LocalPredictiveModel.m */; };
-		4962156D1ADFF5FD001F1039 /* ML4iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 4962151C1ADFBDC8001F1039 /* ML4iOS.m */; };
-		4962156E1ADFF5FD001F1039 /* Predicate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4962151E1ADFBDC8001F1039 /* Predicate.m */; };
-		4962156F1ADFF606001F1039 /* HTTPCommsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4962150E1ADFBDC8001F1039 /* HTTPCommsManager.m */; };
-		496215701ADFF606001F1039 /* LocalPredictionCentroid.m in Sources */ = {isa = PBXBuildFile; fileRef = 496215141ADFBDC8001F1039 /* LocalPredictionCentroid.m */; };
-		496215711ADFF606001F1039 /* LocalPredictionCluster.m in Sources */ = {isa = PBXBuildFile; fileRef = 496215161ADFBDC8001F1039 /* LocalPredictionCluster.m */; };
-		496215721ADFF606001F1039 /* LocalPredictionTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 496215181ADFBDC8001F1039 /* LocalPredictionTree.m */; };
-		496215731ADFF606001F1039 /* LocalPredictiveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4962151A1ADFBDC8001F1039 /* LocalPredictiveModel.m */; };
-		496215741ADFF606001F1039 /* ML4iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 4962151C1ADFBDC8001F1039 /* ML4iOS.m */; };
-		496215751ADFF606001F1039 /* Predicate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4962151E1ADFBDC8001F1039 /* Predicate.m */; };
 		496215761ADFF611001F1039 /* BigMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C5D21ADFAEAA00F91E3C /* BigMLKit.m */; };
 		496215771ADFF611001F1039 /* BMLResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4962152E1ADFBEB0001F1039 /* BMLResourceUtils.m */; };
 		4962157A1ADFF61B001F1039 /* BMLWorkflowConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C5EF1ADFAEFC00F91E3C /* BMLWorkflowConfigurator.m */; };
@@ -126,23 +112,6 @@
 		4956C6041ADFAEFC00F91E3C /* BMLWorkflowTaskSequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMLWorkflowTaskSequence.m; sourceTree = "<group>"; };
 		496215091ADFBDC0001F1039 /* MAKVONotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAKVONotificationCenter.h; path = vendor/MAKVONotificationCenter/MAKVONotificationCenter.h; sourceTree = "<group>"; };
 		4962150A1ADFBDC0001F1039 /* MAKVONotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAKVONotificationCenter.m; path = vendor/MAKVONotificationCenter/MAKVONotificationCenter.m; sourceTree = "<group>"; };
-		4962150D1ADFBDC8001F1039 /* HTTPCommsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPCommsManager.h; sourceTree = "<group>"; };
-		4962150E1ADFBDC8001F1039 /* HTTPCommsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPCommsManager.m; sourceTree = "<group>"; };
-		496215101ADFBDC8001F1039 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		496215111ADFBDC8001F1039 /* ML4iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ML4iOS.h; sourceTree = "<group>"; };
-		496215121ADFBDC8001F1039 /* ML4iOSDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ML4iOSDelegate.h; sourceTree = "<group>"; };
-		496215131ADFBDC8001F1039 /* LocalPredictionCentroid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalPredictionCentroid.h; sourceTree = "<group>"; };
-		496215141ADFBDC8001F1039 /* LocalPredictionCentroid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalPredictionCentroid.m; sourceTree = "<group>"; };
-		496215151ADFBDC8001F1039 /* LocalPredictionCluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalPredictionCluster.h; sourceTree = "<group>"; };
-		496215161ADFBDC8001F1039 /* LocalPredictionCluster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalPredictionCluster.m; sourceTree = "<group>"; };
-		496215171ADFBDC8001F1039 /* LocalPredictionTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalPredictionTree.h; sourceTree = "<group>"; };
-		496215181ADFBDC8001F1039 /* LocalPredictionTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalPredictionTree.m; sourceTree = "<group>"; };
-		496215191ADFBDC8001F1039 /* LocalPredictiveModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalPredictiveModel.h; sourceTree = "<group>"; };
-		4962151A1ADFBDC8001F1039 /* LocalPredictiveModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalPredictiveModel.m; sourceTree = "<group>"; };
-		4962151B1ADFBDC8001F1039 /* ML4iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ML4iOS-Prefix.pch"; sourceTree = "<group>"; };
-		4962151C1ADFBDC8001F1039 /* ML4iOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ML4iOS.m; sourceTree = "<group>"; };
-		4962151D1ADFBDC8001F1039 /* Predicate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Predicate.h; sourceTree = "<group>"; };
-		4962151E1ADFBDC8001F1039 /* Predicate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Predicate.m; sourceTree = "<group>"; };
 		4962152D1ADFBEB0001F1039 /* BMLResourceUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMLResourceUtils.h; sourceTree = "<group>"; };
 		4962152E1ADFBEB0001F1039 /* BMLResourceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMLResourceUtils.m; sourceTree = "<group>"; };
 		496215301ADFC21B001F1039 /* BigMLKitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigMLKitTests.m; sourceTree = "<group>"; };
@@ -313,34 +282,9 @@
 		4962150C1ADFBDC8001F1039 /* ML4iOS */ = {
 			isa = PBXGroup;
 			children = (
-				4962150D1ADFBDC8001F1039 /* HTTPCommsManager.h */,
-				4962150E1ADFBDC8001F1039 /* HTTPCommsManager.m */,
-				4962150F1ADFBDC8001F1039 /* include */,
-				496215131ADFBDC8001F1039 /* LocalPredictionCentroid.h */,
-				496215141ADFBDC8001F1039 /* LocalPredictionCentroid.m */,
-				496215151ADFBDC8001F1039 /* LocalPredictionCluster.h */,
-				496215161ADFBDC8001F1039 /* LocalPredictionCluster.m */,
-				496215171ADFBDC8001F1039 /* LocalPredictionTree.h */,
-				496215181ADFBDC8001F1039 /* LocalPredictionTree.m */,
-				496215191ADFBDC8001F1039 /* LocalPredictiveModel.h */,
-				4962151A1ADFBDC8001F1039 /* LocalPredictiveModel.m */,
-				4962151B1ADFBDC8001F1039 /* ML4iOS-Prefix.pch */,
-				4962151C1ADFBDC8001F1039 /* ML4iOS.m */,
-				4962151D1ADFBDC8001F1039 /* Predicate.h */,
-				4962151E1ADFBDC8001F1039 /* Predicate.m */,
 			);
 			name = ML4iOS;
 			path = vendor/ML4iOS/ML4iOS;
-			sourceTree = "<group>";
-		};
-		4962150F1ADFBDC8001F1039 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				496215101ADFBDC8001F1039 /* Constants.h */,
-				496215111ADFBDC8001F1039 /* ML4iOS.h */,
-				496215121ADFBDC8001F1039 /* ML4iOSDelegate.h */,
-			);
-			path = include;
 			sourceTree = "<group>";
 		};
 		4962153E1ADFC5B2001F1039 /* testFiles */ = {
@@ -554,25 +498,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4962156B1ADFF5FD001F1039 /* LocalPredictionTree.m in Sources */,
 				4962150B1ADFBDC0001F1039 /* MAKVONotificationCenter.m in Sources */,
-				4962156A1ADFF5FD001F1039 /* LocalPredictionCluster.m in Sources */,
 				4956C5D31ADFAEAA00F91E3C /* BigMLKit.m in Sources */,
-				496215691ADFF5FD001F1039 /* LocalPredictionCentroid.m in Sources */,
 				4956C6091ADFAEFC00F91E3C /* BMLWorkflowTaskConfiguration.m in Sources */,
-				496215681ADFF5FD001F1039 /* HTTPCommsManager.m in Sources */,
 				4956C60D1ADFAEFC00F91E3C /* BMLWorkflowTask.m in Sources */,
 				4956C60A1ADFAEFC00F91E3C /* BMLWorkflowTaskConfigurationOption.m in Sources */,
 				4956C60F1ADFAEFC00F91E3C /* BMLWorkflowTasks.m in Sources */,
 				4956C60C1ADFAEFC00F91E3C /* BMLWorkflowTask+Private.m in Sources */,
-				4962156C1ADFF5FD001F1039 /* LocalPredictiveModel.m in Sources */,
 				4962152F1ADFBEB0001F1039 /* BMLResourceUtils.m in Sources */,
 				4956C60B1ADFAEFC00F91E3C /* BMLWorkflow.m in Sources */,
 				4956C6081ADFAEFC00F91E3C /* BMLWorkflowConfigurator.m in Sources */,
 				4956C60E1ADFAEFC00F91E3C /* BMLWorkflowTaskContext.m in Sources */,
 				4956C6101ADFAEFC00F91E3C /* BMLWorkflowTaskSequence.m in Sources */,
-				4962156D1ADFF5FD001F1039 /* ML4iOS.m in Sources */,
-				4962156E1ADFF5FD001F1039 /* Predicate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -590,22 +527,15 @@
 			files = (
 				496215761ADFF611001F1039 /* BigMLKit.m in Sources */,
 				4962157E1ADFF621001F1039 /* BMLWorkflowTask+Private.m in Sources */,
-				496215721ADFF606001F1039 /* LocalPredictionTree.m in Sources */,
 				4962157D1ADFF621001F1039 /* BMLWorkflow.m in Sources */,
 				4962157B1ADFF61B001F1039 /* BMLWorkflowTaskConfiguration.m in Sources */,
 				4962157F1ADFF621001F1039 /* BMLWorkflowTask.m in Sources */,
 				496215801ADFF621001F1039 /* BMLWorkflowTaskContext.m in Sources */,
-				496215741ADFF606001F1039 /* ML4iOS.m in Sources */,
-				496215711ADFF606001F1039 /* LocalPredictionCluster.m in Sources */,
-				496215731ADFF606001F1039 /* LocalPredictiveModel.m in Sources */,
 				4962157C1ADFF61B001F1039 /* BMLWorkflowTaskConfigurationOption.m in Sources */,
 				496215811ADFF621001F1039 /* BMLWorkflowTasks.m in Sources */,
-				496215701ADFF606001F1039 /* LocalPredictionCentroid.m in Sources */,
-				4962156F1ADFF606001F1039 /* HTTPCommsManager.m in Sources */,
 				4962157A1ADFF61B001F1039 /* BMLWorkflowConfigurator.m in Sources */,
 				496215771ADFF611001F1039 /* BMLResourceUtils.m in Sources */,
 				496215821ADFF621001F1039 /* BMLWorkflowTaskSequence.m in Sources */,
-				496215751ADFF606001F1039 /* Predicate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -715,18 +645,23 @@
 		4956C5E21ADFAEAA00F91E3C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		4956C5E31ADFAEAA00F91E3C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -783,6 +718,7 @@
 		496215621ADFF592001F1039 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -798,6 +734,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -807,6 +744,7 @@
 		496215631ADFF592001F1039 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;

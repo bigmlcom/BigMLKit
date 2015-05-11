@@ -14,7 +14,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class ML4iOS;
+@class BMLConnector;
 
 /**
  *  The following constants idnetify entities that can be stored inside of a BMLWorkflowTaskContext.
@@ -68,7 +68,7 @@ static NSString* const kWorkflowName = @"kWorkflowName";
 /**
  *  The connector object to use for this context.
  */
-@property (nonatomic, readonly) ML4iOS* ml;
+@property (nonatomic, readonly) BMLConnector* ml;
 
 /**
  *  The info dictionary providing access to all input, output, and intermediate results.
@@ -85,7 +85,7 @@ static NSString* const kWorkflowName = @"kWorkflowName";
  *  @return An instance of BMLWorkflowTaskContext
  */
 - (instancetype)initWithWorkflow:(BMLWorkflow*)workflow
-                       connector:(ML4iOS*)connector;
+                       connector:(BMLConnector*)connector;
 
 @end
 

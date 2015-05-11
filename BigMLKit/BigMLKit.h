@@ -15,6 +15,8 @@
 #ifndef BigML_BigML_h
 #define BigML_BigML_h
 
+@class BMLResourceType;
+
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -24,19 +26,19 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-typedef NSString BMLResourceType;
+//typedef NSString BMLResourceType;
 typedef NSString BMLResourceUuid;
 typedef NSString BMLResourceFullUuid;
 
 static NSString* const BMLExtendedErrorDescriptionKey = @"BMLExtendedErrorDescriptionKey";
 
-static BMLResourceType* const kFileEntityType = @"file";
-static BMLResourceType* const kSourceEntityType = @"source";
-static BMLResourceType* const kDatasetEntityType = @"dataset";
-static BMLResourceType* const kModelEntityType = @"model";
-static BMLResourceType* const kClusterEntityType = @"cluster";
-static BMLResourceType* const kPredictionEntityType = @"prediction";
-static BMLResourceType* const kProjectEntityType = @"project";
+extern BMLResourceType* kFileEntityType;
+extern BMLResourceType* kSourceEntityType;
+extern BMLResourceType* kDatasetEntityType;
+extern BMLResourceType* kModelEntityType;
+extern BMLResourceType* kClusterEntityType;
+extern BMLResourceType* kPredictionEntityType;
+extern BMLResourceType* kProjectEntityType;
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////

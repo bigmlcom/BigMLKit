@@ -17,7 +17,7 @@
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflowTaskConfiguration.h"
 #import "BMLWorkflowConfigurator.h"
-#import "ML4iOS.h"
+#import "BigMLKit-Swift.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -185,10 +185,24 @@
     if (context.info[kCSVSourceFilePath] &&
         [[NSFileManager defaultManager] fileExistsAtPath:[(NSURL*)context.info[kCSVSourceFilePath] path]]) {
         
-        context.ml.options = [self optionStringForCurrentContext:context];
-        [context.ml createSourceWithName:context.info[kWorkflowName]
-                                 project:context.info[kProjectFullUuid]
-                                filePath:[(NSURL*)context.info[kCSVSourceFilePath] path]];
+//        context.ml.options = [self optionStringForCurrentContext:context];
+//        [context.ml createSourceWithName:context.info[kWorkflowName]
+//                                 project:context.info[kProjectFullUuid]
+//                                filePath:[(NSURL*)context.info[kCSVSourceFilePath] path]];
+        
+        BMLMinimalResource* sourceFile = [[BMLMinimalResource alloc]
+                                          initWithName:context.info[kWorkflowName]
+                                          rawType:BMLResourceRawTypeFile
+                                          uuid:context.info[kCSVSourceFilePath]];
+
+        [context.ml createResource:BMLResourceRawTypeSource
+                              name:context.info[kWorkflowName]
+                           options:@{}
+                              from:sourceFile
+                        completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
+                            //-- TBD: code from Context class should come here...
+                        }];
+        
     } else {
         
         self.error = [NSError errorWithInfo:@"Could not retrieve file information" code:-1];
@@ -234,10 +248,23 @@
     [super runInContext:context completionBlock:nil];
     if (context.info[kDataSourceId]) {
         
-        context.ml.options = [self optionStringForCurrentContext:context];
-        [context.ml createDataSetWithDataSourceId:context.info[kDataSourceId]
-                                             name:context.info[kWorkflowName]];
-    } else {
+//        context.ml.options = [self optionStringForCurrentContext:context];
+//        [context.ml createDataSetWithDataSourceId:context.info[kDataSourceId]
+//                                             name:context.info[kWorkflowName]];
+
+        BMLMinimalResource* source = [[BMLMinimalResource alloc]
+                                      initWithName:context.info[kWorkflowName]
+                                      rawType:BMLResourceRawTypeSource
+                                      uuid:context.info[kDataSourceId]];
+        
+        [context.ml createResource:BMLResourceRawTypeDataset
+                              name:context.info[kWorkflowName]
+                           options:@{}
+                              from:source
+                        completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
+                            //-- TBD: code from Context class should come here...
+                        }];
+} else {
         
         self.error = [NSError errorWithInfo:@"Could not find requested datasource" code:-1];
         self.bmlStatus = BMLWorkflowTaskFailed;
@@ -282,12 +309,32 @@
     
     [super runInContext:context completionBlock:nil];
     if (context.info[kDataSetId]) {
-        context.ml.options = [self optionStringForCurrentContext:context];
-        [context.ml createModelWithDataSetId:context.info[kDataSetId]
-                                        name:context.info[kWorkflowName]];
+        
+//        context.ml.options = [self optionStringForCurrentContext:context];
+//        [context.ml createModelWithDataSetId:context.info[kDataSetId]
+//                                        name:context.info[kWorkflowName]];
+        
+        BMLMinimalResource* dataset = [[BMLMinimalResource alloc]
+                                      initWithName:context.info[kWorkflowName]
+                                      rawType:BMLResourceRawTypeDataset
+                                      uuid:context.info[kDataSetId]];
+        
+        [context.ml createResource:BMLResourceRawTypeModel
+                              name:context.info[kWorkflowName]
+                           options:@{}
+                              from:dataset
+                        completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
+                            //-- TBD: code from Context class should come here...
+                        }];
+
         
     } else if (context.info[kModelId]) {
-        [context.ml getModelWithId:context.info[kModelId]];
+        
+        [context.ml getResource:BMLResourceRawTypeModel
+                           uuid:context.info[kModelId]
+                     completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
+                     }];
+//        [context.ml getModelWithId:context.info[kModelId]];
     } else {
         
         self.error = [NSError errorWithInfo:@"Could not find requested dataset" code:-1];
@@ -320,12 +367,33 @@
     
     [super runInContext:context completionBlock:nil];
     if (context.info[kDataSetId]) {
-        context.ml.options = [self optionStringForCurrentContext:context];
-        [context.ml createClusterWithDataSetId:context.info[kDataSetId]
-                                          name:context.info[kWorkflowName]];
+
+//        context.ml.options = [self optionStringForCurrentContext:context];
+//        [context.ml createClusterWithDataSetId:context.info[kDataSetId]
+//                                          name:context.info[kWorkflowName]];
+        
+        BMLMinimalResource* dataset = [[BMLMinimalResource alloc]
+                                      initWithName:context.info[kWorkflowName]
+                                      rawType:BMLResourceRawTypeDataset
+                                      uuid:context.info[kDataSetId]];
+        
+        [context.ml createResource:BMLResourceRawTypeCluster
+                              name:context.info[kWorkflowName]
+                           options:@{}
+                              from:dataset
+                        completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
+                            //-- TBD: code from Context class should come here...
+                        }];
+        
+
         
     } else if (context.info[kClusterId]) {
-        [context.ml getClusterWithId:context.info[kClusterId]];
+        
+        [context.ml getResource:BMLResourceRawTypeCluster
+                           uuid:context.info[kClusterId]
+                     completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
+                     }];
+//        [context.ml getClusterWithId:context.info[kClusterId]];
     } else {
         self.error = [NSError errorWithInfo:@"Could not find requested dataset" code:-1];
         self.bmlStatus = BMLWorkflowTaskFailed;
@@ -358,7 +426,7 @@
     [super runInContext:context completionBlock:nil];
     if (context.info[kModelId] || context.info[kClusterId]) {
         
-        
+        /*
         BMLResourceType* type = nil;
         BMLResourceUuid* uuid = nil;
         NSDictionary* definition = nil;
@@ -399,7 +467,7 @@
             self.bmlStatus = BMLWorkflowTaskFailed;
         }
         //        NSDictionary* options = [self optionStringForCurrentContext:context];
-        
+        */
     } else {
         self.error = [NSError errorWithInfo:@"Could not find requested model/cluster" code:-1];
         self.bmlStatus = BMLWorkflowTaskFailed;
@@ -431,7 +499,13 @@
     
     NSAssert(context.info[kModelId], @"No model ID provided");
     [super runInContext:context completionBlock:nil];
-    [context.ml getModelWithId:context.info[kModelId]];
+
+    [context.ml getResource:BMLResourceRawTypeModel
+                       uuid:context.info[kModelId]
+                 completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
+                 }];
+
+//    [context.ml getModelWithId:context.info[kModelId]];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -459,7 +533,11 @@
     
     NSAssert(context.info[kModelId], @"No model ID provided");
     [super runInContext:context completionBlock:nil];
-    [context.ml getModelWithId:context.info[kModelId]];
+    [context.ml getResource:BMLResourceRawTypeCluster
+                       uuid:context.info[kClusterId]
+                 completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
+                 }];
+//    [context.ml getModelWithId:context.info[kModelId]];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
