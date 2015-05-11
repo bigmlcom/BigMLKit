@@ -18,7 +18,8 @@
 #import "BMLWorkflowTask.h"
 #import "BMLWorkflowTaskContext.h"
 #import "BMLResourceProtocol.h"
-#import "BigMLKit-Swift.h"
+
+@import BigMLKitConnector;
 
 #define kTestUsernameFilename @"username"
 #define kTestApiKeyFilename @"apikey"
@@ -56,7 +57,7 @@
 @implementation BMLWorkflowTestTests {
     
     BMLWorkflowTaskSequence* _workflow;
-    ML4iOS* _ml;
+    BMLConnector* _ml;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -72,7 +73,9 @@
     NSString* apiKey = [[NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil]
                         stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 
-    _ml = [[ML4iOS alloc] initWithUsername:username key:apiKey developmentMode:NO];
+    _ml = [[BMLConnector alloc] initWithUsername:username
+                                          apiKey:apiKey
+                                            mode:BMLModeBMLDevelopmentMode];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -215,7 +218,9 @@
         resource.fullUuid = [NSString stringWithFormat:@"%@/%@", kFileEntityType, [url path]];
         resource.name = @"test";
         
-        ML4iOS* ml = [[ML4iOS alloc] initWithUsername:@"test1" key:@"test2" developmentMode:NO];
+        BMLConnector* ml = [[BMLConnector alloc] initWithUsername:@"test1"
+                                                              apiKey:@"test2"
+                                                  mode:BMLModeBMLDevelopmentMode];
 
         [_workflow runWithResource:resource connector:ml completionBlock:^(NSError* e) {
             [exp fulfill];

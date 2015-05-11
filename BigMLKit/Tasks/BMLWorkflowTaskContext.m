@@ -15,7 +15,7 @@
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflow.h"
 #import "BMLResourceUtils.h"
-#import "BigMLKit-Swift.h"
+@import BigMLKitConnector;
 
 #define kMonitoringPeriod 0.25
 

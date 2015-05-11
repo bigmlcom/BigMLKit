@@ -17,7 +17,7 @@
 #import "BMLWorkflowTask.h"
 #import "BMLResourceProtocol.h"
 
-@class ML4iOS;
+@class BMLConnector;
 
 extern NSString* const BMLWorkflowTaskCompletedTask;
 extern NSString* const BMLWorkflowTaskCompletedWorkflow;
@@ -60,7 +60,7 @@ extern NSString* const BMLWorkflowTaskCompletedWorkflow;
  *  @param completion A completion block able to handle both success and failure cases.
  */
 - (void)runWithResource:(NSObject<BMLResourceProtocol>*)resource
-                connector:(ML4iOS*)connector
+                connector:(BMLConnector*)connector
           completionBlock:(void(^)(NSError*))completion;
 
 @end

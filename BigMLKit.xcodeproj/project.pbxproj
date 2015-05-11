@@ -47,6 +47,8 @@
 		496215861ADFF695001F1039 /* diab.csv in Resources */ = {isa = PBXBuildFile; fileRef = 4962153F1ADFC5B2001F1039 /* diab.csv */; };
 		496215871ADFF695001F1039 /* iris.csv in Resources */ = {isa = PBXBuildFile; fileRef = 496215401ADFC5B2001F1039 /* iris.csv */; };
 		496215881ADFF695001F1039 /* wines.csv in Resources */ = {isa = PBXBuildFile; fileRef = 496215411ADFC5B2001F1039 /* wines.csv */; };
+		49A022611B01257B00D376F8 /* BigMLKitConnector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A0225E1B01252800D376F8 /* BigMLKitConnector.framework */; };
+		49A022621B01258F00D376F8 /* BigMLKitConnector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A0225E1B01252800D376F8 /* BigMLKitConnector.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +65,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 4962154E1ADFF592001F1039;
 			remoteInfo = BigMLKitFramework;
+		};
+		49A0225D1B01252800D376F8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49A022581B01252800D376F8 /* BigMLKitConnector.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 49C5AA6E1AEF943800B81AA6;
+			remoteInfo = BigMLKitConnector;
+		};
+		49A0225F1B01252800D376F8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49A022581B01252800D376F8 /* BigMLKitConnector.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 49C5AA791AEF943900B81AA6;
+			remoteInfo = BigMLKitConnectorTests;
+		};
+		49A022631B01454100D376F8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49A022581B01252800D376F8 /* BigMLKitConnector.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 49C5AA6D1AEF943800B81AA6;
+			remoteInfo = BigMLKitConnector;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -128,6 +151,7 @@
 		496215591ADFF592001F1039 /* BigMLKitFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BigMLKitFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4962155F1ADFF592001F1039 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		496215601ADFF592001F1039 /* BigMLKitFrameworkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BigMLKitFrameworkTests.m; sourceTree = "<group>"; };
+		49A022581B01252800D376F8 /* BigMLKitConnector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BigMLKitConnector.xcodeproj; path = vendor/BigMLKitConnector/BigMLKitConnector.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +159,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49A022611B01257B00D376F8 /* BigMLKitConnector.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,6 +167,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49A022621B01258F00D376F8 /* BigMLKitConnector.framework in Frameworks */,
 				4956C5D91ADFAEAA00F91E3C /* libBigMLKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -167,6 +193,7 @@
 		4956C5C41ADFAEAA00F91E3C = {
 			isa = PBXGroup;
 			children = (
+				49A022581B01252800D376F8 /* BigMLKitConnector.xcodeproj */,
 				496215481ADFC7B9001F1039 /* README.md */,
 				496215491ADFCA67001F1039 /* LICENSE */,
 				496215071ADFBD97001F1039 /* Vendor */,
@@ -264,7 +291,6 @@
 		496215071ADFBD97001F1039 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				4962150C1ADFBDC8001F1039 /* ML4iOS */,
 				496215081ADFBDAF001F1039 /* MAKVONotificationCenter */,
 			);
 			name = Vendor;
@@ -277,14 +303,6 @@
 				4962150A1ADFBDC0001F1039 /* MAKVONotificationCenter.m */,
 			);
 			name = MAKVONotificationCenter;
-			sourceTree = "<group>";
-		};
-		4962150C1ADFBDC8001F1039 /* ML4iOS */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = ML4iOS;
-			path = vendor/ML4iOS/ML4iOS;
 			sourceTree = "<group>";
 		};
 		4962153E1ADFC5B2001F1039 /* testFiles */ = {
@@ -331,6 +349,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		49A022591B01252800D376F8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				49A0225E1B01252800D376F8 /* BigMLKitConnector.framework */,
+				49A022601B01252800D376F8 /* BigMLKitConnectorTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -356,6 +383,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				49A022641B01454100D376F8 /* PBXTargetDependency */,
 			);
 			name = BigMLKit;
 			productName = BigMLKit;
@@ -449,6 +477,12 @@
 			mainGroup = 4956C5C41ADFAEAA00F91E3C;
 			productRefGroup = 4956C5CE1ADFAEAA00F91E3C /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 49A022591B01252800D376F8 /* Products */;
+					ProjectRef = 49A022581B01252800D376F8 /* BigMLKitConnector.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				4956C5CC1ADFAEAA00F91E3C /* BigMLKit */,
@@ -458,6 +492,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		49A0225E1B01252800D376F8 /* BigMLKitConnector.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = BigMLKitConnector.framework;
+			remoteRef = 49A0225D1B01252800D376F8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		49A022601B01252800D376F8 /* BigMLKitConnectorTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = BigMLKitConnectorTests.xctest;
+			remoteRef = 49A0225F1B01252800D376F8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		4956C5D61ADFAEAA00F91E3C /* Resources */ = {
@@ -560,6 +611,11 @@
 			isa = PBXTargetDependency;
 			target = 4962154E1ADFF592001F1039 /* BigMLKitFramework */;
 			targetProxy = 4962155B1ADFF592001F1039 /* PBXContainerItemProxy */;
+		};
+		49A022641B01454100D376F8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = BigMLKitConnector;
+			targetProxy = 49A022631B01454100D376F8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
