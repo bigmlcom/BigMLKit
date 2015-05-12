@@ -47,7 +47,6 @@
 		496215861ADFF695001F1039 /* diab.csv in Resources */ = {isa = PBXBuildFile; fileRef = 4962153F1ADFC5B2001F1039 /* diab.csv */; };
 		496215871ADFF695001F1039 /* iris.csv in Resources */ = {isa = PBXBuildFile; fileRef = 496215401ADFC5B2001F1039 /* iris.csv */; };
 		496215881ADFF695001F1039 /* wines.csv in Resources */ = {isa = PBXBuildFile; fileRef = 496215411ADFC5B2001F1039 /* wines.csv */; };
-		49A022611B01257B00D376F8 /* BigMLKitConnector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A0225E1B01252800D376F8 /* BigMLKitConnector.framework */; };
 		49A022621B01258F00D376F8 /* BigMLKitConnector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A0225E1B01252800D376F8 /* BigMLKitConnector.framework */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +80,13 @@
 			remoteInfo = BigMLKitConnectorTests;
 		};
 		49A022631B01454100D376F8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49A022581B01252800D376F8 /* BigMLKitConnector.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 49C5AA6D1AEF943800B81AA6;
+			remoteInfo = BigMLKitConnector;
+		};
+		49A022871B01FEDE00D376F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 49A022581B01252800D376F8 /* BigMLKitConnector.xcodeproj */;
 			proxyType = 1;
@@ -159,7 +165,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49A022611B01257B00D376F8 /* BigMLKitConnector.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +406,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				49A022881B01FEDE00D376F8 /* PBXTargetDependency */,
 				4956C5DB1ADFAEAA00F91E3C /* PBXTargetDependency */,
 			);
 			name = BigMLKitTests;
@@ -616,6 +622,11 @@
 			isa = PBXTargetDependency;
 			name = BigMLKitConnector;
 			targetProxy = 49A022631B01454100D376F8 /* PBXContainerItemProxy */;
+		};
+		49A022881B01FEDE00D376F8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = BigMLKitConnector;
+			targetProxy = 49A022871B01FEDE00D376F8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

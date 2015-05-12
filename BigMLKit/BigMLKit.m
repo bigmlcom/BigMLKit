@@ -25,6 +25,9 @@ BMLResourceType* kClusterEntityType = nil;
 BMLResourceType* kPredictionEntityType = nil;
 BMLResourceType* kProjectEntityType = nil;
 
+BMLResourceType* kModelTarget = nil;
+BMLResourceType* kClusterTarget = nil;
+
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -43,6 +46,9 @@ BMLResourceType* kProjectEntityType = nil;
     kClusterEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeCluster];
     kPredictionEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypePrediction];
     kProjectEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeProject];
+    
+    kModelTarget = kModelEntityType;
+    kClusterTarget = kClusterEntityType;
 }
 
 @end

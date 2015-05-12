@@ -22,7 +22,21 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLResourceType*)typeFromFullUuid:(BMLResourceFullUuid*)fullUuid {
-    return [[fullUuid componentsSeparatedByString:@"/"] firstObject];
+    
+    NSString* type = [[fullUuid componentsSeparatedByString:@"/"] firstObject];
+    if ([type isEqualToString:[kFileEntityType stringValue]])
+        return kFileEntityType;
+    if ([type isEqualToString:[kSourceEntityType stringValue]])
+        return kSourceEntityType;
+    if ([type isEqualToString:[kDatasetEntityType stringValue]])
+        return kDatasetEntityType;
+    if ([type isEqualToString:[kModelEntityType stringValue]])
+        return kModelEntityType;
+    if ([type isEqualToString:[kClusterEntityType stringValue]])
+        return kClusterEntityType;
+    if ([type isEqualToString:[kPredictionEntityType stringValue]])
+        return kPredictionEntityType;
+    return nil;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

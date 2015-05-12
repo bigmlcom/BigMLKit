@@ -17,6 +17,7 @@
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflowTaskConfiguration.h"
 #import "BMLWorkflowConfigurator.h"
+
 @import BigMLKitConnector;
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -200,7 +201,11 @@
                            options:@{}
                               from:sourceFile
                         completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
-                            //-- TBD: code from Context class should come here...
+
+                            if (!error)
+                                self.bmlStatus = BMLWorkflowTaskEnded;
+                            else
+                                self.bmlStatus = BMLWorkflowTaskFailed;
                         }];
         
     } else {
@@ -262,10 +267,14 @@
                            options:@{}
                               from:source
                         completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
-                            //-- TBD: code from Context class should come here...
+
+                            if (!error)
+                                self.bmlStatus = BMLWorkflowTaskEnded;
+                            else
+                                self.bmlStatus = BMLWorkflowTaskFailed;
                         }];
 } else {
-        
+    
         self.error = [NSError errorWithInfo:@"Could not find requested datasource" code:-1];
         self.bmlStatus = BMLWorkflowTaskFailed;
     }
@@ -324,9 +333,12 @@
                            options:@{}
                               from:dataset
                         completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
-                            //-- TBD: code from Context class should come here...
-                        }];
 
+                            if (!error)
+                                self.bmlStatus = BMLWorkflowTaskEnded;
+                            else
+                                self.bmlStatus = BMLWorkflowTaskFailed;
+                        }];
         
     } else if (context.info[kModelId]) {
         
@@ -382,10 +394,12 @@
                            options:@{}
                               from:dataset
                         completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
-                            //-- TBD: code from Context class should come here...
-                        }];
-        
 
+                            if (!error)
+                                self.bmlStatus = BMLWorkflowTaskEnded;
+                            else
+                                self.bmlStatus = BMLWorkflowTaskFailed;
+                        }];
         
     } else if (context.info[kClusterId]) {
         
