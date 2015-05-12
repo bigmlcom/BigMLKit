@@ -15,7 +15,7 @@
 #import <Foundation/Foundation.h>
 #import "BigMLKit.h"
 
-@import BigMLKitConnector;
+#import "BigMLApp-Swift.h"
 
 BMLResourceType* kFileEntityType = nil;
 BMLResourceType* kSourceEntityType = nil;
