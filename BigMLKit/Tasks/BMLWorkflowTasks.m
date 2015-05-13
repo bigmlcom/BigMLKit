@@ -348,6 +348,12 @@
         [context.ml getResource:BMLResourceRawTypeModel
                            uuid:context.info[kModelId]
                      completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
+
+                         if (!error) {
+                             context.info[kModelId] = resource.uuid;
+                             self.resourceStatus = BMLResourceStatusEnded;
+                         } else
+                             self.resourceStatus = BMLResourceStatusFailed;
                      }];
 //        [context.ml getModelWithId:context.info[kModelId]];
     } else {
@@ -410,6 +416,12 @@
         [context.ml getResource:BMLResourceRawTypeCluster
                            uuid:context.info[kClusterId]
                      completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
+
+                         if (!error) {
+                             context.info[kClusterId] = resource.uuid;
+                             self.resourceStatus = BMLResourceStatusEnded;
+                         } else
+                             self.resourceStatus = BMLResourceStatusFailed;
                      }];
 //        [context.ml getClusterWithId:context.info[kClusterId]];
     } else {
@@ -463,7 +475,6 @@
         BMLResourceType* type = nil;
         BMLResourceUuid* uuid = nil;
         NSDictionary* definition = nil;
-        
         if (context.info[kModelId]) { //-- predicting from tree
             
             type = kModelEntityType;
@@ -484,8 +495,9 @@
                              
                              predictFromDefinition(resource.definition);
                          }];
+        } else {
+            predictFromDefinition(definition);
         }
-        predictFromDefinition(definition);
         //        NSDictionary* options = [self optionStringForCurrentContext:context];
 
     } else {
