@@ -108,8 +108,8 @@
                     [self monitorStepWithBlock:block success:success error:error];
                 });
                 
-                if (self.workflow.currentTask.bmlStatus != status)
-                    self.workflow.currentTask.bmlStatus = status;
+                if (self.workflow.currentTask.resourceStatus != status)
+                    self.workflow.currentTask.resourceStatus = status;
                 self.workflow.currentTask.progress = [resource[@"status"][@"progress"] floatValue];
                 
             }  else if (status == BMLResourceStatusEnded) {
@@ -117,7 +117,7 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (success)
                         success(resource);
-                    self.workflow.currentTask.bmlStatus = status;
+                    self.workflow.currentTask.resourceStatus = status;
                 });
             }
         });
@@ -220,7 +220,7 @@
     
     self.info[kModelDefinition] = model;
     dispatch_sync(dispatch_get_main_queue(), ^{
-        self.workflow.currentTask.bmlStatus = BMLResourceStatusEnded;
+        self.workflow.currentTask.resourceStatus = BMLResourceStatusEnded;
     });
 }
 
@@ -229,7 +229,7 @@
     
     self.info[kClusterDefinition] = cluster;
     dispatch_sync(dispatch_get_main_queue(), ^{
-        self.workflow.currentTask.bmlStatus = BMLResourceStatusEnded;
+        self.workflow.currentTask.resourceStatus = BMLResourceStatusEnded;
     });
 }
 */

@@ -40,7 +40,7 @@
 - (instancetype)init {
 
     if (self = [super init])
-        self.bmlStatus = BMLResourceStatusUndefined;
+        self.resourceStatus = BMLResourceStatusUndefined;
     return self;
 }
 
@@ -48,10 +48,10 @@
 - (void)runInContext:(BMLWorkflowTaskContext*)context completionBlock:(void(^)(NSError*))completion {
 
     [super runInContext:context completionBlock:completion];
-    self.bmlStatus = BMLResourceStatusStarted;
+    self.resourceStatus = BMLResourceStatusStarted;
     
     [self addObserver:self
-           forKeyPath:@"bmlStatus"
+           forKeyPath:@"resourceStatus"
               options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
               context:NULL];
 }
@@ -65,7 +65,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (BMLWorkflowStatus)status {
 
-    switch (self.bmlStatus) {
+    switch (self.resourceStatus) {
         case BMLResourceStatusUndefined:
             return BMLWorkflowIdle;
         case BMLResourceStatusWaiting:
@@ -77,10 +77,10 @@
         case BMLResourceStatusFailed:
             return BMLWorkflowFailed;
         default:
-            NSAssert(NO, @"Should not be here: wrong bmlStatus found.");
+            NSAssert(NO, @"Should not be here: wrong resourceStatus found.");
             break;
     }
-    NSAssert(NO, @"Should not be here: wrong bmlStatus found.");
+    NSAssert(NO, @"Should not be here: wrong resourceStatus found.");
     return BMLWorkflowIdle;
 }
 
@@ -90,7 +90,7 @@
     NSMutableSet* keyPaths = [NSMutableSet setWithSet:[super keyPathsForValuesAffectingValueForKey:key]];
     
     if ([key isEqualToString:@"status"]) {
-        [keyPaths addObject:@"bmlStatus"];
+        [keyPaths addObject:@"resourceStatus"];
     }
     
     return keyPaths;

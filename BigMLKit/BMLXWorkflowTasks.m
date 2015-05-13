@@ -89,12 +89,12 @@
                 } else if (context.info[kClusterId]) {
                     context.info[kClusterDefinition] = definition;
                 }
-                self.bmlStatus = BMLResourceStatusEnded;
+                self.resourceStatus = BMLResourceStatusEnded;
 
             } else {
                 
                 self.error = [NSError errorWithInfo:@"The model this prediction was based upon has not been found" code:-1];
-                self.bmlStatus = BMLResourceStatusFailed;
+                self.resourceStatus = BMLResourceStatusFailed;
             }
         }
         //        NSDictionary* options = [self optionStringForCurrentConfiguration:context];
@@ -102,7 +102,7 @@
         
     } else {
         self.error = [NSError errorWithInfo:@"Could not find requested model/cluster" code:-1];
-        self.bmlStatus = BMLResourceStatusFailed;
+        self.resourceStatus = BMLResourceStatusFailed;
     }
 }
 

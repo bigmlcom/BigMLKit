@@ -44,7 +44,7 @@ static void* gResourceTypePropertyKey = &gResourceTypePropertyKey;
 - (instancetype)initWithResourceType:(BMLResourceType*)resourceName {
     
     if (self = [super init]) {
-        self.bmlStatus = BMLResourceStatusUndefined;
+        self.resourceStatus = BMLResourceStatusUndefined;
         self.resourceType = [resourceName copy];
     }
     return self;

@@ -54,24 +54,24 @@
                         change:(NSDictionary*)change
                        context:(void*)context {
     
-    if ([keyPath isEqualToString:@"bmlStatus"]) {
+    if ([keyPath isEqualToString:@"resourceStatus"]) {
         
         if ([change[NSKeyValueChangeNewKey] intValue] != [change[NSKeyValueChangeOldKey] intValue]) {
             
             BMLWorkflow* task = object;
-            if (task.bmlStatus == BMLResourceStatusEnded) {
+            if (task.resourceStatus == BMLResourceStatusEnded) {
                 
-                [task removeObserver:self forKeyPath:@"bmlStatus"];
+                [task removeObserver:self forKeyPath:@"resourceStatus"];
                 [self executeNextStep:nil];
                 
-            } else if (task.bmlStatus == BMLResourceStatusFailed) {
+            } else if (task.resourceStatus == BMLResourceStatusFailed) {
                 
-                [task removeObserver:self forKeyPath:@"bmlStatus"];
+                [task removeObserver:self forKeyPath:@"resourceStatus"];
                 [self handleError:task.error];
                 self.status = BMLWorkflowFailed;
                 
             } else {
-                self.bmlStatus = task.bmlStatus;
+                self.resourceStatus = task.resourceStatus;
             }
         }
     }

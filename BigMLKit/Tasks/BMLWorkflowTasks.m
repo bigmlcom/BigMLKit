@@ -102,7 +102,7 @@
     
     [super runInContext:context completionBlock:nil];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.bmlStatus = BMLResourceStatusEnded;
+        self.resourceStatus = BMLResourceStatusEnded;
     });
 }
 
@@ -130,7 +130,7 @@
     [super runInContext:context completionBlock:nil];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.error = [NSError errorWithInfo:@"Test failure" code:-1];
-        self.bmlStatus = BMLResourceStatusFailed;
+        self.resourceStatus = BMLResourceStatusFailed;
     });
 }
 
@@ -204,15 +204,15 @@
 
                             if (!error) {
                                 context.info[kDataSourceId] = resource.uuid;
-                                self.bmlStatus = BMLResourceStatusEnded;
+                                self.resourceStatus = BMLResourceStatusEnded;
                             } else
-                                self.bmlStatus = BMLResourceStatusFailed;
+                                self.resourceStatus = BMLResourceStatusFailed;
                         }];
         
     } else {
         
         self.error = [NSError errorWithInfo:@"Could not retrieve file information" code:-1];
-        self.bmlStatus = BMLResourceStatusFailed;
+        self.resourceStatus = BMLResourceStatusFailed;
     }
 }
 
@@ -271,14 +271,14 @@
 
                             if (!error) {
                                 context.info[kDataSetId] = resource.uuid;
-                                self.bmlStatus = BMLResourceStatusEnded;
+                                self.resourceStatus = BMLResourceStatusEnded;
                             } else
-                                self.bmlStatus = BMLResourceStatusFailed;
+                                self.resourceStatus = BMLResourceStatusFailed;
                         }];
 } else {
     
         self.error = [NSError errorWithInfo:@"Could not find requested datasource" code:-1];
-        self.bmlStatus = BMLResourceStatusFailed;
+        self.resourceStatus = BMLResourceStatusFailed;
     }
 }
 
@@ -338,9 +338,9 @@
 
                             if (!error) {
                                 context.info[kModelId] = resource.uuid;
-                                self.bmlStatus = BMLResourceStatusEnded;
+                                self.resourceStatus = BMLResourceStatusEnded;
                             } else
-                                self.bmlStatus = BMLResourceStatusFailed;
+                                self.resourceStatus = BMLResourceStatusFailed;
                         }];
         
     } else if (context.info[kModelId]) {
@@ -353,7 +353,7 @@
     } else {
         
         self.error = [NSError errorWithInfo:@"Could not find requested dataset" code:-1];
-        self.bmlStatus = BMLResourceStatusFailed;
+        self.resourceStatus = BMLResourceStatusFailed;
     }
 }
 
@@ -400,9 +400,9 @@
 
                             if (!error) {
                                 context.info[kClusterId] = resource.uuid;
-                                self.bmlStatus = BMLResourceStatusEnded;
+                                self.resourceStatus = BMLResourceStatusEnded;
                             } else
-                                self.bmlStatus = BMLResourceStatusFailed;
+                                self.resourceStatus = BMLResourceStatusFailed;
                         }];
         
     } else if (context.info[kClusterId]) {
@@ -414,7 +414,7 @@
 //        [context.ml getClusterWithId:context.info[kClusterId]];
     } else {
         self.error = [NSError errorWithInfo:@"Could not find requested dataset" code:-1];
-        self.bmlStatus = BMLResourceStatusFailed;
+        self.resourceStatus = BMLResourceStatusFailed;
     }
 }
 
@@ -478,17 +478,17 @@
             } else if (context.info[kClusterId]) {
                 context.info[kClusterDefinition] = definition;
             }
-            self.bmlStatus = BMLResourceStatusEnded;
+            self.resourceStatus = BMLResourceStatusEnded;
         } else {
             
             self.error = [NSError errorWithInfo:@"The model this prediction was based upon has not been found" code:-1];
-            self.bmlStatus = BMLResourceStatusFailed;
+            self.resourceStatus = BMLResourceStatusFailed;
         }
         //        NSDictionary* options = [self optionStringForCurrentContext:context];
         */
     } else {
         self.error = [NSError errorWithInfo:@"Could not find requested model/cluster" code:-1];
-        self.bmlStatus = BMLResourceStatusFailed;
+        self.resourceStatus = BMLResourceStatusFailed;
     }
 }
 

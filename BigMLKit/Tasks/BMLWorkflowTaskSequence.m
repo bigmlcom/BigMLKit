@@ -135,7 +135,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 
         self.currentStep = self.currentStep + 1;
         [_steps[_currentStep] addObserver:self
-                               forKeyPath:@"bmlStatus"
+                               forKeyPath:@"resourceStatus"
                                   options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
                                   context:NULL];
 
@@ -168,7 +168,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)handleError:(NSError*)error {
     
-    if (self.currentTask.bmlStatus != BMLResourceStatusFailed)
+    if (self.currentTask.resourceStatus != BMLResourceStatusFailed)
         [self.currentTask handleError:error];
     [super handleError:error];
 }

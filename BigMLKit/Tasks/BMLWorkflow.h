@@ -83,7 +83,7 @@ typedef enum {
 /**
  *  The current task-level status. This value represents the current task status in BigML REST API terms.
  */
-@property (nonatomic) BMLResourceStatus bmlStatus;
+@property (nonatomic) BMLResourceStatus resourceStatus;
 
 /**
  *  Shortcut to the info dictionary associated to this workflow (through its running context).
