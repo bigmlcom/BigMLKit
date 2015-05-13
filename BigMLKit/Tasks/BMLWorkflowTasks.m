@@ -202,9 +202,10 @@
                               from:sourceFile
                         completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
 
-                            if (!error)
+                            if (!error) {
+                                context.info[kDataSourceId] = resource.uuid;
                                 self.bmlStatus = BMLWorkflowTaskEnded;
-                            else
+                            } else
                                 self.bmlStatus = BMLWorkflowTaskFailed;
                         }];
         
@@ -266,11 +267,12 @@
                               name:context.info[kWorkflowName]
                            options:@{}
                               from:source
-                        completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
+                        completion:^(id<BMLResource> resource, NSError* error) {
 
-                            if (!error)
+                            if (!error) {
+                                context.info[kDataSetId] = resource.uuid;
                                 self.bmlStatus = BMLWorkflowTaskEnded;
-                            else
+                            } else
                                 self.bmlStatus = BMLWorkflowTaskFailed;
                         }];
 } else {
@@ -334,9 +336,10 @@
                               from:dataset
                         completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
 
-                            if (!error)
+                            if (!error) {
+                                context.info[kModelId] = resource.uuid;
                                 self.bmlStatus = BMLWorkflowTaskEnded;
-                            else
+                            } else
                                 self.bmlStatus = BMLWorkflowTaskFailed;
                         }];
         
@@ -395,9 +398,10 @@
                               from:dataset
                         completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
 
-                            if (!error)
+                            if (!error) {
+                                context.info[kClusterId] = resource.uuid;
                                 self.bmlStatus = BMLWorkflowTaskEnded;
-                            else
+                            } else
                                 self.bmlStatus = BMLWorkflowTaskFailed;
                         }];
         
