@@ -1,6 +1,3 @@
-[submodule "vendor/ML4iOS"]
-	path = vendor/ML4iOS
-	url = https://github.com/sdesimone/ML4iOS.git
 [submodule "vendor/MAKVONotificationCenter"]
 	path = vendor/MAKVONotificationCenter
 	url = https://github.com/mikeash/MAKVONotificationCenter.git
