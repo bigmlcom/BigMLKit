@@ -40,7 +40,7 @@
 - (instancetype)init {
 
     if (self = [super init])
-        self.bmlStatus = BMLWorkflowTaskUndefined;
+        self.bmlStatus = BMLResourceStatusUndefined;
     return self;
 }
 
@@ -48,7 +48,7 @@
 - (void)runInContext:(BMLWorkflowTaskContext*)context completionBlock:(void(^)(NSError*))completion {
 
     [super runInContext:context completionBlock:completion];
-    self.bmlStatus = BMLWorkflowTaskStarted;
+    self.bmlStatus = BMLResourceStatusStarted;
     
     [self addObserver:self
            forKeyPath:@"bmlStatus"
@@ -66,20 +66,22 @@
 - (BMLWorkflowStatus)status {
 
     switch (self.bmlStatus) {
-        case BMLWorkflowTaskUndefined:
+        case BMLResourceStatusUndefined:
             return BMLWorkflowIdle;
-        case BMLWorkflowTaskWaiting:
-        case BMLWorkflowTaskQueued:
-        case BMLWorkflowTaskStarted:
+        case BMLResourceStatusWaiting:
+        case BMLResourceStatusQueued:
+        case BMLResourceStatusStarted:
             return BMLWorkflowStarted;
-        case BMLWorkflowTaskEnded:
+        case BMLResourceStatusEnded:
             return BMLWorkflowEnded;
-        case BMLWorkflowTaskFailed:
+        case BMLResourceStatusFailed:
             return BMLWorkflowFailed;
         default:
             NSAssert(NO, @"Should not be here: wrong bmlStatus found.");
             break;
     }
+    NSAssert(NO, @"Should not be here: wrong bmlStatus found.");
+    return BMLWorkflowIdle;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

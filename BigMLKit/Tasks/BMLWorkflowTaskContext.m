@@ -90,10 +90,10 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            BMLWorkflowTaskStatus status = (BMLWorkflowTaskStatus)[resource[@"status"][@"code"] intValue];
+            BMLResourceStatus status = (BMLResourceStatus)[resource[@"status"][@"code"] intValue];
             NSLog(@"Monitoring operation: %@ (%d)", resource[@"status"][@"message"], status);
             
-            if (status < BMLWorkflowTaskWaiting) {
+            if (status < BMLResourceStatusWaiting) {
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (error) error();
@@ -102,7 +102,7 @@
                                                  response:nil]];
                 });
                 
-            } else if (status < BMLWorkflowTaskEnded) {
+            } else if (status < BMLResourceStatusEnded) {
                 
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMonitoringPeriod * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     [self monitorStepWithBlock:block success:success error:error];
@@ -112,7 +112,7 @@
                     self.workflow.currentTask.bmlStatus = status;
                 self.workflow.currentTask.progress = [resource[@"status"][@"progress"] floatValue];
                 
-            }  else if (status == BMLWorkflowTaskEnded) {
+            }  else if (status == BMLResourceStatusEnded) {
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (success)
@@ -220,7 +220,7 @@
     
     self.info[kModelDefinition] = model;
     dispatch_sync(dispatch_get_main_queue(), ^{
-        self.workflow.currentTask.bmlStatus = BMLWorkflowTaskEnded;
+        self.workflow.currentTask.bmlStatus = BMLResourceStatusEnded;
     });
 }
 
@@ -229,7 +229,7 @@
     
     self.info[kClusterDefinition] = cluster;
     dispatch_sync(dispatch_get_main_queue(), ^{
-        self.workflow.currentTask.bmlStatus = BMLWorkflowTaskEnded;
+        self.workflow.currentTask.bmlStatus = BMLResourceStatusEnded;
     });
 }
 */

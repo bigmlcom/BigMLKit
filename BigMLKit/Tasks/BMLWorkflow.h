@@ -14,6 +14,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BigMLKit.h"
+#import "BigMLApp-Swift.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
 typedef enum {
@@ -24,18 +25,14 @@ typedef enum {
     BMLWorkflowFailed,
 } BMLWorkflowStatus;
 
-//////////////////////////////////////////////////////////////////////////////////////
-/** The followging values must match those at https://bigml.com/developers/status_codes
- Not all values are necessarily to be represented.
- **/
-typedef enum {
-    BMLWorkflowTaskUndefined = 1000,
-    BMLWorkflowTaskWaiting = 0,
-    BMLWorkflowTaskQueued = 1,
-    BMLWorkflowTaskStarted = 2,
-    BMLWorkflowTaskEnded = 5,
-    BMLWorkflowTaskFailed = -1,
-} BMLWorkflowTaskStatus;
+//typedef enum {
+//    BMLResourceStatusUndefined = BMLResourceStatusUndefined,
+//    BMLResourceStatusWaiting = BMLResourceStatusWaiting,
+//    BMLResourceStatusQueued = BMLResourceStatusQueued,
+//    BMLResourceStatusStarted = BMLResourceStatusStarted,
+//    BMLResourceStatusEnded = BMLResourceStatusEnded,
+//    BMLResourceStatusFailed = BMLResourceStatusFailed,
+//} BMLWorkflowTaskStatus;
 
 @class BMLWorkflowConfigurator;
 @class BMLWorkflowTaskContext;
@@ -86,7 +83,7 @@ typedef enum {
 /**
  *  The current task-level status. This value represents the current task status in BigML REST API terms.
  */
-@property (nonatomic) BMLWorkflowTaskStatus bmlStatus;
+@property (nonatomic) BMLResourceStatus bmlStatus;
 
 /**
  *  Shortcut to the info dictionary associated to this workflow (through its running context).

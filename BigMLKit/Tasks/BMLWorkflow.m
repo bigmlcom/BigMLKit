@@ -59,12 +59,12 @@
         if ([change[NSKeyValueChangeNewKey] intValue] != [change[NSKeyValueChangeOldKey] intValue]) {
             
             BMLWorkflow* task = object;
-            if (task.bmlStatus == BMLWorkflowTaskEnded) {
+            if (task.bmlStatus == BMLResourceStatusEnded) {
                 
                 [task removeObserver:self forKeyPath:@"bmlStatus"];
                 [self executeNextStep:nil];
                 
-            } else if (task.bmlStatus == BMLWorkflowTaskFailed) {
+            } else if (task.bmlStatus == BMLResourceStatusFailed) {
                 
                 [task removeObserver:self forKeyPath:@"bmlStatus"];
                 [self handleError:task.error];

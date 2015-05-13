@@ -44,7 +44,7 @@ static void* gResourceTypePropertyKey = &gResourceTypePropertyKey;
 - (instancetype)initWithResourceType:(BMLResourceType*)resourceName {
     
     if (self = [super init]) {
-        self.bmlStatus = BMLWorkflowTaskUndefined;
+        self.bmlStatus = BMLResourceStatusUndefined;
         self.resourceType = [resourceName copy];
     }
     return self;

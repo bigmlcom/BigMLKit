@@ -168,7 +168,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)handleError:(NSError*)error {
     
-    if (self.currentTask.bmlStatus != BMLWorkflowTaskFailed)
+    if (self.currentTask.bmlStatus != BMLResourceStatusFailed)
         [self.currentTask handleError:error];
     [super handleError:error];
 }
