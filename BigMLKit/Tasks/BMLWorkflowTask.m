@@ -47,6 +47,8 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runInContext:(BMLWorkflowTaskContext*)context completionBlock:(void(^)(NSError*))completion {
 
+    NSLog(@"RUNNING TASK: %@", self);
+    
     [super runInContext:context completionBlock:completion];
     self.resourceStatus = BMLResourceStatusStarted;
     
