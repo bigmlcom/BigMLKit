@@ -17,7 +17,6 @@
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflowTaskConfiguration.h"
 #import "BMLWorkflowConfigurator.h"
-#import "ML4iOS.h"
 
 #import "BMLResource.h"
 #import "BMLResourceDefinition.h"
@@ -47,14 +46,30 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runInContext:(BMLWorkflowTaskContext*)context completionBlock:(void(^)(NSError*))completion {
     
+    
     if (context.info[kModelId] || context.info[kClusterId]) {
         
         [super runInContext:context completionBlock:nil];
+
+        void(^predictFromDefinition)(NSDictionary* definition) = ^(NSDictionary* definition) {
+            
+            if (definition) {
+                if (context.info[kModelId]) {
+                    context.info[kModelDefinition] = definition;
+                } else if (context.info[kClusterId]) {
+                    context.info[kClusterDefinition] = definition;
+                }
+                self.resourceStatus = BMLResourceStatusEnded;
+            } else {
+                
+                self.error = [NSError errorWithInfo:@"The model this prediction was based upon has not been found" code:-1];
+                self.resourceStatus = BMLResourceStatusFailed;
+            }
+        };
         
         BMLResourceType* type = nil;
         BMLResourceUuid* uuid = nil;
         NSDictionary* definition = nil;
-        
         if (context.info[kModelId]) { //-- predicting from tree
             
             type = kModelEntityType;
@@ -71,39 +86,26 @@
             
             BMLResource* model = [[BMLResource fetchByPredicate:
                                    [NSPredicate predicateWithFormat:@"type = %@ AND uuid = %@",
-                                    type, uuid]] firstObject];
+                                    [type stringValue], uuid]] firstObject];
+            
             if (!(definition = model.definition.json)) {
             
-                NSInteger status = 0;
-                if ([type isEqualToString:kModelEntityType]) {
-                    definition = [context.ml getModelWithIdSync:context.info[kModelId]
-                                                     statusCode:&status];
-                } else if ([type isEqualToString:kClusterEntityType]) {
-                    definition = [context.ml getClusterWithIdSync:context.info[kClusterId]
-                                                       statusCode:&status];
-                }
+                [context.ml getResource:type.type
+                                   uuid:(type == kModelEntityType) ? context.info[kModelId] : context.info[kClusterId]
+                             completion:^(id<BMLResource> resource, NSError* error) {
+                                 
+                                 predictFromDefinition(resource.definition);
+                             }];
             }
-            if (definition) {
-                if (context.info[kModelId]) {
-                    context.info[kModelDefinition] = definition;
-                } else if (context.info[kClusterId]) {
-                    context.info[kClusterDefinition] = definition;
-                }
-                self.resourceStatus = BMLResourceStatusEnded;
-
-            } else {
-                
-                self.error = [NSError errorWithInfo:@"The model this prediction was based upon has not been found" code:-1];
-                self.resourceStatus = BMLResourceStatusFailed;
-            }
+        } else {
+            predictFromDefinition(definition);
         }
-        //        NSDictionary* options = [self optionStringForCurrentConfiguration:context];
-        
+        //        NSDictionary* options = [self optionStringForCurrentContext:context];
         
     } else {
         self.error = [NSError errorWithInfo:@"Could not find requested model/cluster" code:-1];
         self.resourceStatus = BMLResourceStatusFailed;
-    }
+    }    
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
