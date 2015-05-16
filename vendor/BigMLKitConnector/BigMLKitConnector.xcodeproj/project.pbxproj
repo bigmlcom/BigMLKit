@@ -105,13 +105,13 @@
 		49C5AA7D1AEF943900B81AA6 /* BigMLKitConnectorTests */ = {
 			isa = PBXGroup;
 			children = (
-				49C5AA801AEF943900B81AA6 /* BigMLKitConnectorTests.swift */,
 				49C5AA7E1AEF943900B81AA6 /* Supporting Files */,
+				49C5AA801AEF943900B81AA6 /* BigMLKitConnectorTests.swift */,
+				492DC2AE1AFA74190053F908 /* BigMLKitConnectorObjcTests.m */,
 				492DC2A21AF75AEB0053F908 /* credentials.plist */,
 				492DC2AB1AF8B8A60053F908 /* BMLSigHandler.c */,
 				492DC2AC1AF8B8A60053F908 /* BMLSigHandler.h */,
 				492DC2AA1AF8B8A50053F908 /* BigMLKitConnectorTests-Bridging-Header.h */,
-				492DC2AE1AFA74190053F908 /* BigMLKitConnectorObjcTests.m */,
 			);
 			path = BigMLKitConnectorTests;
 			sourceTree = "<group>";
