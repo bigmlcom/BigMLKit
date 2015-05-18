@@ -184,7 +184,7 @@
     
     [super runInContext:context completionBlock:completion];
     if (context.info[kCSVSourceFilePath] &&
-        [[NSFileManager defaultManager] fileExistsAtPath:[(NSURL*)context.info[kCSVSourceFilePath] path]]) {
+        [[NSFileManager defaultManager] fileExistsAtPath:[context.info[kCSVSourceFilePath] path]]) {
         
 //        context.ml.options = [self optionStringForCurrentContext:context];
 //        [context.ml createSourceWithName:context.info[kWorkflowName]
@@ -194,7 +194,7 @@
         BMLMinimalResource* sourceFile = [[BMLMinimalResource alloc]
                                           initWithName:context.info[kWorkflowName]
                                           rawType:BMLResourceRawTypeFile
-                                          uuid:context.info[kCSVSourceFilePath]];
+                                          uuid:[context.info[kCSVSourceFilePath] path]];
 
         [context.ml createResource:BMLResourceRawTypeSource
                               name:context.info[kWorkflowName]
