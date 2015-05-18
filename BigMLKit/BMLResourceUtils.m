@@ -36,6 +36,8 @@
         return kClusterEntityType;
     if ([type isEqualToString:[kPredictionEntityType stringValue]])
         return kPredictionEntityType;
+    if ([type isEqualToString:[kProjectEntityType stringValue]])
+        return kProjectEntityType;
     return nil;
 }
 
