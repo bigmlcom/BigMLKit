@@ -88,7 +88,7 @@
                                    [NSPredicate predicateWithFormat:@"type = %@ AND uuid = %@",
                                     [type stringValue], uuid]] firstObject];
             
-            if (!(definition = model.definition.json)) {
+            if (!(definition = model.definition)) {
             
                 [context.ml getResource:type.type
                                    uuid:(type == kModelEntityType) ? context.info[kModelId] : context.info[kClusterId]
