@@ -38,6 +38,7 @@
         return kPredictionEntityType;
     if ([type isEqualToString:[kProjectEntityType stringValue]])
         return kProjectEntityType;
+    NSAssert(NO, @"Should not be here!");
     return nil;
 }
 
