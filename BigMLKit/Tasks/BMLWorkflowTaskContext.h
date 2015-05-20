@@ -31,11 +31,20 @@
  *  - kWorkflowName: a user-friendly name that is used to create all intermediate resources.
  */
 static NSString* const kCSVSourceFilePath = @"kCSVSourceFilePath";
+
 static NSString* const kDataSourceId = @"kDataSourceId";
 static NSString* const kDataSourceDefinition = @"kDataSourceDefinition";
 static NSString* const kDataSetId = @"kDataSetId";
 static NSString* const kDataSetDefinition = @"kDataSetDefinition";
 static NSString* const kModelId = @"kModelId";
+
+static NSString* const kAnomalyId = @"kAnomalyId";
+static NSString* const kEnsembleId = @"kEnsembleId";
+static NSString* const kAnomalyDefinition = @"kAnomalyDefinition";
+static NSString* const kEnsembleDefinition = @"kEnsembleDefinition";
+
+static NSString* const kPredictionBase = @"kPredictionBase";
+
 static NSString* const kModelDefinition = @"kModelDefinition";
 static NSString* const kClusterId = @"kClusterId";
 static NSString* const kClusterDefinition = @"kClusterDefinition";

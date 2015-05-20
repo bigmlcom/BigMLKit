@@ -70,6 +70,13 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
+@interface BMLWorkflowTaskCreateAnomaly : BMLWorkflowTask
+
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 @interface BMLWorkflowTaskCreatePrediction : BMLWorkflowTask
 
 @end
@@ -208,7 +215,6 @@
                             } else
                                 self.resourceStatus = BMLResourceStatusFailed;
                         }];
-        
     } else {
         
         self.error = [NSError errorWithInfo:@"Could not retrieve file information" code:-1];
@@ -254,10 +260,6 @@
     [super runInContext:context completionBlock:nil];
     if (context.info[kDataSourceId]) {
         
-//        context.ml.options = [self optionStringForCurrentContext:context];
-//        [context.ml createDataSetWithDataSourceId:context.info[kDataSourceId]
-//                                             name:context.info[kWorkflowName]];
-
         BMLMinimalResource* source = [[BMLMinimalResource alloc]
                                       initWithName:context.info[kWorkflowName]
                                       rawType:BMLResourceRawTypeSource
@@ -275,7 +277,7 @@
                             } else
                                 self.resourceStatus = BMLResourceStatusFailed;
                         }];
-} else {
+    } else {
     
         self.error = [NSError errorWithInfo:@"Could not find requested datasource" code:-1];
         self.resourceStatus = BMLResourceStatusFailed;
@@ -321,10 +323,6 @@
     [super runInContext:context completionBlock:nil];
     if (context.info[kDataSetId]) {
         
-//        context.ml.options = [self optionStringForCurrentContext:context];
-//        [context.ml createModelWithDataSetId:context.info[kDataSetId]
-//                                        name:context.info[kWorkflowName]];
-        
         BMLMinimalResource* dataset = [[BMLMinimalResource alloc]
                                       initWithName:context.info[kWorkflowName]
                                       rawType:BMLResourceRawTypeDataset
@@ -355,7 +353,6 @@
                          } else
                              self.resourceStatus = BMLResourceStatusFailed;
                      }];
-//        [context.ml getModelWithId:context.info[kModelId]];
     } else {
         
         self.error = [NSError errorWithInfo:@"Could not find requested dataset" code:-1];
@@ -389,10 +386,6 @@
     [super runInContext:context completionBlock:nil];
     if (context.info[kDataSetId]) {
 
-//        context.ml.options = [self optionStringForCurrentContext:context];
-//        [context.ml createClusterWithDataSetId:context.info[kDataSetId]
-//                                          name:context.info[kWorkflowName]];
-        
         BMLMinimalResource* dataset = [[BMLMinimalResource alloc]
                                       initWithName:context.info[kWorkflowName]
                                       rawType:BMLResourceRawTypeDataset
@@ -423,7 +416,68 @@
                          } else
                              self.resourceStatus = BMLResourceStatusFailed;
                      }];
-//        [context.ml getClusterWithId:context.info[kClusterId]];
+    } else {
+        self.error = [NSError errorWithInfo:@"Could not find requested dataset" code:-1];
+        self.resourceStatus = BMLResourceStatusFailed;
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (NSString*)message {
+    
+    return NSLocalizedString(@"Creating  Cluster", nil);
+}
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+@implementation BMLWorkflowTaskCreateAnomaly
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (instancetype)init {
+    
+    if (self = [super initWithResourceType:kAnomalyEntityType]) {
+    }
+    return self;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)runInContext:(BMLWorkflowTaskContext*)context completionBlock:(void(^)(NSError*))completion {
+    
+    [super runInContext:context completionBlock:nil];
+    if (context.info[kDataSetId]) {
+        
+        BMLMinimalResource* dataset = [[BMLMinimalResource alloc]
+                                       initWithName:context.info[kWorkflowName]
+                                       rawType:BMLResourceRawTypeDataset
+                                       uuid:context.info[kDataSetId]];
+        
+        [context.ml createResource:BMLResourceRawTypeAnomaly
+                              name:context.info[kWorkflowName]
+                           options:@{}
+                              from:dataset
+                        completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
+                            
+                            if (!error) {
+                                context.info[kAnomalyId] = resource.uuid;
+                                self.resourceStatus = BMLResourceStatusEnded;
+                            } else
+                                self.resourceStatus = BMLResourceStatusFailed;
+                        }];
+        
+    } else if (context.info[kAnomalyId]) {
+        
+        [context.ml getResource:BMLResourceRawTypeAnomaly
+                           uuid:context.info[kAnomalyId]
+                     completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
+                         
+                         if (!error) {
+                             context.info[kAnomalyId] = resource.uuid;
+                             self.resourceStatus = BMLResourceStatusEnded;
+                         } else
+                             self.resourceStatus = BMLResourceStatusFailed;
+                     }];
     } else {
         self.error = [NSError errorWithInfo:@"Could not find requested dataset" code:-1];
         self.resourceStatus = BMLResourceStatusFailed;
@@ -486,11 +540,19 @@
             type = kClusterEntityType;
             uuid = context.info[kClusterId];
             definition = context.info[kClusterDefinition];
+            
+        } else if (context.info[kAnomalyId]) { //-- predicting from anomaly
+
+            type = kAnomalyEntityType;
+            uuid = context.info[kAnomalyId];
+            definition = context.info[kAnomalyDefinition];
+        } else {
+            NSAssert(NO, @"Should not be here! No proper resource found to base prediction on.");
         }
         if (!definition) {
             
             [context.ml getResource:type.type
-                               uuid:(type == kModelEntityType) ? context.info[kModelId] : context.info[kClusterId]
+                               uuid:uuid
                          completion:^(id<BMLResource> resource, NSError* error) {
                              
                              predictFromDefinition(resource.definition);

@@ -22,11 +22,15 @@ BMLResourceType* kSourceEntityType = nil;
 BMLResourceType* kDatasetEntityType = nil;
 BMLResourceType* kModelEntityType = nil;
 BMLResourceType* kClusterEntityType = nil;
+BMLResourceType* kAnomalyEntityType = nil;
+BMLResourceType* kEnsembleEntityType = nil;
 BMLResourceType* kPredictionEntityType = nil;
 BMLResourceType* kProjectEntityType = nil;
 
 BMLResourceType* kModelTarget = nil;
 BMLResourceType* kClusterTarget = nil;
+BMLResourceType* kAnomalyTarget = nil;
+BMLResourceType* kEnsembleTarget = nil;
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -44,11 +48,15 @@ BMLResourceType* kClusterTarget = nil;
     kDatasetEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeDataset];
     kModelEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeModel];
     kClusterEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeCluster];
+    kAnomalyEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeAnomaly];
+    kEnsembleEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeEnsemble];
     kPredictionEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypePrediction];
     kProjectEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeProject];
     
     kModelTarget = kModelEntityType;
     kClusterTarget = kClusterEntityType;
+    kAnomalyTarget = kAnomalyEntityType;
+    kEnsembleTarget = kEnsembleEntityType;
 }
 
 @end

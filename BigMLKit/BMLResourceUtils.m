@@ -36,6 +36,10 @@
         return kClusterEntityType;
     if ([type isEqualToString:[kPredictionEntityType stringValue]])
         return kPredictionEntityType;
+    if ([type isEqualToString:[kAnomalyEntityType stringValue]])
+        return kAnomalyEntityType;
+    if ([type isEqualToString:[kEnsembleEntityType stringValue]])
+        return kEnsembleEntityType;
     if ([type isEqualToString:[kProjectEntityType stringValue]])
         return kProjectEntityType;
     NSAssert(NO, @"Should not be here!");
