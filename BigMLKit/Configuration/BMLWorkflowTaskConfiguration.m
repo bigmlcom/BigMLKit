@@ -53,7 +53,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (instancetype)initWithResource:(BMLResourceType*)resourceType {
+- (instancetype)initWithResourceType:(BMLResourceType*)resourceType {
     
     NSString* plistName = [BMLWorkflowTaskConfiguration configurationPlistForResourceType:resourceType];
     if (self = [self initWithPList:plistName]) {

@@ -44,7 +44,7 @@
 + (NSString*)configurationPlistForResourceType:(BMLResourceType*)resourceType;
 
 - (instancetype)initWithPList:(NSString*)plistName;
-- (instancetype)initWithResource:(BMLResourceType*)resourceType;
+- (instancetype)initWithResourceType:(BMLResourceType*)resourceType;
 
 - (BMLWorkflowTaskConfigurationOption*)optionModelForOptionNamed:(NSString*)optionName;
 - (void)setOptionModel:(BMLWorkflowTaskConfigurationOption*)optionModel forOptionNamed:(NSString*)optionName;
