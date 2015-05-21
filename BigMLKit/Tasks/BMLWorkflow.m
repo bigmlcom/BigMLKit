@@ -54,27 +54,29 @@
                         change:(NSDictionary*)change
                        context:(void*)context {
     
-    if ([keyPath isEqualToString:@"resourceStatus"]) {
-        
-        if ([change[NSKeyValueChangeNewKey] intValue] != [change[NSKeyValueChangeOldKey] intValue]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([keyPath isEqualToString:@"resourceStatus"]) {
             
-            BMLWorkflow* task = object;
-            if (task.resourceStatus == BMLResourceStatusEnded) {
+            if ([change[NSKeyValueChangeNewKey] intValue] != [change[NSKeyValueChangeOldKey] intValue]) {
                 
-                [task removeObserver:self forKeyPath:@"resourceStatus"];
-                [self executeNextStep:nil];
-                
-            } else if (task.resourceStatus == BMLResourceStatusFailed) {
-                
-                [task removeObserver:self forKeyPath:@"resourceStatus"];
-                [self handleError:task.error];
-                self.status = BMLWorkflowFailed;
-                
-            } else {
-                self.resourceStatus = task.resourceStatus;
+                BMLWorkflow* task = object;
+                if (task.resourceStatus == BMLResourceStatusEnded) {
+                    
+                    [task removeObserver:self forKeyPath:@"resourceStatus"];
+                    [self executeNextStep:nil];
+                    
+                } else if (task.resourceStatus == BMLResourceStatusFailed) {
+                    
+                    [task removeObserver:self forKeyPath:@"resourceStatus"];
+                    [self handleError:task.error];
+                    self.status = BMLWorkflowFailed;
+                    
+                } else {
+                    self.resourceStatus = task.resourceStatus;
+                }
             }
         }
-    }
+    });
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
