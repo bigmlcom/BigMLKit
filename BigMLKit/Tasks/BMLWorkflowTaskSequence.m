@@ -80,15 +80,16 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runInContext:(BMLWorkflowTaskContext*)context
-         completionBlock:(void(^)(NSError*))completion {
+- (void)runWithResource:(NSObject<BMLResource>*)resource
+              inContext:(BMLWorkflowTaskContext*)context
+        completionBlock:(void(^)(NSError*))completion {
 
-    [super runInContext:context completionBlock:completion];
-    [self executeNextStep:nil];
+    [super runWithResource:resource inContext:context completionBlock:completion];
+    [self executeNextStep:resource];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(NSObject<BMLResourceProtocol>*)resource
+- (void)runWithResource:(NSObject<BMLResource>*)resource
                 connector:(BMLConnector*)connector
           completionBlock:(void(^)(NSError*))completion {
     
@@ -123,24 +124,27 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
         
         NSAssert(NO, @"Workflow not supported.");
     }
-    [self runInContext:context completionBlock:completion];
+    [self runWithResource:nil inContext:context completionBlock:completion];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)executeNextStep:(BMLWorkflow*)workflow {
+- (void)executeNextStep:(NSObject<BMLResource>*)resource {
 
     NSAssert(self.status == BMLWorkflowStarting || self.status == BMLWorkflowStarted, @"Trying to execute step before starting workflow");
     
     if (_currentStep < [_steps count] - 1) {
 
         self.currentStep = self.currentStep + 1;
+        NSLog(@"Adding observer to %@ (%@)", _steps[_currentStep], self);
         [_steps[_currentStep] addObserver:self
                                forKeyPath:@"resourceStatus"
                                   options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
                                   context:NULL];
 
         self.status = BMLWorkflowStarted;
-        [(BMLWorkflowTask*)_steps[_currentStep] runInContext:self.context completionBlock:nil];
+        [(BMLWorkflowTask*)_steps[_currentStep] runWithResource:resource
+                                                      inContext:self.context
+                                                completionBlock:nil];
     
     } else {
         

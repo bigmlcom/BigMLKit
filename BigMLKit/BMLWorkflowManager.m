@@ -71,12 +71,12 @@
               options:0
                 block:^(MAKVONotification* notification) {
                     
-                    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"task == %@", wtask];
-                    for (NSMutableDictionary* dict in [[wself.tasks arrangedObjects] filteredArrayUsingPredicate:predicate]) {
-                        NSUInteger index = [[wself.tasks arrangedObjects] indexOfObject:dict];
-                        [wself.tasks removeObjectAtArrangedObjectIndex:index];
-                        [wself.tasks insertObject:[self dictFromTask:wtask count:[dict[@"count"] intValue]] atArrangedObjectIndex:index];
-                    }
+//                    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"task == %@", wtask];
+//                    for (NSMutableDictionary* dict in [[wself.tasks arrangedObjects] filteredArrayUsingPredicate:predicate]) {
+//                        NSUInteger index = [[wself.tasks arrangedObjects] indexOfObject:dict];
+//                        [wself.tasks removeObjectAtArrangedObjectIndex:index];
+//                        [wself.tasks insertObject:[self dictFromTask:wtask count:[dict[@"count"] intValue]] atArrangedObjectIndex:index];
+//                    }
                     
                     NSLog(@"Task %@ status changed to %d", wtask, wtask.status);
                 }];

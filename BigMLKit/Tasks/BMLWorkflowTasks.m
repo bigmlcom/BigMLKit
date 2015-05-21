@@ -105,9 +105,11 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runInContext:(BMLWorkflowTaskContext*)context completionBlock:(void(^)(NSError*))completion {
+- (void)runWithResource:(NSObject<BMLResource>*)resource
+              inContext:(BMLWorkflowTaskContext*)context
+        completionBlock:(void(^)(NSError*))completion {
     
-    [super runInContext:context completionBlock:nil];
+    [super runWithResource:resource inContext:context completionBlock:nil];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.resourceStatus = BMLResourceStatusEnded;
     });
@@ -132,9 +134,11 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runInContext:(BMLWorkflowTaskContext*)context completionBlock:(void(^)(NSError*))completion {
+- (void)runWithResource:(NSObject<BMLResource>*)resource
+              inContext:(BMLWorkflowTaskContext*)context
+        completionBlock:(void(^)(NSError*))completion {
     
-    [super runInContext:context completionBlock:nil];
+    [super runWithResource:resource inContext:context completionBlock:nil];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.error = [NSError errorWithInfo:@"Test failure" code:-1];
         self.resourceStatus = BMLResourceStatusFailed;
@@ -187,9 +191,12 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runInContext:(BMLWorkflowTaskContext*)context completionBlock:(void(^)(NSError*))completion {
-    
-    [super runInContext:context completionBlock:completion];
+- (void)runWithResource:(NSObject<BMLResource>*)resource
+              inContext:(BMLWorkflowTaskContext*)context
+        completionBlock:(void(^)(NSError*))completion {
+
+    NSAssert(NO, @"TBD");
+    [super runWithResource:resource inContext:context completionBlock:completion];
     if (context.info[kCSVSourceFilePath] &&
         [[NSFileManager defaultManager] fileExistsAtPath:[context.info[kCSVSourceFilePath] path]]) {
         
@@ -255,15 +262,17 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runInContext:(BMLWorkflowTaskContext*)context completionBlock:(void(^)(NSError*))completion {
-    
-    [super runInContext:context completionBlock:nil];
-    if (context.info[kDataSourceId]) {
+- (void)runWithResource:(NSObject<BMLResource>*)resource
+              inContext:(BMLWorkflowTaskContext*)context
+        completionBlock:(void(^)(NSError*))completion {
+
+    [super runWithResource:resource inContext:context completionBlock:nil];
+    if (resource) {
         
         BMLMinimalResource* source = [[BMLMinimalResource alloc]
                                       initWithName:context.info[kWorkflowName]
-                                      rawType:BMLResourceRawTypeSource
-                                      uuid:context.info[kDataSourceId]];
+                                      rawType:[[BMLResourceType alloc] initWithStringLiteral:resource.type].type
+                                      uuid:resource.uuid];
         
         [context.ml createResource:BMLResourceRawTypeDataset
                               name:context.info[kWorkflowName]
@@ -272,13 +281,17 @@
                         completion:^(id<BMLResource> resource, NSError* error) {
 
                             if (!error) {
-                                context.info[kDataSetId] = resource.uuid;
+                                self.outputResource = source;
+//                                context.info[kDataSetId] = resource.uuid;
                                 self.resourceStatus = BMLResourceStatusEnded;
-                            } else
+                            } else {
+                                self.error = error;
                                 self.resourceStatus = BMLResourceStatusFailed;
+                            }
                         }];
     } else {
     
+        NSLog(@"FAILED WITH ERROR!!!");
         self.error = [NSError errorWithInfo:@"Could not find requested datasource" code:-1];
         self.resourceStatus = BMLResourceStatusFailed;
     }
@@ -318,15 +331,17 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runInContext:(BMLWorkflowTaskContext*)context completionBlock:(void(^)(NSError*))completion {
+- (void)runWithResource:(NSObject<BMLResource>*)resource
+              inContext:(BMLWorkflowTaskContext*)context
+        completionBlock:(void(^)(NSError*))completion {
     
-    [super runInContext:context completionBlock:nil];
-    if (context.info[kDataSetId]) {
+    [super runWithResource:resource inContext:context completionBlock:nil];
+    if (resource) { //-- HERE WE SHOULD CHECK FOR THE RESOURCE TYPE
         
         BMLMinimalResource* dataset = [[BMLMinimalResource alloc]
                                       initWithName:context.info[kWorkflowName]
-                                      rawType:BMLResourceRawTypeDataset
-                                      uuid:context.info[kDataSetId]];
+                                      rawType:resource.type.type
+                                      uuid:resource.uuid];
         
         [context.ml createResource:BMLResourceRawTypeModel
                               name:context.info[kWorkflowName]
@@ -335,14 +350,17 @@
                         completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
 
                             if (!error) {
-                                context.info[kModelId] = resource.uuid;
+                                self.outputResource = resource;
                                 self.resourceStatus = BMLResourceStatusEnded;
-                            } else
+                            } else {
+                                self.error = error;
                                 self.resourceStatus = BMLResourceStatusFailed;
+                            }
                         }];
         
-    } else if (context.info[kModelId]) {
+    } else if (context.info[kModelId]) { //-- HERE WE SHOULD CHECK FOR THE RESOURCE TYPE
         
+        NSAssert(NO, @"TBD");
         [context.ml getResource:BMLResourceRawTypeModel
                            uuid:context.info[kModelId]
                      completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
@@ -381,9 +399,12 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runInContext:(BMLWorkflowTaskContext*)context completionBlock:(void(^)(NSError*))completion {
+- (void)runWithResource:(NSObject<BMLResource>*)resource
+              inContext:(BMLWorkflowTaskContext*)context
+        completionBlock:(void(^)(NSError*))completion {
     
-    [super runInContext:context completionBlock:nil];
+    NSAssert(NO, @"TBD");
+    [super runWithResource:resource inContext:context completionBlock:nil];
     if (context.info[kDataSetId]) {
 
         BMLMinimalResource* dataset = [[BMLMinimalResource alloc]
@@ -443,9 +464,12 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runInContext:(BMLWorkflowTaskContext*)context completionBlock:(void(^)(NSError*))completion {
+- (void)runWithResource:(NSObject<BMLResource>*)resource
+              inContext:(BMLWorkflowTaskContext*)context
+        completionBlock:(void(^)(NSError*))completion {
     
-    [super runInContext:context completionBlock:nil];
+    NSAssert(NO, @"TBD");
+    [super runWithResource:resource inContext:context completionBlock:nil];
     if (context.info[kDataSetId]) {
         
         BMLMinimalResource* dataset = [[BMLMinimalResource alloc]
@@ -505,19 +529,23 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runInContext:(BMLWorkflowTaskContext*)context completionBlock:(void(^)(NSError*))completion {
+- (void)runWithResource:(NSObject<BMLResource>*)resource
+              inContext:(BMLWorkflowTaskContext*)context
+        completionBlock:(void(^)(NSError*))completion {
     
-    [super runInContext:context completionBlock:nil];
-    if (context.info[kModelId] || context.info[kClusterId]) {
+    [super runWithResource:resource inContext:context completionBlock:nil];
+    if (resource) {
         
         void(^predictFromDefinition)(NSDictionary* definition) = ^(NSDictionary* definition) {
             
             if (definition) {
-                if (context.info[kModelId]) {
-                    context.info[kModelDefinition] = definition;
-                } else if (context.info[kClusterId]) {
-                    context.info[kClusterDefinition] = definition;
-                }
+//                if (context.info[kModelId]) {
+//                    context.info[kModelDefinition] = definition;
+//                } else if (context.info[kClusterId]) {
+//                    context.info[kClusterDefinition] = definition;
+//                } else if (context.info[kAnomalyId]) {
+//                    context.info[kAnomalyDefinition] = definition;
+//                }
                 self.resourceStatus = BMLResourceStatusEnded;
             } else {
                 
@@ -529,26 +557,31 @@
         BMLResourceType* type = nil;
         BMLResourceUuid* uuid = nil;
         NSDictionary* definition = nil;
-        if (context.info[kModelId]) { //-- predicting from tree
-            
-            type = kModelEntityType;
-            uuid = context.info[kModelId];
-            definition = context.info[kModelDefinition];
-            
-        } else if (context.info[kClusterId]) { //-- predicting from cluster
-            
-            type = kClusterEntityType;
-            uuid = context.info[kClusterId];
-            definition = context.info[kClusterDefinition];
-            
-        } else if (context.info[kAnomalyId]) { //-- predicting from anomaly
-
-            type = kAnomalyEntityType;
-            uuid = context.info[kAnomalyId];
-            definition = context.info[kAnomalyDefinition];
-        } else {
-            NSAssert(NO, @"Should not be here! No proper resource found to base prediction on.");
-        }
+        
+        type = resource.type;
+        uuid = resource.uuid;
+        definition = resource.definition;
+        
+//        if (context.info[kModelId]) { //-- predicting from tree
+//            
+//            type = kModelEntityType;
+//            uuid = context.info[kModelId];
+//            definition = context.info[kModelDefinition];
+//            
+//        } else if (context.info[kClusterId]) { //-- predicting from cluster
+//            
+//            type = kClusterEntityType;
+//            uuid = context.info[kClusterId];
+//            definition = context.info[kClusterDefinition];
+//            
+//        } else if (context.info[kAnomalyId]) { //-- predicting from anomaly
+//
+//            type = kAnomalyEntityType;
+//            uuid = context.info[kAnomalyId];
+//            definition = context.info[kAnomalyDefinition];
+//        } else {
+//            NSAssert(NO, @"Should not be here! No proper resource found to base prediction on.");
+//        }
         if (!definition) {
             
             [context.ml getResource:type.type
@@ -589,10 +622,12 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runInContext:(BMLWorkflowTaskContext*)context completionBlock:(void(^)(NSError*))completion {
+- (void)runWithResource:(NSObject<BMLResource>*)resource
+              inContext:(BMLWorkflowTaskContext*)context
+        completionBlock:(void(^)(NSError*))completion {
     
     NSAssert(context.info[kModelId], @"No model ID provided");
-    [super runInContext:context completionBlock:nil];
+    [super runWithResource:resource inContext:context completionBlock:nil];
 
     [context.ml getResource:BMLResourceRawTypeModel
                        uuid:context.info[kModelId]
@@ -623,10 +658,12 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runInContext:(BMLWorkflowTaskContext*)context completionBlock:(void(^)(NSError*))completion {
+- (void)runWithResource:(NSObject<BMLResource>*)resource
+              inContext:(BMLWorkflowTaskContext*)context
+        completionBlock:(void(^)(NSError*))completion {
     
     NSAssert(context.info[kModelId], @"No model ID provided");
-    [super runInContext:context completionBlock:nil];
+    [super runWithResource:resource inContext:context completionBlock:nil];
     [context.ml getResource:BMLResourceRawTypeCluster
                        uuid:context.info[kClusterId]
                  completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {

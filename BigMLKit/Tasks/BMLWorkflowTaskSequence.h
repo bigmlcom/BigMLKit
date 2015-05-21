@@ -48,19 +48,4 @@ extern NSString* const BMLWorkflowTaskCompletedWorkflow;
 - (instancetype)initWithSteps:(NSArray*)steps
                  configurator:(BMLWorkflowConfigurator*)configurator;
 
-/**
- *  Runs the task using a specified resource as input resource, a given connector to access
- *  BigML REST API, and a completion block.
- *
- *  @param resource   An object implementing BMLResourceProtocol. It must be compatible with
- *                    the first workflow task that is going to be executed (e.g., a data source
- *                    when the first task is "create data set", etc.)
- *  @param connector  An ML4iOS instance allowed to access BigML REST API. This object shall
- *                    be capable to authenticate itself.
- *  @param completion A completion block able to handle both success and failure cases.
- */
-- (void)runWithResource:(NSObject<BMLResourceProtocol>*)resource
-                connector:(BMLConnector*)connector
-          completionBlock:(void(^)(NSError*))completion;
-
 @end

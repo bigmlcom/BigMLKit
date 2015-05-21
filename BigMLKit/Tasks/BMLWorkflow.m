@@ -54,29 +54,28 @@
                         change:(NSDictionary*)change
                        context:(void*)context {
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([keyPath isEqualToString:@"resourceStatus"]) {
+    if ([keyPath isEqualToString:@"resourceStatus"]) {
+        
+        if ([change[NSKeyValueChangeNewKey] intValue] != [change[NSKeyValueChangeOldKey] intValue]) {
             
-            if ([change[NSKeyValueChangeNewKey] intValue] != [change[NSKeyValueChangeOldKey] intValue]) {
+            BMLWorkflow* task = object;
+            if (task.resourceStatus == BMLResourceStatusEnded) {
                 
-                BMLWorkflow* task = object;
-                if (task.resourceStatus == BMLResourceStatusEnded) {
-                    
-                    [task removeObserver:self forKeyPath:@"resourceStatus"];
-                    [self executeNextStep:nil];
-                    
-                } else if (task.resourceStatus == BMLResourceStatusFailed) {
-                    
-                    [task removeObserver:self forKeyPath:@"resourceStatus"];
-                    [self handleError:task.error];
-                    self.status = BMLWorkflowFailed;
-                    
-                } else {
-                    self.resourceStatus = task.resourceStatus;
-                }
+                [task removeObserver:self forKeyPath:@"resourceStatus"];
+                [self executeNextStep:task.outputResource];
+                
+            } else if (task.resourceStatus == BMLResourceStatusFailed) {
+                
+                NSLog(@"Removing observer from task %@ (%@)", task, self);
+                [task removeObserver:self forKeyPath:@"resourceStatus"];
+                [self handleError:task.error];
+                self.status = BMLWorkflowFailed;
+                
+            } else {
+                self.resourceStatus = task.resourceStatus;
             }
         }
-    });
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +93,22 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)executeNextStep:(BMLWorkflow*)workflow {
+- (void)runWithResource:(NSObject<BMLResource>*)resource
+              inContext:(BMLWorkflowTaskContext*)context
+        completionBlock:(void(^)(NSError*))completion {
+    
+    NSAssert(_status == BMLWorkflowEnded || _status == BMLWorkflowIdle || _status == BMLWorkflowFailed,
+             @"Trying to re-start running task");
+    NSAssert(context, @"Improper BMLWorkflowTaskSequence API usage: you must specify a context.");
+    
+    _completion = completion;
+    _context = context;
+    
+    self.status = BMLWorkflowStarting;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)executeNextStep:(NSObject<BMLResource>*)resource {
 
     [self stopWithError:nil];
 }

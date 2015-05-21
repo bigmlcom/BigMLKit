@@ -18,7 +18,7 @@
  *  The BMLResourceProtocol represents the traits that any concrete BMLResource implementation
  *  should expose.
  */
-@protocol BMLResourceProtocol <NSObject>
+@protocol BMLResourceProtocoll <NSObject>
 
 /**
  *  The full UUID of the resource, e.g. model/AF98D23890SD...

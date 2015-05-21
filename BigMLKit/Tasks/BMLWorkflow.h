@@ -86,6 +86,11 @@ typedef enum {
 @property (nonatomic) BMLResourceStatus resourceStatus;
 
 /**
+ *  The resource that this task is responsible to handle (create, retrieve, etc.).
+ */
+@property (nonatomic) NSObject<BMLResource>* outputResource;
+
+/**
  *  Shortcut to the info dictionary associated to this workflow (through its running context).
  */
 @property (nonatomic, readonly) NSDictionary* info;
@@ -125,7 +130,22 @@ typedef enum {
  *  @param context    The context where the workflow should get/write parameters from/to.
  *  @param completion A completion block.
  */
-- (void)runInContext:(BMLWorkflowTaskContext*)context
-         completionBlock:(void(^)(NSError*))completion;
+//- (void)runInContext:(BMLWorkflowTaskContext*)context
+//         completionBlock:(void(^)(NSError*))completion;
+
+/**
+ *  Runs the task using a specified resource as input resource, a given connector to access
+ *  BigML REST API, and a completion block.
+ *
+ *  @param resource   An object implementing BMLResourceProtocol. It must be compatible with
+ *                    the first workflow task that is going to be executed (e.g., a data source
+ *                    when the first task is "create data set", etc.)
+ *  @param connector  An ML4iOS instance allowed to access BigML REST API. This object shall
+ *                    be capable to authenticate itself.
+ *  @param completion A completion block able to handle both success and failure cases.
+ */
+- (void)runWithResource:(NSObject<BMLResource>*)resource
+              inContext:(BMLWorkflowTaskContext*)context
+        completionBlock:(void(^)(NSError*))completion;
 
 @end

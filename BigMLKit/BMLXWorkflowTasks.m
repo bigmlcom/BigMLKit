@@ -44,14 +44,14 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runInContext:(BMLWorkflowTaskContext*)context completionBlock:(void(^)(NSError*))completion {
-    
+- (void)runWithResource:(NSObject<BMLResource>*)resource
+              inContext:(BMLWorkflowTaskContext*)context
+        completionBlock:(void(^)(NSError*))completion {
     
     if (context.info[kModelId] || context.info[kClusterId]) {
         
-        [super runInContext:context completionBlock:nil];
+        [super runWithResource:resource inContext:context completionBlock:nil];
 
-        NSString* predictionBase = context.info[kPredictionBase];
         void(^predictFromDefinition)(NSDictionary* definition) = ^(NSDictionary* definition) {
             
             if (definition) {
