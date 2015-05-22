@@ -105,7 +105,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(NSObject<BMLResource>*)resource
+- (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(NSError*))completion {
     
@@ -134,7 +134,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(NSObject<BMLResource>*)resource
+- (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(NSError*))completion {
     
@@ -191,7 +191,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(NSObject<BMLResource>*)resource
+- (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(NSError*))completion {
 
@@ -262,7 +262,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(NSObject<BMLResource>*)resource
+- (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(NSError*))completion {
 
@@ -271,7 +271,7 @@
         
         BMLMinimalResource* source = [[BMLMinimalResource alloc]
                                       initWithName:context.info[kWorkflowName]
-                                      rawType:[[BMLResourceType alloc] initWithStringLiteral:resource.type].type
+                                      rawType:resource.type.type
                                       uuid:resource.uuid];
         
         [context.ml createResource:BMLResourceRawTypeDataset
@@ -331,7 +331,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(NSObject<BMLResource>*)resource
+- (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(NSError*))completion {
     
@@ -399,7 +399,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(NSObject<BMLResource>*)resource
+- (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(NSError*))completion {
     
@@ -464,7 +464,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(NSObject<BMLResource>*)resource
+- (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(NSError*))completion {
     
@@ -529,7 +529,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(NSObject<BMLResource>*)resource
+- (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(NSError*))completion {
     
@@ -560,7 +560,7 @@
         
         type = resource.type;
         uuid = resource.uuid;
-        definition = resource.definition;
+        definition = resource.jsonDefinition;
         
 //        if (context.info[kModelId]) { //-- predicting from tree
 //            
@@ -588,7 +588,7 @@
                                uuid:uuid
                          completion:^(id<BMLResource> resource, NSError* error) {
                              
-                             predictFromDefinition(resource.definition);
+                             predictFromDefinition(resource.jsonDefinition);
                          }];
         } else {
             predictFromDefinition(definition);
@@ -622,7 +622,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(NSObject<BMLResource>*)resource
+- (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(NSError*))completion {
     
@@ -658,7 +658,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(NSObject<BMLResource>*)resource
+- (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(NSError*))completion {
     

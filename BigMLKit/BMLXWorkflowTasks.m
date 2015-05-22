@@ -44,7 +44,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(NSObject<BMLResource>*)resource
+- (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(NSError*))completion {
     
@@ -89,13 +89,13 @@
                                    [NSPredicate predicateWithFormat:@"type = %@ AND uuid = %@",
                                     [type stringValue], uuid]] firstObject];
             
-            if (!(definition = model.definition)) {
+            if (!(definition = model.jsonDefinition)) {
             
                 [context.ml getResource:type.type
                                    uuid:(type == kModelEntityType) ? context.info[kModelId] : context.info[kClusterId]
                              completion:^(id<BMLResource> resource, NSError* error) {
                                  
-                                 predictFromDefinition(resource.definition);
+                                 predictFromDefinition(resource.jsonDefinition);
                              }];
             }
         } else {
