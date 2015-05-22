@@ -46,7 +46,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(NSError*))completion {
+        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
     
     if (context.info[kModelId] || context.info[kClusterId]) {
         
@@ -86,7 +86,7 @@
         if (!definition) {
             
             BMLResource* model = [[BMLResource fetchByPredicate:
-                                   [NSPredicate predicateWithFormat:@"type = %@ AND uuid = %@",
+                                   [NSPredicate predicateWithFormat:@"typeString == %@ AND uuid = %@",
                                     [type stringValue], uuid]] firstObject];
             
             if (!(definition = model.jsonDefinition)) {

@@ -146,6 +146,6 @@ typedef enum {
  */
 - (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(NSError*))completion;
+        completionBlock:(void(^)(id<BMLResource>, NSError*))completion;
 
 @end

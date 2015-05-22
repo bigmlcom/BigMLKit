@@ -24,6 +24,7 @@
 
 + (BMLResourceType*)typeFromFullUuid:(BMLResourceFullUuid*)fullUuid;
 + (BMLResourceUuid*)uuidFromFullUuid:(BMLResourceFullUuid*)fullUuid;
++ (BMLResourceType*)typeFromTypeString:(NSString*)type;
 
 @end
 

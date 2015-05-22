@@ -82,50 +82,50 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(NSError*))completion {
+        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
 
     [super runWithResource:resource inContext:context completionBlock:completion];
     [self executeNextStep:resource];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(id<BMLResource>)resource
-                connector:(BMLConnector*)connector
-          completionBlock:(void(^)(NSError*))completion {
-    
-    BMLWorkflowTaskContext* context = [[BMLWorkflowTaskContext alloc] initWithWorkflow:self
-                                                                             connector:connector];
-    context.info[kWorkflowName] = resource.name;
-
-    BMLResourceUuid* resourceUuid = [BMLResourceUtils uuidFromFullUuid:resource.fullUuid];
-    BMLResourceType* resourceType = [BMLResourceUtils typeFromFullUuid:resource.fullUuid];
-    
-    if (resourceType == kSourceEntityType) {
-        context.info[kDataSourceId] = resourceUuid;
-        
-    } else if (resourceType == kFileEntityType) {
-        
-        context.info[kCSVSourceFilePath] = [NSURL URLWithString:resourceUuid];
-        context.info[kWorkflowName] = [resourceUuid lastPathComponent];
-        
-    } else if (resourceType == kDatasetEntityType) {
-
-        context.info[kDataSetId] = resourceUuid;
-        
-    } else if (resourceType == kModelEntityType) {
-
-        context.info[kModelId] = resourceUuid;
-        
-    } else if (resourceType == kClusterEntityType) {
-
-        context.info[kClusterId] = resourceUuid;
-        
-    } else if (resourceType == kPredictionEntityType) {
-        
-        NSAssert(NO, @"Workflow not supported.");
-    }
-    [self runWithResource:nil inContext:context completionBlock:completion];
-}
+//- (void)runWithResource:(id<BMLResource>)resource
+//                connector:(BMLConnector*)connector
+//          completionBlock:(void(^)(NSError*))completion {
+//    
+//    BMLWorkflowTaskContext* context = [[BMLWorkflowTaskContext alloc] initWithWorkflow:self
+//                                                                             connector:connector];
+//    context.info[kWorkflowName] = resource.name;
+//
+//    BMLResourceUuid* resourceUuid = [BMLResourceUtils uuidFromFullUuid:resource.fullUuid];
+//    BMLResourceType* resourceType = [BMLResourceUtils typeFromFullUuid:resource.fullUuid];
+//    
+//    if (resourceType == kSourceEntityType) {
+//        context.info[kDataSourceId] = resourceUuid;
+//        
+//    } else if (resourceType == kFileEntityType) {
+//        
+//        context.info[kCSVSourceFilePath] = [NSURL URLWithString:resourceUuid];
+//        context.info[kWorkflowName] = [resourceUuid lastPathComponent];
+//        
+//    } else if (resourceType == kDatasetEntityType) {
+//
+//        context.info[kDataSetId] = resourceUuid;
+//        
+//    } else if (resourceType == kModelEntityType) {
+//
+//        context.info[kModelId] = resourceUuid;
+//        
+//    } else if (resourceType == kClusterEntityType) {
+//
+//        context.info[kClusterId] = resourceUuid;
+//        
+//    } else if (resourceType == kPredictionEntityType) {
+//        
+//        NSAssert(NO, @"Workflow not supported.");
+//    }
+//    [self runWithResource:nil inContext:context completionBlock:completion];
+//}
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)executeNextStep:(id<BMLResource>)resource {

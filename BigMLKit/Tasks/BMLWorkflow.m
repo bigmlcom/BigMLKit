@@ -22,7 +22,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 @implementation BMLWorkflow {
     
-    void(^_completion)(NSError*);
+    void(^_completion)(id<BMLResource>, NSError*);
     BMLWorkflowTaskContext* _context;
 }
 
@@ -61,12 +61,13 @@
             BMLWorkflow* task = object;
             if (task.resourceStatus == BMLResourceStatusEnded) {
                 
+                self.outputResource = task.outputResource;
                 [task removeObserver:self forKeyPath:@"resourceStatus"];
                 [self executeNextStep:task.outputResource];
                 
             } else if (task.resourceStatus == BMLResourceStatusFailed) {
                 
-                NSLog(@"Removing observer from task %@ (%@)", task, self);
+                self.outputResource = nil;
                 [task removeObserver:self forKeyPath:@"resourceStatus"];
                 [self handleError:task.error];
                 self.status = BMLWorkflowFailed;
@@ -80,7 +81,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runInContext:(BMLWorkflowTaskContext*)context
-         completionBlock:(void(^)(NSError*))completion {
+         completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
 
     NSAssert(_status == BMLWorkflowEnded || _status == BMLWorkflowIdle || _status == BMLWorkflowFailed,
              @"Trying to re-start running task");
@@ -95,7 +96,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(NSError*))completion {
+        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
     
     NSAssert(_status == BMLWorkflowEnded || _status == BMLWorkflowIdle || _status == BMLWorkflowFailed,
              @"Trying to re-start running task");
@@ -121,7 +122,7 @@
              @"Trying to stop idle task");
     
     if (_completion)
-        _completion(error);
+        _completion(self.outputResource, error);
     
     self.status = error ? BMLWorkflowFailed : BMLWorkflowEnded;
 }

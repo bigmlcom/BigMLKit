@@ -47,14 +47,11 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(NSError*))completion {
+        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
 
-    NSLog(@"RUNNING TASK: %@", self);
-    
     [super runWithResource:resource inContext:context completionBlock:completion];
     self.resourceStatus = BMLResourceStatusStarted;
     
-    NSLog(@"Adding observer from task %@ (%@)", self, self);
     [self addObserver:self
            forKeyPath:@"resourceStatus"
               options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
