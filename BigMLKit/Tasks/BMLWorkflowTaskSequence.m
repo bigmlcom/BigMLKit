@@ -80,7 +80,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(NSObject<BMLResource>*)resource
+- (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(NSError*))completion {
 
@@ -89,7 +89,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(NSObject<BMLResource>*)resource
+- (void)runWithResource:(id<BMLResource>)resource
                 connector:(BMLConnector*)connector
           completionBlock:(void(^)(NSError*))completion {
     
@@ -128,7 +128,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)executeNextStep:(NSObject<BMLResource>*)resource {
+- (void)executeNextStep:(id<BMLResource>)resource {
 
     NSAssert(self.status == BMLWorkflowStarting || self.status == BMLWorkflowStarted, @"Trying to execute step before starting workflow");
     

@@ -88,7 +88,7 @@ typedef enum {
 /**
  *  The resource that this task is responsible to handle (create, retrieve, etc.).
  */
-@property (nonatomic) NSObject<BMLResource>* outputResource;
+@property (nonatomic) id<BMLResource> outputResource;
 
 /**
  *  Shortcut to the info dictionary associated to this workflow (through its running context).
@@ -144,7 +144,7 @@ typedef enum {
  *                    be capable to authenticate itself.
  *  @param completion A completion block able to handle both success and failure cases.
  */
-- (void)runWithResource:(NSObject<BMLResource>*)resource
+- (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(NSError*))completion;
 

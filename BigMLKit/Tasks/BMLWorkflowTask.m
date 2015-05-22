@@ -45,7 +45,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(NSObject<BMLResource>*)resource
+- (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(NSError*))completion {
 

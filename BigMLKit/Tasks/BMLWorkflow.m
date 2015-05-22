@@ -93,7 +93,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(NSObject<BMLResource>*)resource
+- (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(NSError*))completion {
     
@@ -108,7 +108,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)executeNextStep:(NSObject<BMLResource>*)resource {
+- (void)executeNextStep:(id<BMLResource>)resource {
 
     [self stopWithError:nil];
 }
