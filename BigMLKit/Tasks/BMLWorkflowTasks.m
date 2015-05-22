@@ -195,29 +195,28 @@
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
 
-    NSAssert(NO, @"TBD");
     [super runWithResource:resource inContext:context completionBlock:completion];
-    if (context.info[kCSVSourceFilePath] &&
-        [[NSFileManager defaultManager] fileExistsAtPath:[context.info[kCSVSourceFilePath] path]]) {
+    if (resource &&
+        [[NSFileManager defaultManager] fileExistsAtPath:resource.uuid]) {
         
 //        context.ml.options = [self optionStringForCurrentContext:context];
 //        [context.ml createSourceWithName:context.info[kWorkflowName]
 //                                 project:context.info[kProjectFullUuid]
 //                                filePath:[(NSURL*)context.info[kCSVSourceFilePath] path]];
         
-        BMLMinimalResource* sourceFile = [[BMLMinimalResource alloc]
-                                          initWithName:context.info[kWorkflowName]
-                                          rawType:BMLResourceRawTypeFile
-                                          uuid:[context.info[kCSVSourceFilePath] path]];
+//        BMLMinimalResource* sourceFile = [[BMLMinimalResource alloc]
+//                                          initWithName:context.info[kWorkflowName]
+//                                          rawType:BMLResourceRawTypeFile
+//                                          uuid:[context.info[kCSVSourceFilePath] path]];
 
         [context.ml createResource:BMLResourceRawTypeSource
                               name:context.info[kWorkflowName]
                            options:@{}
-                              from:sourceFile
+                              from:resource
                         completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
 
                             if (!error) {
-                                context.info[kDataSourceId] = resource.uuid;
+                                self.outputResource = resource;
                                 self.resourceStatus = BMLResourceStatusEnded;
                             } else
                                 self.resourceStatus = BMLResourceStatusFailed;
@@ -269,11 +268,6 @@
     [super runWithResource:resource inContext:context completionBlock:nil];
     if (resource) {
         
-//        BMLMinimalResource* source = [[BMLMinimalResource alloc]
-//                                      initWithName:context.info[kWorkflowName]
-//                                      rawType:resource.type.type
-//                                      uuid:resource.uuid];
-        
         [context.ml createResource:BMLResourceRawTypeDataset
                               name:context.info[kWorkflowName]
                            options:@{}
@@ -282,7 +276,6 @@
 
                             if (!error) {
                                 self.outputResource = resource;
-//                                context.info[kDataSetId] = resource.uuid;
                                 self.resourceStatus = BMLResourceStatusEnded;
                             } else {
                                 self.error = error;

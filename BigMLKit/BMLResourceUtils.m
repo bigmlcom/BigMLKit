@@ -54,7 +54,14 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLResourceUuid*)uuidFromFullUuid:(BMLResourceFullUuid*)fullUuid {
-    return [[fullUuid componentsSeparatedByString:@"/"] lastObject];
+
+    NSMutableArray* parts = [[fullUuid componentsSeparatedByString:@"/"] mutableCopy];
+    if ([parts count] == 2)
+        return [parts lastObject];
+    else if ([parts count] > 2) {
+        return [[parts subarrayWithRange:NSMakeRange(1, [parts count]-1)] componentsJoinedByString:@"/"];
+    }
+    return nil;
 }
 
 @end
