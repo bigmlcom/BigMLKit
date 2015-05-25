@@ -14,7 +14,7 @@
 
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflow.h"
-#import "BMLResourceUtils.h"
+#import "BMLResourceTypeIdentifier+BigML.h"
 #import "BigMLApp-Swift.h"
 
 #define kMonitoringPeriod 0.25
@@ -134,7 +134,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)dataSourceCreated:(NSDictionary*)dataSource statusCode:(NSInteger)code {
     
-    NSString* datasourceId = [BMLResourceUtils uuidFromFullUuid:dataSource[@"resource"]];
+    NSString* datasourceId = [BMLResourceTypeIdentifier uuidFromFullUuid:dataSource[@"resource"]];
     if (!datasourceId) {
         [self handleError:[self errorWithInfo:@"Datasource could not be created."
                                          code:code
@@ -153,7 +153,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)dataSetCreated:(NSDictionary*)dataSet statusCode:(NSInteger)code {
     
-    NSString* datasetId = [BMLResourceUtils uuidFromFullUuid:dataSet[@"resource"]];
+    NSString* datasetId = [BMLResourceTypeIdentifier uuidFromFullUuid:dataSet[@"resource"]];
     if (!datasetId) {
         [self handleError:[self errorWithInfo:@"Dataset could not be created."
                                          code:code
@@ -173,7 +173,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)modelCreated:(NSDictionary*)model statusCode:(NSInteger)code {
     
-    NSString* modelId = [BMLResourceUtils uuidFromFullUuid:model[@"resource"]];
+    NSString* modelId = [BMLResourceTypeIdentifier uuidFromFullUuid:model[@"resource"]];
     if (!modelId) {
         [self handleError:[self errorWithInfo:@"Model could not be created."
                                          code:code
@@ -193,7 +193,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)clusterCreated:(NSDictionary*)cluster statusCode:(NSInteger)code {
     
-    NSString* clusterId = [BMLResourceUtils uuidFromFullUuid:cluster[@"resource"]];
+    NSString* clusterId = [BMLResourceTypeIdentifier uuidFromFullUuid:cluster[@"resource"]];
     if (!clusterId) {
         [self handleError:[self errorWithInfo:@"Cluster could not be created."
                                          code:code

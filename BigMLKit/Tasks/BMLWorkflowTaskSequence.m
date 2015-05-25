@@ -16,7 +16,7 @@
 #import "BMLWorkflowTaskSequence.h"
 #import "BMLWorkflowTask.h"
 #import "BMLWorkflowTaskConfiguration.h"
-#import "BMLResourceUtils.h"
+#import "BMLResourceTypeIdentifier+BigML.h"
 
 NSString* const BMLWorkflowTaskCompletedTask = @"BMLWorkflowTaskCompletedTask";
 NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWorkflow";
@@ -97,8 +97,8 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 //                                                                             connector:connector];
 //    context.info[kWorkflowName] = resource.name;
 //
-//    BMLResourceUuid* resourceUuid = [BMLResourceUtils uuidFromFullUuid:resource.fullUuid];
-//    BMLResourceTypeIdentifier* resourceType = [BMLResourceUtils typeFromFullUuid:resource.fullUuid];
+//    BMLResourceUuid* resourceUuid = [BMLResourceTypeIdentifier uuidFromFullUuid:resource.fullUuid];
+//    BMLResourceTypeIdentifier* resourceType = [BMLResourceTypeIdentifier typeFromFullUuid:resource.fullUuid];
 //    
 //    if (resourceType == kSourceEntityType) {
 //        context.info[kDataSourceId] = resourceUuid;

@@ -14,17 +14,20 @@
 
 #import <Foundation/Foundation.h>
 #import "BigMLKit.h"
+#import "BigMLApp-Swift.h"
 
-@class BMLResourceTypeIdentifier;
-
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@interface BMLResourceUtils : NSObject
+@interface BMLResourceTypeIdentifier (BigML)
 
 + (BMLResourceTypeIdentifier*)typeFromFullUuid:(BMLResourceFullUuid*)fullUuid;
 + (BMLResourceUuid*)uuidFromFullUuid:(BMLResourceFullUuid*)fullUuid;
 + (BMLResourceTypeIdentifier*)typeFromTypeString:(NSString*)type;
+
++ (BMLResourceFullUuid*)allProjectsPseudoFullUuid;
++ (BMLResourceUuid*)allProjectsPseudoUuid;
+
 
 @end
 
