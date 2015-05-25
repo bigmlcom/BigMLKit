@@ -131,7 +131,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 - (void)executeNextStep:(id<BMLResource>)resource {
 
     NSAssert(self.status == BMLWorkflowStarting || self.status == BMLWorkflowStarted, @"Trying to execute step before starting workflow");
-    
+
     if (_currentStep < [_steps count] - 1) {
 
         self.currentStep = self.currentStep + 1;

@@ -284,7 +284,6 @@
                         }];
     } else {
     
-        NSLog(@"FAILED WITH ERROR!!!");
         self.error = [NSError errorWithInfo:@"Could not find requested datasource" code:-1];
         self.resourceStatus = BMLResourceStatusFailed;
     }
@@ -330,11 +329,6 @@
     
     [super runWithResource:resource inContext:context completionBlock:nil];
     if (resource) { //-- HERE WE SHOULD CHECK FOR THE RESOURCE TYPE
-        
-//        BMLMinimalResource* dataset = [[BMLMinimalResource alloc]
-//                                      initWithName:context.info[kWorkflowName]
-//                                      rawType:resource.type.type
-//                                      uuid:resource.uuid];
         
         [context.ml createResource:BMLResourceRawTypeModel
                               name:context.info[kWorkflowName]
