@@ -26,12 +26,12 @@ static void* gResourceTypePropertyKey = &gResourceTypePropertyKey;
 @implementation BMLWorkflowTask (Private)
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (BMLResourceType*)resourceType {
+- (BMLResourceTypeIdentifier*)resourceType {
     return objc_getAssociatedObject(self, gResourceTypePropertyKey);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)setResourceType:(BMLResourceType*)resourceType {
+- (void)setResourceType:(BMLResourceTypeIdentifier*)resourceType {
     objc_setAssociatedObject(self, gResourceTypePropertyKey, resourceType, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
@@ -41,7 +41,7 @@ static void* gResourceTypePropertyKey = &gResourceTypePropertyKey;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (instancetype)initWithResourceType:(BMLResourceType*)resourceName {
+- (instancetype)initWithResourceType:(BMLResourceTypeIdentifier*)resourceName {
     
     if (self = [super init]) {
         self.resourceStatus = BMLResourceStatusUndefined;

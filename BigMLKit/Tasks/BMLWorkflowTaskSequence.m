@@ -98,7 +98,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 //    context.info[kWorkflowName] = resource.name;
 //
 //    BMLResourceUuid* resourceUuid = [BMLResourceUtils uuidFromFullUuid:resource.fullUuid];
-//    BMLResourceType* resourceType = [BMLResourceUtils typeFromFullUuid:resource.fullUuid];
+//    BMLResourceTypeIdentifier* resourceType = [BMLResourceUtils typeFromFullUuid:resource.fullUuid];
 //    
 //    if (resourceType == kSourceEntityType) {
 //        context.info[kDataSourceId] = resourceUuid;

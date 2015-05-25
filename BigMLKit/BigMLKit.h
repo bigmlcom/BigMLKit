@@ -15,7 +15,7 @@
 #ifndef BigML_BigML_h
 #define BigML_BigML_h
 
-@class BMLResourceType;
+@class BMLResourceTypeIdentifier;
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -31,15 +31,15 @@ typedef NSString BMLResourceFullUuid;
 
 static NSString* const BMLExtendedErrorDescriptionKey = @"BMLExtendedErrorDescriptionKey";
 
-extern BMLResourceType* kFileEntityType;
-extern BMLResourceType* kSourceEntityType;
-extern BMLResourceType* kDatasetEntityType;
-extern BMLResourceType* kModelEntityType;
-extern BMLResourceType* kClusterEntityType;
-extern BMLResourceType* kAnomalyEntityType;
-extern BMLResourceType* kEnsembleEntityType;
-extern BMLResourceType* kPredictionEntityType;
-extern BMLResourceType* kProjectEntityType;
+extern BMLResourceTypeIdentifier* kFileEntityType;
+extern BMLResourceTypeIdentifier* kSourceEntityType;
+extern BMLResourceTypeIdentifier* kDatasetEntityType;
+extern BMLResourceTypeIdentifier* kModelEntityType;
+extern BMLResourceTypeIdentifier* kClusterEntityType;
+extern BMLResourceTypeIdentifier* kAnomalyEntityType;
+extern BMLResourceTypeIdentifier* kEnsembleEntityType;
+extern BMLResourceTypeIdentifier* kPredictionEntityType;
+extern BMLResourceTypeIdentifier* kProjectEntityType;
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////

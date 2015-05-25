@@ -31,7 +31,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (BMLWorkflowTaskConfiguration*)configurationForResourceType:(BMLResourceType*)resourceType {
+- (BMLWorkflowTaskConfiguration*)configurationForResourceType:(BMLResourceTypeIdentifier*)resourceType {
     
     if (!_taskConfigurations[resourceType]) {
         NSString* plistName = [BMLWorkflowTaskConfiguration configurationPlistForResourceType:resourceType];

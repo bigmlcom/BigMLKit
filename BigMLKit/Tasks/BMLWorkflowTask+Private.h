@@ -23,9 +23,9 @@
 @interface BMLWorkflowTask (Private)
 
 @property (nonatomic, readonly) BOOL allowsUserInteraction;
-@property (nonatomic, readonly) BMLResourceType* resourceType;
+@property (nonatomic, readonly) BMLResourceTypeIdentifier* resourceType;
 
-- (instancetype)initWithResourceType:(BMLResourceType*)resourceName;
+- (instancetype)initWithResourceType:(BMLResourceTypeIdentifier*)resourceName;
 - (NSDictionary*)optionStringForCurrentContext:(BMLWorkflowTaskContext*)context;
 
 @end

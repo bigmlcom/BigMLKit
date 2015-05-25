@@ -21,7 +21,7 @@
 @implementation BMLResourceUtils
 
 //////////////////////////////////////////////////////////////////////////////////////
-+ (BMLResourceType*)typeFromTypeString:(NSString*)type {
++ (BMLResourceTypeIdentifier*)typeFromTypeString:(NSString*)type {
     
     if ([type isEqualToString:[kFileEntityType stringValue]])
         return kFileEntityType;
@@ -46,7 +46,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-+ (BMLResourceType*)typeFromFullUuid:(BMLResourceFullUuid*)fullUuid {
++ (BMLResourceTypeIdentifier*)typeFromFullUuid:(BMLResourceFullUuid*)fullUuid {
     
     NSString* type = [[fullUuid componentsSeparatedByString:@"/"] firstObject];
     return [self typeFromTypeString:type];

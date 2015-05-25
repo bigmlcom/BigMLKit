@@ -15,16 +15,16 @@
 #import <Foundation/Foundation.h>
 #import "BigMLKit.h"
 
-@class BMLResourceType;
+@class BMLResourceTypeIdentifier;
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 @interface BMLResourceUtils : NSObject
 
-+ (BMLResourceType*)typeFromFullUuid:(BMLResourceFullUuid*)fullUuid;
++ (BMLResourceTypeIdentifier*)typeFromFullUuid:(BMLResourceFullUuid*)fullUuid;
 + (BMLResourceUuid*)uuidFromFullUuid:(BMLResourceFullUuid*)fullUuid;
-+ (BMLResourceType*)typeFromTypeString:(NSString*)type;
++ (BMLResourceTypeIdentifier*)typeFromTypeString:(NSString*)type;
 
 @end
 

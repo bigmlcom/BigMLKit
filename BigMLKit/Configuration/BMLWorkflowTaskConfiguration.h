@@ -41,10 +41,10 @@
 @property (nonatomic, readonly) NSDictionary* optionDescriptions;
 @property (nonatomic, readonly) NSDictionary* optionModels;
 
-+ (NSString*)configurationPlistForResourceType:(BMLResourceType*)resourceType;
++ (NSString*)configurationPlistForResourceType:(BMLResourceTypeIdentifier*)resourceType;
 
 - (instancetype)initWithPList:(NSString*)plistName;
-- (instancetype)initWithResourceType:(BMLResourceType*)resourceType;
+- (instancetype)initWithResourceType:(BMLResourceTypeIdentifier*)resourceType;
 
 - (BMLWorkflowTaskConfigurationOption*)optionModelForOptionNamed:(NSString*)optionName;
 - (void)setOptionModel:(BMLWorkflowTaskConfigurationOption*)optionModel forOptionNamed:(NSString*)optionName;

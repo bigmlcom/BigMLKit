@@ -68,7 +68,7 @@
             }
         };
         
-        BMLResourceType* type = nil;
+        BMLResourceTypeIdentifier* type = nil;
         BMLResourceUuid* uuid = nil;
         NSDictionary* definition = nil;
         if (context.info[kModelId]) { //-- predicting from tree

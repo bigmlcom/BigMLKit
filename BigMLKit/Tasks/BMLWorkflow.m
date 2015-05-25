@@ -61,7 +61,6 @@
             BMLWorkflow* task = object;
             if (task.resourceStatus == BMLResourceStatusEnded) {
                 
-                NSLog(@"END STEP - RESULT %@ (%@)", self.outputResource, self.outputResource.type.stringValue);
                 self.outputResource = task.outputResource;
                 [task removeObserver:self forKeyPath:@"resourceStatus"];
                 [self executeNextStep:task.outputResource];

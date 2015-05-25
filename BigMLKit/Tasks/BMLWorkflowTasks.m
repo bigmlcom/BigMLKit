@@ -206,10 +206,10 @@
         
 //        BMLMinimalResource* sourceFile = [[BMLMinimalResource alloc]
 //                                          initWithName:context.info[kWorkflowName]
-//                                          rawType:BMLResourceRawTypeFile
+//                                          rawType:BMLResourceTypeFile
 //                                          uuid:[context.info[kCSVSourceFilePath] path]];
 
-        [context.ml createResource:BMLResourceRawTypeSource
+        [context.ml createResource:BMLResourceTypeSource
                               name:context.info[kWorkflowName]
                            options:@{}
                               from:resource
@@ -268,7 +268,7 @@
     [super runWithResource:resource inContext:context completionBlock:nil];
     if (resource) {
         
-        [context.ml createResource:BMLResourceRawTypeDataset
+        [context.ml createResource:BMLResourceTypeDataset
                               name:context.info[kWorkflowName]
                            options:@{}
                               from:resource
@@ -330,7 +330,7 @@
     [super runWithResource:resource inContext:context completionBlock:nil];
     if (resource) { //-- HERE WE SHOULD CHECK FOR THE RESOURCE TYPE
         
-        [context.ml createResource:BMLResourceRawTypeModel
+        [context.ml createResource:BMLResourceTypeModel
                               name:context.info[kWorkflowName]
                            options:@{}
                               from:resource
@@ -348,7 +348,7 @@
     } else if (context.info[kModelId]) { //-- HERE WE SHOULD CHECK FOR THE RESOURCE TYPE
         
         NSAssert(NO, @"TBD");
-        [context.ml getResource:BMLResourceRawTypeModel
+        [context.ml getResource:BMLResourceTypeModel
                            uuid:context.info[kModelId]
                      completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
 
@@ -396,10 +396,10 @@
 
         BMLMinimalResource* dataset = [[BMLMinimalResource alloc]
                                       initWithName:context.info[kWorkflowName]
-                                      rawType:BMLResourceRawTypeDataset
+                                      rawType:BMLResourceTypeDataset
                                       uuid:context.info[kDataSetId]];
         
-        [context.ml createResource:BMLResourceRawTypeCluster
+        [context.ml createResource:BMLResourceTypeCluster
                               name:context.info[kWorkflowName]
                            options:@{}
                               from:dataset
@@ -414,7 +414,7 @@
         
     } else if (context.info[kClusterId]) {
         
-        [context.ml getResource:BMLResourceRawTypeCluster
+        [context.ml getResource:BMLResourceTypeCluster
                            uuid:context.info[kClusterId]
                      completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
 
@@ -461,10 +461,10 @@
         
         BMLMinimalResource* dataset = [[BMLMinimalResource alloc]
                                        initWithName:context.info[kWorkflowName]
-                                       rawType:BMLResourceRawTypeDataset
+                                       rawType:BMLResourceTypeDataset
                                        uuid:context.info[kDataSetId]];
         
-        [context.ml createResource:BMLResourceRawTypeAnomaly
+        [context.ml createResource:BMLResourceTypeAnomaly
                               name:context.info[kWorkflowName]
                            options:@{}
                               from:dataset
@@ -479,7 +479,7 @@
         
     } else if (context.info[kAnomalyId]) {
         
-        [context.ml getResource:BMLResourceRawTypeAnomaly
+        [context.ml getResource:BMLResourceTypeAnomaly
                            uuid:context.info[kAnomalyId]
                      completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
                          
@@ -534,11 +534,10 @@
             }
         };
         
-        BMLResourceType* type = nil;
         BMLResourceUuid* uuid = nil;
         NSDictionary* definition = nil;
         
-        type = resource.type;
+        BMLResourceTypeIdentifier* type = [[BMLResourceTypeIdentifier alloc] initWithRawType:resource.type];
         uuid = resource.uuid;
         definition = resource.jsonDefinition;
         
@@ -608,7 +607,7 @@
     NSAssert(context.info[kModelId], @"No model ID provided");
     [super runWithResource:resource inContext:context completionBlock:nil];
 
-    [context.ml getResource:BMLResourceRawTypeModel
+    [context.ml getResource:BMLResourceTypeModel
                        uuid:context.info[kModelId]
                  completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
                  }];
@@ -643,7 +642,7 @@
     
     NSAssert(context.info[kModelId], @"No model ID provided");
     [super runWithResource:resource inContext:context completionBlock:nil];
-    [context.ml getResource:BMLResourceRawTypeCluster
+    [context.ml getResource:BMLResourceTypeCluster
                        uuid:context.info[kClusterId]
                  completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
                  }];

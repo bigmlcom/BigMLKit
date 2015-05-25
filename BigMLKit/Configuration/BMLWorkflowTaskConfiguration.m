@@ -24,7 +24,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-+ (NSString*)configurationPlistForResourceType:(BMLResourceType*)resourceType {
++ (NSString*)configurationPlistForResourceType:(BMLResourceTypeIdentifier*)resourceType {
     
     return [NSString stringWithFormat:@"%@ConfigurationOptions", resourceType];
 }
@@ -53,7 +53,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (instancetype)initWithResourceType:(BMLResourceType*)resourceType {
+- (instancetype)initWithResourceType:(BMLResourceTypeIdentifier*)resourceType {
     
     NSString* plistName = [BMLWorkflowTaskConfiguration configurationPlistForResourceType:resourceType];
     if (self = [self initWithPList:plistName]) {

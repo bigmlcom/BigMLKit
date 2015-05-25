@@ -30,6 +30,6 @@
 
 @property (nonatomic, strong) NSMutableDictionary* taskConfigurations;
 
-- (BMLWorkflowTaskConfiguration*)configurationForResourceType:(BMLResourceType*)resourceType;
+- (BMLWorkflowTaskConfiguration*)configurationForResourceType:(BMLResourceTypeIdentifier*)resourceType;
 
 @end

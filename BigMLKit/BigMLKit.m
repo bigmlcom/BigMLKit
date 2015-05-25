@@ -17,20 +17,20 @@
 
 #import "BigMLApp-Swift.h"
 
-BMLResourceType* kFileEntityType = nil;
-BMLResourceType* kSourceEntityType = nil;
-BMLResourceType* kDatasetEntityType = nil;
-BMLResourceType* kModelEntityType = nil;
-BMLResourceType* kClusterEntityType = nil;
-BMLResourceType* kAnomalyEntityType = nil;
-BMLResourceType* kEnsembleEntityType = nil;
-BMLResourceType* kPredictionEntityType = nil;
-BMLResourceType* kProjectEntityType = nil;
+BMLResourceTypeIdentifier* kFileEntityType = nil;
+BMLResourceTypeIdentifier* kSourceEntityType = nil;
+BMLResourceTypeIdentifier* kDatasetEntityType = nil;
+BMLResourceTypeIdentifier* kModelEntityType = nil;
+BMLResourceTypeIdentifier* kClusterEntityType = nil;
+BMLResourceTypeIdentifier* kAnomalyEntityType = nil;
+BMLResourceTypeIdentifier* kEnsembleEntityType = nil;
+BMLResourceTypeIdentifier* kPredictionEntityType = nil;
+BMLResourceTypeIdentifier* kProjectEntityType = nil;
 
-BMLResourceType* kModelTarget = nil;
-BMLResourceType* kClusterTarget = nil;
-BMLResourceType* kAnomalyTarget = nil;
-BMLResourceType* kEnsembleTarget = nil;
+BMLResourceTypeIdentifier* kModelTarget = nil;
+BMLResourceTypeIdentifier* kClusterTarget = nil;
+BMLResourceTypeIdentifier* kAnomalyTarget = nil;
+BMLResourceTypeIdentifier* kEnsembleTarget = nil;
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -43,15 +43,15 @@ BMLResourceType* kEnsembleTarget = nil;
 //////////////////////////////////////////////////////////////////////////////////////
 + (void)load {
     
-    kFileEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeFile];
-    kSourceEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeSource];
-    kDatasetEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeDataset];
-    kModelEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeModel];
-    kClusterEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeCluster];
-    kAnomalyEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeAnomaly];
-    kEnsembleEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeEnsemble];
-    kPredictionEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypePrediction];
-    kProjectEntityType = [[BMLResourceType alloc] initWithRawType:BMLResourceRawTypeProject];
+    kFileEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeFile];
+    kSourceEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeSource];
+    kDatasetEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeDataset];
+    kModelEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeModel];
+    kClusterEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeCluster];
+    kAnomalyEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeAnomaly];
+    kEnsembleEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeEnsemble];
+    kPredictionEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypePrediction];
+    kProjectEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeProject];
     
     kModelTarget = kModelEntityType;
     kClusterTarget = kClusterEntityType;
