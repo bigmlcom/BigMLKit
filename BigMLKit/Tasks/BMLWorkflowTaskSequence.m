@@ -89,45 +89,6 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-//- (void)runWithResource:(id<BMLResource>)resource
-//                connector:(BMLConnector*)connector
-//          completionBlock:(void(^)(NSError*))completion {
-//    
-//    BMLWorkflowTaskContext* context = [[BMLWorkflowTaskContext alloc] initWithWorkflow:self
-//                                                                             connector:connector];
-//    context.info[kWorkflowName] = resource.name;
-//
-//    BMLResourceUuid* resourceUuid = [BMLResourceTypeIdentifier uuidFromFullUuid:resource.fullUuid];
-//    BMLResourceTypeIdentifier* resourceType = [BMLResourceTypeIdentifier typeFromFullUuid:resource.fullUuid];
-//    
-//    if (resourceType == kSourceEntityType) {
-//        context.info[kDataSourceId] = resourceUuid;
-//        
-//    } else if (resourceType == kFileEntityType) {
-//        
-//        context.info[kCSVSourceFilePath] = [NSURL URLWithString:resourceUuid];
-//        context.info[kWorkflowName] = [resourceUuid lastPathComponent];
-//        
-//    } else if (resourceType == kDatasetEntityType) {
-//
-//        context.info[kDataSetId] = resourceUuid;
-//        
-//    } else if (resourceType == kModelEntityType) {
-//
-//        context.info[kModelId] = resourceUuid;
-//        
-//    } else if (resourceType == kClusterEntityType) {
-//
-//        context.info[kClusterId] = resourceUuid;
-//        
-//    } else if (resourceType == kPredictionEntityType) {
-//        
-//        NSAssert(NO, @"Workflow not supported.");
-//    }
-//    [self runWithResource:nil inContext:context completionBlock:completion];
-//}
-
-//////////////////////////////////////////////////////////////////////////////////////
 - (void)executeNextStep:(id<BMLResource>)resource {
 
     NSAssert(self.status == BMLWorkflowStarting || self.status == BMLWorkflowStarted, @"Trying to execute step before starting workflow");
@@ -135,7 +96,6 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
     if (_currentStep < [_steps count] - 1) {
 
         self.currentStep = self.currentStep + 1;
-        NSLog(@"Adding observer to %@ (%@)", _steps[_currentStep], self);
         [_steps[_currentStep] addObserver:self
                                forKeyPath:@"resourceStatus"
                                   options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld

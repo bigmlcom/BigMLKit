@@ -42,35 +42,42 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@interface BMLWorkflowTaskCreateSource : BMLWorkflowTask
+@interface BMLWorkflowTaskCreateResource : BMLWorkflowTask
 
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@interface BMLWorkflowTaskCreateDataset : BMLWorkflowTask
+@interface BMLWorkflowTaskCreateSource : BMLWorkflowTaskCreateResource
 
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@interface BMLWorkflowTaskCreateModel : BMLWorkflowTask
+@interface BMLWorkflowTaskCreateDataset : BMLWorkflowTaskCreateResource
 
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@interface BMLWorkflowTaskCreateCluster : BMLWorkflowTask
+@interface BMLWorkflowTaskCreateModel : BMLWorkflowTaskCreateResource
 
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@interface BMLWorkflowTaskCreateAnomaly : BMLWorkflowTask
+@interface BMLWorkflowTaskCreateCluster : BMLWorkflowTaskCreateResource
+
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+@interface BMLWorkflowTaskCreateAnomaly : BMLWorkflowTaskCreateResource
 
 @end
 
@@ -180,6 +187,35 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
+@implementation BMLWorkflowTaskCreateResource
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)runWithResource:(id<BMLResource>)resource
+              inContext:(BMLWorkflowTaskContext*)context
+        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
+    
+    [super runWithResource:resource inContext:context completionBlock:nil];
+    [context.ml createResource:self.resourceType.type
+                          name:context.info[kWorkflowName]
+                       options:@{}
+                          from:resource
+                    completion:^(id<BMLResource> resource, NSError* error) {
+
+                        if (resource) {
+                            self.outputResource = resource;
+                            self.resourceStatus = BMLResourceStatusEnded;
+                        } else {
+                            self.error = [NSError errorWithInfo:@"Could not complete task" code:-1];
+                            self.resourceStatus = BMLResourceStatusFailed;
+                        }
+                    }];
+}
+
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 @implementation BMLWorkflowTaskCreateSource
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -195,32 +231,10 @@
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
 
-    [super runWithResource:resource inContext:context completionBlock:completion];
-    if (resource &&
-        [[NSFileManager defaultManager] fileExistsAtPath:resource.uuid]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:resource.uuid]) {
         
-//        context.ml.options = [self optionStringForCurrentContext:context];
-//        [context.ml createSourceWithName:context.info[kWorkflowName]
-//                                 project:context.info[kProjectFullUuid]
-//                                filePath:[(NSURL*)context.info[kCSVSourceFilePath] path]];
-        
-//        BMLMinimalResource* sourceFile = [[BMLMinimalResource alloc]
-//                                          initWithName:context.info[kWorkflowName]
-//                                          rawType:BMLResourceTypeFile
-//                                          uuid:[context.info[kCSVSourceFilePath] path]];
+        [super runWithResource:resource inContext:context completionBlock:completion];
 
-        [context.ml createResource:BMLResourceTypeSource
-                              name:context.info[kWorkflowName]
-                           options:@{}
-                              from:resource
-                        completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
-
-                            if (!error) {
-                                self.outputResource = resource;
-                                self.resourceStatus = BMLResourceStatusEnded;
-                            } else
-                                self.resourceStatus = BMLResourceStatusFailed;
-                        }];
     } else {
         
         self.error = [NSError errorWithInfo:@"Could not retrieve file information" code:-1];
@@ -261,35 +275,6 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(id<BMLResource>)resource
-              inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
-
-    [super runWithResource:resource inContext:context completionBlock:nil];
-    if (resource) {
-        
-        [context.ml createResource:BMLResourceTypeDataset
-                              name:context.info[kWorkflowName]
-                           options:@{}
-                              from:resource
-                        completion:^(id<BMLResource> resource, NSError* error) {
-
-                            if (!error) {
-                                self.outputResource = resource;
-                                self.resourceStatus = BMLResourceStatusEnded;
-                            } else {
-                                self.error = error;
-                                self.resourceStatus = BMLResourceStatusFailed;
-                            }
-                        }];
-    } else {
-    
-        self.error = [NSError errorWithInfo:@"Could not find requested datasource" code:-1];
-        self.resourceStatus = BMLResourceStatusFailed;
-    }
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)message {
     
     return NSLocalizedString(@"Creating  Dataset", nil);
@@ -323,51 +308,6 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(id<BMLResource>)resource
-              inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
-    
-    NSAssert(resource.type == BMLResourceTypeModel, @"Wrong resource passed in");
-    
-    [super runWithResource:resource inContext:context completionBlock:nil];
-    if (resource.type == BMLResourceTypeModel) { //-- HERE WE SHOULD CHECK FOR THE RESOURCE TYPE
-        
-        [context.ml createResource:BMLResourceTypeModel
-                              name:context.info[kWorkflowName]
-                           options:@{}
-                              from:resource
-                        completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
-
-                            if (!error) {
-                                self.outputResource = resource;
-                                self.resourceStatus = BMLResourceStatusEnded;
-                            } else {
-                                self.error = error;
-                                self.resourceStatus = BMLResourceStatusFailed;
-                            }
-                        }];
-        
-    } else if (context.info[kModelId]) { //-- HERE WE SHOULD CHECK FOR THE RESOURCE TYPE
-        
-        NSAssert(NO, @"TBD");
-        [context.ml getResource:BMLResourceTypeModel
-                           uuid:context.info[kModelId]
-                     completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
-
-                         if (!error) {
-                             context.info[kModelId] = resource.uuid;
-                             self.resourceStatus = BMLResourceStatusEnded;
-                         } else
-                             self.resourceStatus = BMLResourceStatusFailed;
-                     }];
-    } else {
-        
-        self.error = [NSError errorWithInfo:@"Could not find requested dataset" code:-1];
-        self.resourceStatus = BMLResourceStatusFailed;
-    }
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)message {
     
     return NSLocalizedString(@"Creating Model", nil);
@@ -388,51 +328,6 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(id<BMLResource>)resource
-              inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
-    
-    NSAssert(NO, @"TBD");
-    [super runWithResource:resource inContext:context completionBlock:nil];
-    if (context.info[kDataSetId]) {
-
-        BMLMinimalResource* dataset = [[BMLMinimalResource alloc]
-                                      initWithName:context.info[kWorkflowName]
-                                      rawType:BMLResourceTypeDataset
-                                      uuid:context.info[kDataSetId]];
-        
-        [context.ml createResource:BMLResourceTypeCluster
-                              name:context.info[kWorkflowName]
-                           options:@{}
-                              from:dataset
-                        completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
-
-                            if (!error) {
-                                context.info[kClusterId] = resource.uuid;
-                                self.resourceStatus = BMLResourceStatusEnded;
-                            } else
-                                self.resourceStatus = BMLResourceStatusFailed;
-                        }];
-        
-    } else if (context.info[kClusterId]) {
-        
-        [context.ml getResource:BMLResourceTypeCluster
-                           uuid:context.info[kClusterId]
-                     completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
-
-                         if (!error) {
-                             context.info[kClusterId] = resource.uuid;
-                             self.resourceStatus = BMLResourceStatusEnded;
-                         } else
-                             self.resourceStatus = BMLResourceStatusFailed;
-                     }];
-    } else {
-        self.error = [NSError errorWithInfo:@"Could not find requested dataset" code:-1];
-        self.resourceStatus = BMLResourceStatusFailed;
-    }
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)message {
     
     return NSLocalizedString(@"Creating  Cluster", nil);
@@ -450,51 +345,6 @@
     if (self = [super initWithResourceType:kAnomalyEntityType]) {
     }
     return self;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(id<BMLResource>)resource
-              inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
-    
-    NSAssert(NO, @"TBD");
-    [super runWithResource:resource inContext:context completionBlock:nil];
-    if (context.info[kDataSetId]) {
-        
-        BMLMinimalResource* dataset = [[BMLMinimalResource alloc]
-                                       initWithName:context.info[kWorkflowName]
-                                       rawType:BMLResourceTypeDataset
-                                       uuid:context.info[kDataSetId]];
-        
-        [context.ml createResource:BMLResourceTypeAnomaly
-                              name:context.info[kWorkflowName]
-                           options:@{}
-                              from:dataset
-                        completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
-                            
-                            if (!error) {
-                                context.info[kAnomalyId] = resource.uuid;
-                                self.resourceStatus = BMLResourceStatusEnded;
-                            } else
-                                self.resourceStatus = BMLResourceStatusFailed;
-                        }];
-        
-    } else if (context.info[kAnomalyId]) {
-        
-        [context.ml getResource:BMLResourceTypeAnomaly
-                           uuid:context.info[kAnomalyId]
-                     completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
-                         
-                         if (!error) {
-                             context.info[kAnomalyId] = resource.uuid;
-                             self.resourceStatus = BMLResourceStatusEnded;
-                         } else
-                             self.resourceStatus = BMLResourceStatusFailed;
-                     }];
-    } else {
-        self.error = [NSError errorWithInfo:@"Could not find requested dataset" code:-1];
-        self.resourceStatus = BMLResourceStatusFailed;
-    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
