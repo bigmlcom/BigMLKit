@@ -327,8 +327,10 @@
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
     
+    NSAssert(resource.type == BMLResourceTypeModel, @"Wrong resource passed in");
+    
     [super runWithResource:resource inContext:context completionBlock:nil];
-    if (resource) { //-- HERE WE SHOULD CHECK FOR THE RESOURCE TYPE
+    if (resource.type == BMLResourceTypeModel) { //-- HERE WE SHOULD CHECK FOR THE RESOURCE TYPE
         
         [context.ml createResource:BMLResourceTypeModel
                               name:context.info[kWorkflowName]
@@ -529,42 +531,15 @@
                 self.outputResource = resource;
                 self.resourceStatus = BMLResourceStatusEnded;
             } else {
-                self.error = [NSError errorWithInfo:@"The model this prediction was based upon has not been found" code:-1];
+                self.error = [NSError errorWithInfo:@"The model this prediction was based upon\nhas not been found" code:-1];
                 self.resourceStatus = BMLResourceStatusFailed;
             }
         };
         
-        BMLResourceUuid* uuid = nil;
-        NSDictionary* definition = nil;
-        
-        BMLResourceTypeIdentifier* type = [[BMLResourceTypeIdentifier alloc] initWithRawType:resource.type];
-        uuid = resource.uuid;
-        definition = resource.jsonDefinition;
-        
-//        if (context.info[kModelId]) { //-- predicting from tree
-//            
-//            type = kModelEntityType;
-//            uuid = context.info[kModelId];
-//            definition = context.info[kModelDefinition];
-//            
-//        } else if (context.info[kClusterId]) { //-- predicting from cluster
-//            
-//            type = kClusterEntityType;
-//            uuid = context.info[kClusterId];
-//            definition = context.info[kClusterDefinition];
-//            
-//        } else if (context.info[kAnomalyId]) { //-- predicting from anomaly
-//
-//            type = kAnomalyEntityType;
-//            uuid = context.info[kAnomalyId];
-//            definition = context.info[kAnomalyDefinition];
-//        } else {
-//            NSAssert(NO, @"Should not be here! No proper resource found to base prediction on.");
-//        }
-        if (!definition) {
+        if (!resource.jsonDefinition) {
             
-            [context.ml getResource:type.type
-                               uuid:uuid
+            [context.ml getResource:resource.type
+                               uuid:resource.uuid
                          completion:^(id<BMLResource> resource, NSError* error) {
                              predict(resource);
                          }];
