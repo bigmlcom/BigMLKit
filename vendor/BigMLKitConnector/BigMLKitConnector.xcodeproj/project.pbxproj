@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		492D8BAC1B176686002602B3 /* BMLKitConnectorPredicateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492D8BAB1B176686002602B3 /* BMLKitConnectorPredicateTests.swift */; };
+		492D8BAD1B176A9C002602B3 /* BMLConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C5AAB81AEF952100B81AA6 /* BMLConnector.swift */; };
 		492DC2A31AF75AEB0053F908 /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 492DC2A21AF75AEB0053F908 /* credentials.plist */; };
 		492DC2AD1AF8B8A60053F908 /* BMLSigHandler.c in Sources */ = {isa = PBXBuildFile; fileRef = 492DC2AB1AF8B8A60053F908 /* BMLSigHandler.c */; };
-		492DC2AF1AFA74190053F908 /* BigMLKitConnectorObjcTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 492DC2AE1AFA74190053F908 /* BigMLKitConnectorObjcTests.m */; };
 		49962D331AFD15D600E2FA55 /* wines.csv in Resources */ = {isa = PBXBuildFile; fileRef = 49962D301AFD15D600E2FA55 /* wines.csv */; };
 		49962D341AFD15D600E2FA55 /* iris.csv in Resources */ = {isa = PBXBuildFile; fileRef = 49962D311AFD15D600E2FA55 /* iris.csv */; };
 		49962D351AFD15D600E2FA55 /* diab.csv in Resources */ = {isa = PBXBuildFile; fileRef = 49962D321AFD15D600E2FA55 /* diab.csv */; };
 		49C5AA741AEF943800B81AA6 /* BigMLKitConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = 49C5AA731AEF943800B81AA6 /* BigMLKitConnector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		49C5AA7A1AEF943900B81AA6 /* BigMLKitConnector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C5AA6E1AEF943800B81AA6 /* BigMLKitConnector.framework */; };
 		49C5AA811AEF943900B81AA6 /* BigMLKitConnectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C5AA801AEF943900B81AA6 /* BigMLKitConnectorTests.swift */; };
-		49C5AAB91AEF952100B81AA6 /* BMLConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C5AAB81AEF952100B81AA6 /* BMLConnector.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		492D8BAB1B176686002602B3 /* BMLKitConnectorPredicateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BMLKitConnectorPredicateTests.swift; sourceTree = "<group>"; };
 		492DC2A21AF75AEB0053F908 /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		492DC2AA1AF8B8A50053F908 /* BigMLKitConnectorTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BigMLKitConnectorTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		492DC2AB1AF8B8A60053F908 /* BMLSigHandler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BMLSigHandler.c; sourceTree = "<group>"; };
@@ -108,6 +109,7 @@
 				49C5AA7E1AEF943900B81AA6 /* Supporting Files */,
 				49C5AA801AEF943900B81AA6 /* BigMLKitConnectorTests.swift */,
 				492DC2AE1AFA74190053F908 /* BigMLKitConnectorObjcTests.m */,
+				492D8BAB1B176686002602B3 /* BMLKitConnectorPredicateTests.swift */,
 				492DC2A21AF75AEB0053F908 /* credentials.plist */,
 				492DC2AB1AF8B8A60053F908 /* BMLSigHandler.c */,
 				492DC2AC1AF8B8A60053F908 /* BMLSigHandler.h */,
@@ -238,7 +240,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49C5AAB91AEF952100B81AA6 /* BMLConnector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,9 +247,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				492D8BAC1B176686002602B3 /* BMLKitConnectorPredicateTests.swift in Sources */,
 				492DC2AD1AF8B8A60053F908 /* BMLSigHandler.c in Sources */,
-				492DC2AF1AFA74190053F908 /* BigMLKitConnectorObjcTests.m in Sources */,
 				49C5AA811AEF943900B81AA6 /* BigMLKitConnectorTests.swift in Sources */,
+				492D8BAD1B176A9C002602B3 /* BMLConnector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
