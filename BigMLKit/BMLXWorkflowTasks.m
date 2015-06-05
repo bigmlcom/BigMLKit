@@ -85,9 +85,7 @@
         }
         if (!definition) {
             
-            BMLResource* model = [[BMLResource fetchByPredicate:
-                                   [NSPredicate predicateWithFormat:@"typeString == %@ AND uuid = %@",
-                                    [type stringValue], uuid]] firstObject];
+            BMLResource* model = [[BMLResource fetchByType:type uuid:uuid] firstObject];
             
             if (!(definition = model.jsonDefinition)) {
             
