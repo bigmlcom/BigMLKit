@@ -205,7 +205,7 @@
                             self.outputResource = resource;
                             self.resourceStatus = BMLResourceStatusEnded;
                         } else {
-                            self.error = [NSError errorWithInfo:@"Could not complete task" code:-1];
+                            self.error = error ?: [NSError errorWithInfo:@"Could not complete task" code:-1];
                             self.resourceStatus = BMLResourceStatusFailed;
                         }
                     }];
