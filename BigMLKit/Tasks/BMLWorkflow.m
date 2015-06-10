@@ -14,7 +14,6 @@
 
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflow.h"
-#import "BMLWorkflowTaskConfiguration.h"
 #import "BMLResourceTypeIdentifier+BigML.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
