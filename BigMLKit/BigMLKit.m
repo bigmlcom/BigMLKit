@@ -76,7 +76,7 @@ BMLResourceTypeIdentifier* kEnsembleTarget = nil;
 //////////////////////////////////////////////////////////////////////////////////////
 + (NSError*)errorWithInfo:(NSString*)errorString code:(NSInteger)code {
     
-    return [self errorWithInfo:errorString code:code extendedInfo:nil];
+    return [self errorWithInfo:errorString code:code extendedInfo:@{}];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
