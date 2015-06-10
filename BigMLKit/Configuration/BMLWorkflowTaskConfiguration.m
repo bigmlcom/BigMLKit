@@ -26,7 +26,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 + (NSString*)configurationPlistForResourceType:(BMLResourceTypeIdentifier*)resourceType {
     
-    return [NSString stringWithFormat:@"%@ConfigurationOptions", resourceType];
+    return [NSString stringWithFormat:@"%@ConfigurationOptions", resourceType.stringValue];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

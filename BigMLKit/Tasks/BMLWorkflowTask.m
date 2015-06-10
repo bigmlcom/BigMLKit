@@ -13,6 +13,7 @@
 // under the License.
 
 #import "BMLWorkflowTask.h"
+#import "BMLWorkflowTask+Private.h"
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflowTaskConfiguration.h"
 #import "BMLWorkflowConfigurator.h"
@@ -20,10 +21,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@implementation BMLWorkflowTask {
-    
-    BMLResourceTypeIdentifier* _resourceType;
-}
+@implementation BMLWorkflowTask
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLWorkflowTask*)newTaskForStep:(NSString*)step configurator:(BMLWorkflowConfigurator*)configurator {
@@ -31,7 +29,7 @@
     NSString* taskClassName = [NSString stringWithFormat:@"BMLWorkflowTask%@", step];
     BMLWorkflowTask* item = [NSClassFromString(taskClassName) new];
     item.name = step;
-    item.configuration = [configurator configurationForResourceType:item->_resourceType];
+    item.configuration = [configurator configurationForResourceType:item.resourceType];
 
     return item;
 }

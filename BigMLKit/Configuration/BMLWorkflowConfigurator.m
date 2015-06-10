@@ -33,13 +33,14 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (BMLWorkflowTaskConfiguration*)configurationForResourceType:(BMLResourceTypeIdentifier*)resourceType {
     
-    if (!_taskConfigurations[resourceType]) {
+    NSString* typeString = resourceType.stringValue;
+    if (!_taskConfigurations[typeString]) {
         NSString* plistName = [BMLWorkflowTaskConfiguration configurationPlistForResourceType:resourceType];
         BMLWorkflowTaskConfiguration* configuration = [[BMLWorkflowTaskConfiguration alloc] initWithPList:plistName];
         if (configuration)
-            _taskConfigurations[resourceType] = configuration;
+            _taskConfigurations[typeString] = configuration;
     }
-    return _taskConfigurations[resourceType];
+    return _taskConfigurations[typeString];
 }
 
 @end
