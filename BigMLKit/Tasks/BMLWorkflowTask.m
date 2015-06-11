@@ -49,6 +49,7 @@
 
     [super runWithResource:resource inContext:context completionBlock:completion];
     self.resourceStatus = BMLResourceStatusStarted;
+    self.runningResource = resource;
     
     [self addObserver:self
            forKeyPath:@"resourceStatus"

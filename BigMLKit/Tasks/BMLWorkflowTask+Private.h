@@ -23,6 +23,7 @@
 @interface BMLWorkflowTask (Private)
 
 @property (nonatomic, readonly) BOOL allowsUserInteraction;
+@property (nonatomic, weak) id<BMLResource> runningResource;
 @property (nonatomic, readonly) BMLResourceTypeIdentifier* resourceType;
 
 - (instancetype)initWithResourceType:(BMLResourceTypeIdentifier*)resourceName;

@@ -266,8 +266,8 @@
     
     NSMutableDictionary* options = [super optionsForCurrentContext:context];
     if (options[@"size"]) {
-        options[@"size"] = @(floorf([context.info[kDataSourceDefinition][@"size"] intValue] *
-                                              [options[@"size"] floatValue]));
+        options[@"size"] = @(floorf([self.runningResource.jsonDefinition[@"size"] intValue] *
+                                    [options[@"size"] floatValue]));
     }
     return options;
 }
@@ -297,7 +297,7 @@
     
     NSMutableDictionary* defaultCollection = [super optionsForCurrentContext:context];
     if ([defaultCollection[@"objective_field"] isEqualToString:@"first_field"]) {
-        defaultCollection[@"objective_field"] = context.info[kDataSetDefinition][@"fields"][@"000000"][@"name"];
+        defaultCollection[@"objective_field"] = self.runningResource.jsonDefinition[@"fields"][@"000000"][@"name"];
     } else if ([defaultCollection[@"objective_field"] isEqualToString:@"last_field"]) {
         [defaultCollection removeObjectForKey:@"objective_field"];
     }
