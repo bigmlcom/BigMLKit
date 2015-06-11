@@ -195,7 +195,7 @@
     [super runWithResource:resource inContext:context completionBlock:nil];
     [context.ml createResource:self.resourceType.type
                           name:context.info[kWorkflowName]
-                       options:@{}
+                       options:[self optionsForCurrentContext:context]
                           from:resource
                     completion:^(id<BMLResource> resource, NSError* error) {
 
@@ -262,13 +262,13 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSDictionary*)optionsForCurrentConfiguration:(BMLWorkflowTaskContext*)context {
+- (NSDictionary*)optionsForCurrentContext:(BMLWorkflowTaskContext*)context {
     
-    NSMutableDictionary* options = self.configuration.optionDictionary;
-    NSMutableDictionary* defaultCollection = options[kOptionsDefaultCollection];
-    defaultCollection[@"size"] = @(floorf([context.info[kDataSourceDefinition][@"size"] intValue] *
-                                          [defaultCollection[@"size"] floatValue]));
-    
+    NSMutableDictionary* options = [super optionsForCurrentContext:context];
+    if (options[@"size"]) {
+        options[@"size"] = @(floorf([context.info[kDataSourceDefinition][@"size"] intValue] *
+                                              [options[@"size"] floatValue]));
+    }
     return options;
 }
 
@@ -293,16 +293,15 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSDictionary*)optionsForCurrentConfiguration:(BMLWorkflowTaskContext*)context {
+- (NSDictionary*)optionsForCurrentContext:(BMLWorkflowTaskContext*)context {
     
-    NSMutableDictionary* options = self.configuration.optionDictionary;
-    NSMutableDictionary* defaultCollection = options[kOptionsDefaultCollection];
+    NSMutableDictionary* defaultCollection = [super optionsForCurrentContext:context];
     if ([defaultCollection[@"objective_field"] isEqualToString:@"first_field"]) {
         defaultCollection[@"objective_field"] = context.info[kDataSetDefinition][@"fields"][@"000000"][@"name"];
     } else if ([defaultCollection[@"objective_field"] isEqualToString:@"last_field"]) {
         [defaultCollection removeObjectForKey:@"objective_field"];
     }
-    return options;
+    return defaultCollection;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -394,7 +393,7 @@
         } else {
             predict(resource);
         }
-        //        NSDictionary* options = [self optionStringForCurrentContext:context];
+        //        NSDictionary* options = [self optionsForCurrentContext:context];
 
     } else {
         self.error = [NSError errorWithInfo:@"Could not find requested model/cluster" code:-1];

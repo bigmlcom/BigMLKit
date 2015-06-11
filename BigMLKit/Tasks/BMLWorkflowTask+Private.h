@@ -26,7 +26,7 @@
 @property (nonatomic, readonly) BMLResourceTypeIdentifier* resourceType;
 
 - (instancetype)initWithResourceType:(BMLResourceTypeIdentifier*)resourceName;
-- (NSDictionary*)optionStringForCurrentContext:(BMLWorkflowTaskContext*)context;
+- (NSMutableDictionary*)optionsForCurrentContext:(BMLWorkflowTaskContext*)context;
 
 @end
 

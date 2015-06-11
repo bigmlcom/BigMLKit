@@ -97,7 +97,7 @@
         } else {
             predictFromDefinition(definition);
         }
-        //        NSDictionary* options = [self optionStringForCurrentContext:context];
+        //        NSDictionary* options = [self optionForCurrentContext:context];
         
     } else {
         self.error = [NSError errorWithInfo:@"Could not find requested model/cluster" code:-1];

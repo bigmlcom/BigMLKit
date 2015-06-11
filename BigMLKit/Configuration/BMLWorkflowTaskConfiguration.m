@@ -85,13 +85,20 @@
             BMLWorkflowTaskConfigurationOption* optionModel = _optionModels[option];
             if (!optionModel.showOnly && optionModel.isFieldIncluded && optionModel.currentValue) {
                 
-                NSString* collectionName = _optionDescriptions[option][@"collection"] ?: kOptionsDefaultCollection;
-                NSMutableDictionary* collection = optionValues[collectionName];
-                if (!collection) {
-                    collection = [NSMutableDictionary dictionary];
-                    optionValues[collectionName] = collection;
+                //-- options may belong to collections (see datasources text_analysis)
+                //-- in this case, we collect individual options into dictionaries,
+                //-- with each dictionary representing a collection.
+                NSString* collectionName = _optionDescriptions[option][@"collection"] ?: nil;
+                if (collectionName) {
+                    NSMutableDictionary* collection = optionValues[collectionName];
+                    if (!collection) {
+                        collection = [NSMutableDictionary dictionary];
+                        optionValues[collectionName] = collection;
+                    }
+                    collection[option] = optionModel.currentValue;
+                } else {
+                    optionValues[option] = optionModel.currentValue;
                 }
-                collection[option] = optionModel.currentValue;
             }
         }
     }
