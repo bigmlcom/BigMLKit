@@ -347,7 +347,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)message {
     
-    return NSLocalizedString(@"Creating  Cluster", nil);
+    return NSLocalizedString(@"Creating  Anomaly", nil);
 }
 @end
 
