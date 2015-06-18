@@ -1,3 +1,7 @@
 [submodule "vendor/MAKVONotificationCenter"]
 	path = vendor/MAKVONotificationCenter
 	url = https://github.com/mikeash/MAKVONotificationCenter.git
+[submodule "vendor/BigMLKitConnector"]
+	path = vendor/BigMLKitConnector
+	url = https://github.com/bigmlcom/BigMLKitConnector.git
+	branch = master
