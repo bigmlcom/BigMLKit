@@ -38,6 +38,8 @@ extern BMLResourceTypeIdentifier* kModelEntityType;
 extern BMLResourceTypeIdentifier* kClusterEntityType;
 extern BMLResourceTypeIdentifier* kAnomalyEntityType;
 extern BMLResourceTypeIdentifier* kEnsembleEntityType;
+extern BMLResourceTypeIdentifier* kScriptEntityType;
+extern BMLResourceTypeIdentifier* kExecutionEntityType;
 extern BMLResourceTypeIdentifier* kPredictionEntityType;
 extern BMLResourceTypeIdentifier* kProjectEntityType;
 

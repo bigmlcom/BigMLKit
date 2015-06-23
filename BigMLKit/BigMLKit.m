@@ -24,6 +24,8 @@ BMLResourceTypeIdentifier* kModelEntityType = nil;
 BMLResourceTypeIdentifier* kClusterEntityType = nil;
 BMLResourceTypeIdentifier* kAnomalyEntityType = nil;
 BMLResourceTypeIdentifier* kEnsembleEntityType = nil;
+BMLResourceTypeIdentifier* kScriptEntityType = nil;
+BMLResourceTypeIdentifier* kExecutionEntityType = nil;
 BMLResourceTypeIdentifier* kPredictionEntityType = nil;
 BMLResourceTypeIdentifier* kProjectEntityType = nil;
 
@@ -50,6 +52,8 @@ BMLResourceTypeIdentifier* kEnsembleTarget = nil;
     kClusterEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeCluster];
     kAnomalyEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeAnomaly];
     kEnsembleEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeEnsemble];
+    kScriptEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeWhizzmlScript];
+    kExecutionEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeWhizzmlExecution];
     kPredictionEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypePrediction];
     kProjectEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeProject];
     

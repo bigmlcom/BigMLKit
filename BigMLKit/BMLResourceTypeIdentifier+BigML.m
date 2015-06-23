@@ -39,6 +39,10 @@
         return kAnomalyEntityType;
     if ([type isEqualToString:[kEnsembleEntityType stringValue]])
         return kEnsembleEntityType;
+    if ([type isEqualToString:[kScriptEntityType stringValue]])
+        return kScriptEntityType;
+    if ([type isEqualToString:[kExecutionEntityType stringValue]])
+        return kExecutionEntityType;
     if ([type isEqualToString:[kProjectEntityType stringValue]])
         return kProjectEntityType;
     NSAssert(NO, @"Should not be here!");
