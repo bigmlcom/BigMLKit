@@ -47,6 +47,8 @@
  */
 @property (nonatomic, weak) IBOutlet NSArrayController* tasks;
 
+@property (nonatomic, weak) IBOutlet NSArrayController* workflows;
+
 /**
  *   The currently running workflow, i.e., the latest one.
  */
@@ -76,6 +78,7 @@
 
 - (void)setCurrentWorkflowAtIndex:(NSUInteger)index;
 
-- (NSArray*)workflows;
+- (NSArray*)allTasks;
+- (NSArray*)allWorkflows;
 
 @end

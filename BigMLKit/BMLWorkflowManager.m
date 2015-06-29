@@ -41,6 +41,13 @@
 - (instancetype)init {
  
     if (self = [super init]) {
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)),
+                       dispatch_get_main_queue(), ^{
+            [_workflows insertObject:@"Model" atArrangedObjectIndex:0];
+            [_workflows insertObject:@"Cluster" atArrangedObjectIndex:1];
+            [_workflows insertObject:@"Anomaly" atArrangedObjectIndex:2];
+        });
     }
     return self;
 }
@@ -92,9 +99,15 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSArray*)workflows {
- 
+- (NSArray*)allTasks {
+    
     return [_tasks arrangedObjects];
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (NSArray*)allWorkflows {
+    
+    return [_workflows arrangedObjects];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
