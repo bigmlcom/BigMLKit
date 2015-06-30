@@ -25,6 +25,8 @@
 			<string>0</string>
 			<key>max</key>
 			<string>1.0</string>
+			<key>default</key>
+			<string>1.0</string>
 		</dict>
 	</dict>
 </dict>
