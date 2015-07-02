@@ -23,10 +23,31 @@
 #import "BMLWorkflowTaskSequence.h"
 #import "MAKVONotificationCenter.h"
 
+#import "BMLCoreDataLayer.h"
+#import "BMLUserDefaults.h"
+
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 @interface BMLWorkflowManager ()
+
+/**
+ *  An NSArrayController representing all tasks in execution.
+ *  For each handled task, the array controller provides access to a NSDictionary
+ *  with the following keys:
+ *
+ *   - task: task title, a NSString
+ *   - status: task status, a BMLWorkflowStatus
+ *   - task: the task itself, aBMLWorkflowTask
+ *   - count: the sequence index of the task, an integer.
+ */
+@property (nonatomic, weak) IBOutlet NSArrayController* tasks;
+
+/**
+ *  An NSArrayController representing favourite workflows.
+ *  For each workflow, the array contains the corresponding BMLResource.
+ */
+@property (nonatomic, weak) IBOutlet NSArrayController* workflows;
 
 @property (nonatomic, weak) BMLWorkflowTask* currentWorkflow;
 
@@ -42,14 +63,22 @@
  
     if (self = [super init]) {
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)),
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)),
                        dispatch_get_main_queue(), ^{
-            [_workflows insertObject:@"Model" atArrangedObjectIndex:0];
-            [_workflows insertObject:@"Cluster" atArrangedObjectIndex:1];
-            [_workflows insertObject:@"Anomaly" atArrangedObjectIndex:2];
+                           
+                           _workflows.managedObjectContext = [BMLCoreDataLayer dataLayer].managedObjectContext;
+                           _workflows.filterPredicate = [self defaultWorkflowPredicate];
+                           _workflows.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:NO]];
+                           [_workflows fetch:self];
         });
     }
     return self;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (NSPredicate*)defaultWorkflowPredicate {
+    
+    return [NSPredicate predicateWithFormat:@"typeString = %@", kScriptEntityType.stringValue];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
