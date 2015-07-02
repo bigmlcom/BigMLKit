@@ -28,6 +28,15 @@
 + (BMLResourceFullUuid*)allProjectsPseudoFullUuid;
 + (BMLResourceUuid*)allProjectsPseudoUuid;
 
++ (BMLResourceFullUuid*)modelScriptPseudoFullUuid;
++ (BMLResourceUuid*)modelScriptPseudoUuid;
+
++ (BMLResourceFullUuid*)clusterScriptPseudoFullUuid;
++ (BMLResourceUuid*)clusterScriptPseudoUuid;
+
++ (BMLResourceFullUuid*)anomalyScriptPseudoFullUuid;
++ (BMLResourceUuid*)anomalyScriptPseudoUuid;
+
 
 @end
 
