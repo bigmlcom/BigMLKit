@@ -17,6 +17,13 @@
 #import "BigMLApp-Swift.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
+/**
+ * A completion block that is called when the workflow is done.
+ * It receives an array containing output resources (BMLResource) and an error
+ **/
+typedef void(^BMLWorkflowCompletedBlock)(NSArray*, NSError*);
+
+//////////////////////////////////////////////////////////////////////////////////////
 typedef enum {
     BMLWorkflowIdle,
     BMLWorkflowStarting,
@@ -24,15 +31,6 @@ typedef enum {
     BMLWorkflowEnded,
     BMLWorkflowFailed,
 } BMLWorkflowStatus;
-
-//typedef enum {
-//    BMLResourceStatusUndefined = BMLResourceStatusUndefined,
-//    BMLResourceStatusWaiting = BMLResourceStatusWaiting,
-//    BMLResourceStatusQueued = BMLResourceStatusQueued,
-//    BMLResourceStatusStarted = BMLResourceStatusStarted,
-//    BMLResourceStatusEnded = BMLResourceStatusEnded,
-//    BMLResourceStatusFailed = BMLResourceStatusFailed,
-//} BMLWorkflowTaskStatus;
 
 @class BMLWorkflowConfigurator;
 @class BMLWorkflowTaskContext;
@@ -86,9 +84,9 @@ typedef enum {
 @property (nonatomic) BMLResourceStatus resourceStatus;
 
 /**
- *  The resource that this task is responsible to handle (create, retrieve, etc.).
+ *  An array of resources that this task is responsible to handle (create, retrieve, etc.).
  */
-@property (nonatomic) id<BMLResource> outputResource;
+@property (nonatomic) NSArray* outputResources;
 
 /**
  *  Shortcut to the info dictionary associated to this workflow (through its running context).
@@ -146,6 +144,6 @@ typedef enum {
  */
 - (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(id<BMLResource>, NSError*))completion;
+        completionBlock:(BMLWorkflowCompletedBlock)completion;
 
 @end

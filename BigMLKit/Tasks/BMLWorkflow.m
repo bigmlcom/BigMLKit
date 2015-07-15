@@ -21,7 +21,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 @implementation BMLWorkflow {
     
-    void(^_completion)(id<BMLResource>, NSError*);
+    BMLWorkflowCompletedBlock _completion;
     BMLWorkflowTaskContext* _context;
 }
 
@@ -60,13 +60,16 @@
             BMLWorkflow* task = object;
             if (task.resourceStatus == BMLResourceStatusEnded) {
                 
-                self.outputResource = task.outputResource;
+                
+                ///--- HERE WE SHOULD HANDLE OUTPUT AND INPUT RESOURCES!!
+                
+                self.outputResources = task.outputResources;
                 [task removeObserver:self forKeyPath:@"resourceStatus"];
-                [self executeNextStep:task.outputResource];
+                [self executeNextStep:task.outputResources.lastObject];
                 
             } else if (task.resourceStatus == BMLResourceStatusFailed) {
                 
-                self.outputResource = nil;
+                self.outputResources = nil;
                 [task removeObserver:self forKeyPath:@"resourceStatus"];
                 [self handleError:task.error];
                 self.status = BMLWorkflowFailed;
@@ -80,7 +83,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runInContext:(BMLWorkflowTaskContext*)context
-         completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
+         completionBlock:(BMLWorkflowCompletedBlock)completion {
 
     NSAssert(_status == BMLWorkflowEnded || _status == BMLWorkflowIdle || _status == BMLWorkflowFailed,
              @"Trying to re-start running task");
@@ -95,7 +98,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
+        completionBlock:(BMLWorkflowCompletedBlock)completion {
     
     NSAssert(_status == BMLWorkflowEnded || _status == BMLWorkflowIdle || _status == BMLWorkflowFailed,
              @"Trying to re-start running task");
@@ -121,7 +124,7 @@
              @"Trying to stop idle task");
     
     if (_completion)
-        _completion(self.outputResource, error);
+        _completion(self.outputResources, error);
     
     self.status = error ? BMLWorkflowFailed : BMLWorkflowEnded;
 }

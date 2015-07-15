@@ -45,7 +45,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
+        completionBlock:(BMLWorkflowCompletedBlock)completion {
 
     [super runWithResource:resource inContext:context completionBlock:completion];
     self.resourceStatus = BMLResourceStatusStarted;

@@ -124,7 +124,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
+        completionBlock:(BMLWorkflowCompletedBlock)completion {
     
     [super runWithResource:resource inContext:context completionBlock:nil];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -153,7 +153,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
+        completionBlock:(BMLWorkflowCompletedBlock)completion {
     
     [super runWithResource:resource inContext:context completionBlock:nil];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -202,7 +202,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
+        completionBlock:(BMLWorkflowCompletedBlock)completion {
     
     [super runWithResource:resource inContext:context completionBlock:nil];
     [context.ml createResource:self.resourceType.type
@@ -212,7 +212,7 @@
                     completion:^(id<BMLResource> resource, NSError* error) {
 
                         if (resource) {
-                            self.outputResource = resource;
+                            self.outputResources = @[resource];
                             self.resourceStatus = BMLResourceStatusEnded;
                         } else {
                             self.error = error ?: [NSError errorWithInfo:@"Could not complete task" code:-1];
@@ -239,7 +239,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
+        completionBlock:(BMLWorkflowCompletedBlock)completion {
 
     if ([[NSFileManager defaultManager] fileExistsAtPath:resource.uuid]) {
         
@@ -379,7 +379,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
+        completionBlock:(BMLWorkflowCompletedBlock)completion {
     
     [super runWithResource:resource inContext:context completionBlock:nil];
     if (resource) {
@@ -387,7 +387,7 @@
         void(^predict)(id<BMLResource>) = ^(id<BMLResource> resource) {
             
             if (resource && resource.jsonDefinition) {
-                self.outputResource = resource;
+                self.outputResources = @[resource];
                 self.resourceStatus = BMLResourceStatusEnded;
             } else {
                 self.error = [NSError errorWithInfo:@"The model this prediction was based upon\nhas not been found" code:-1];
@@ -436,7 +436,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
+        completionBlock:(BMLWorkflowCompletedBlock)completion {
     
     NSAssert(context.info[kModelId], @"No model ID provided");
     [super runWithResource:resource inContext:context completionBlock:nil];
@@ -472,7 +472,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runWithResource:(id<BMLResource>)resource
               inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
+        completionBlock:(BMLWorkflowCompletedBlock)completion {
     
     NSAssert(context.info[kModelId], @"No model ID provided");
     [super runWithResource:resource inContext:context completionBlock:nil];
