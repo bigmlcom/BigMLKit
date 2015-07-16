@@ -48,8 +48,8 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
         self.status = BMLWorkflowIdle;
         
         _steps = [NSMutableArray new];
-        [_steps addObject:[BMLWorkflowNoOpTask new]];
-        
+//        [_steps addObject:[BMLWorkflowNoOpTask new]];
+
         for (NSString* step in steps)
             [_steps addObject:[BMLWorkflowTask newTaskForStep:step configurator:configurator]];
     }
