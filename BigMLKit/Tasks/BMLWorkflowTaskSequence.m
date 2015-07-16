@@ -57,10 +57,6 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)dealloc {
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString *)key {
     
     NSSet* keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
@@ -68,6 +64,11 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
     if ([key isEqualToString:@"currentTask"])
         keyPaths = [keyPaths setByAddingObjectsFromArray:@[@"currentStep"]];
     return keyPaths;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (NSArray*)inputResourceTypes {
+    return [_steps.firstObject inputResourceTypes];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

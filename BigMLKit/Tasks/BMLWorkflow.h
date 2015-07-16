@@ -84,6 +84,11 @@ typedef enum {
 @property (nonatomic) BMLResourceStatus resourceStatus;
 
 /**
+ *  An array of the BMLResourceTypeIdentifier this workflow requires.
+ */
+@property (nonatomic, readonly) NSArray* inputResourceTypes;
+
+/**
  *  An array of resources that this task is responsible to handle (create, retrieve, etc.).
  */
 @property (nonatomic) NSArray* outputResources;
