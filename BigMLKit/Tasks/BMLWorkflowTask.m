@@ -43,13 +43,13 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(id<BMLResource>)resource
+- (void)runWithResources:(NSArray*)resources
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
 
-    [super runWithResource:resource inContext:context completionBlock:completion];
+    [super runWithResources:resources inContext:context completionBlock:completion];
     self.resourceStatus = BMLResourceStatusStarted;
-    self.runningResource = resource;
+    self.runningResource = resources.firstObject;
     
     [self addObserver:self
            forKeyPath:@"resourceStatus"

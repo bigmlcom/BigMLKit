@@ -42,13 +42,13 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(id<BMLResource>)resource
+- (void)runWithResources:(NSArray*)resources
               inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(void(^)(id<BMLResource>, NSError*))completion {
+        completionBlock:(BMLWorkflowCompletedBlock)completion {
     
     if (context.info[kModelId] || context.info[kClusterId]) {
         
-        [super runWithResource:resource inContext:context completionBlock:nil];
+        [super runWithResources:resources inContext:context completionBlock:nil];
 
         void(^predictFromDefinition)(NSDictionary* definition) = ^(NSDictionary* definition) {
             

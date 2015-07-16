@@ -142,7 +142,7 @@ typedef enum {
  *                    be capable to authenticate itself.
  *  @param completion A completion block able to handle both success and failure cases.
  */
-- (void)runWithResource:(id<BMLResource>)resource
+- (void)runWithResources:(NSArray*)resources
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion;
 

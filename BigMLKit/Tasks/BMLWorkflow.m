@@ -65,7 +65,7 @@
                 
                 self.outputResources = task.outputResources;
                 [task removeObserver:self forKeyPath:@"resourceStatus"];
-                [self executeNextStep:task.outputResources.lastObject];
+                [self executeStepWithResources:task.outputResources];
                 
             } else if (task.resourceStatus == BMLResourceStatusFailed) {
                 
@@ -96,7 +96,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(id<BMLResource>)resource
+- (void)runWithResources:(NSArray*)resources
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
@@ -111,7 +111,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)executeNextStep:(id<BMLResource>)resource {
+- (void)executeStepWithResources:(NSArray*)resources {
 
     [self stopWithError:nil];
 }

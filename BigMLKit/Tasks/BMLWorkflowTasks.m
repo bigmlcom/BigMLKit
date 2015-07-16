@@ -122,11 +122,11 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(id<BMLResource>)resource
+- (void)runWithResources:(NSArray*)resources
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
-    [super runWithResource:resource inContext:context completionBlock:nil];
+    [super runWithResources:resources inContext:context completionBlock:nil];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.resourceStatus = BMLResourceStatusEnded;
     });
@@ -151,11 +151,11 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(id<BMLResource>)resource
+- (void)runWithResources:(NSArray*)resources
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
-    [super runWithResource:resource inContext:context completionBlock:nil];
+    [super runWithResources:resources inContext:context completionBlock:nil];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.error = [NSError errorWithInfo:@"Test failure" code:-1];
         self.resourceStatus = BMLResourceStatusFailed;
@@ -200,15 +200,16 @@
 @implementation BMLWorkflowTaskCreateResource
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(id<BMLResource>)resource
+- (void)runWithResources:(NSArray*)resources
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
-    [super runWithResource:resource inContext:context completionBlock:nil];
+    NSAssert([resources count] == 1, @"Calling BMLWorkflowTaskCreateResource with wrong number of input resources");
+    [super runWithResources:resources inContext:context completionBlock:nil];
     [context.ml createResource:self.resourceType.type
                           name:context.info[kWorkflowName]
                        options:[self optionsForCurrentContext:context]
-                          from:resource
+                          from:resources.firstObject
                     completion:^(id<BMLResource> resource, NSError* error) {
 
                         if (resource) {
@@ -237,13 +238,14 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(id<BMLResource>)resource
+- (void)runWithResources:(NSArray*)resources
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
 
-    if ([[NSFileManager defaultManager] fileExistsAtPath:resource.uuid]) {
+    NSAssert([resources count] == 1, @"Calling BMLWorkflowTaskCreateSource with wrong number of input resources");
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[resources.firstObject uuid]]) {
         
-        [super runWithResource:resource inContext:context completionBlock:completion];
+        [super runWithResources:resources inContext:context completionBlock:completion];
 
     } else {
         
@@ -377,11 +379,13 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(id<BMLResource>)resource
+- (void)runWithResources:(NSArray*)resources
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
-    [super runWithResource:resource inContext:context completionBlock:nil];
+    NSAssert([resources count] == 1, @"Calling BMLWorkflowTaskCreatePrediction with wrong number of input resources");
+    [super runWithResources:resources inContext:context completionBlock:nil];
+    id<BMLResource> resource = resources.firstObject;
     if (resource) {
         
         void(^predict)(id<BMLResource>) = ^(id<BMLResource> resource) {
@@ -434,12 +438,12 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(id<BMLResource>)resource
+- (void)runWithResources:(NSArray*)resources
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
     NSAssert(context.info[kModelId], @"No model ID provided");
-    [super runWithResource:resource inContext:context completionBlock:nil];
+    [super runWithResources:resources inContext:context completionBlock:nil];
 
     [context.ml getResource:BMLResourceTypeModel
                        uuid:context.info[kModelId]
@@ -470,12 +474,12 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResource:(id<BMLResource>)resource
+- (void)runWithResources:(NSArray*)resources
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
     NSAssert(context.info[kModelId], @"No model ID provided");
-    [super runWithResource:resource inContext:context completionBlock:nil];
+    [super runWithResources:resources inContext:context completionBlock:nil];
     [context.ml getResource:BMLResourceTypeCluster
                        uuid:context.info[kClusterId]
                  completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
