@@ -48,8 +48,6 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
         self.status = BMLWorkflowIdle;
         
         _steps = [NSMutableArray new];
-//        [_steps addObject:[BMLWorkflowNoOpTask new]];
-
         for (NSString* step in steps)
             [_steps addObject:[BMLWorkflowTask newTaskForStep:step configurator:configurator]];
     }
@@ -95,7 +93,6 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 
     if (_currentStep < [_steps count] - 1) {
 
-        self.currentStep = self.currentStep + 1;
         [_steps[_currentStep] addObserver:self
                                forKeyPath:@"resourceStatus"
                                   options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
@@ -105,7 +102,8 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
         [(BMLWorkflowTask*)_steps[_currentStep] runWithResources:resources
                                                       inContext:self.context
                                                 completionBlock:nil];
-    
+        self.currentStep = self.currentStep + 1;
+        
     } else {
         
         [self stopWithError:nil];
