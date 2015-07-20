@@ -37,6 +37,9 @@
 + (BMLResourceFullUuid*)anomalyScriptPseudoFullUuid;
 + (BMLResourceUuid*)anomalyScriptPseudoUuid;
 
++ (BMLResourceFullUuid*)evaluationScriptPseudoFullUuid;
++ (BMLResourceUuid*)evaluationScriptPseudoUuid;
+
 
 @end
 

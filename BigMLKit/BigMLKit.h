@@ -37,7 +37,7 @@ extern BMLResourceTypeIdentifier* kDatasetEntityType;
 extern BMLResourceTypeIdentifier* kModelEntityType;
 extern BMLResourceTypeIdentifier* kClusterEntityType;
 extern BMLResourceTypeIdentifier* kAnomalyEntityType;
-extern BMLResourceTypeIdentifier* kEnsembleEntityType;
+extern BMLResourceTypeIdentifier* kEvaluationEntityType;
 extern BMLResourceTypeIdentifier* kScriptEntityType;
 extern BMLResourceTypeIdentifier* kExecutionEntityType;
 extern BMLResourceTypeIdentifier* kPredictionEntityType;

@@ -23,7 +23,7 @@ BMLResourceTypeIdentifier* kDatasetEntityType = nil;
 BMLResourceTypeIdentifier* kModelEntityType = nil;
 BMLResourceTypeIdentifier* kClusterEntityType = nil;
 BMLResourceTypeIdentifier* kAnomalyEntityType = nil;
-BMLResourceTypeIdentifier* kEnsembleEntityType = nil;
+BMLResourceTypeIdentifier* kEvaluationEntityType = nil;
 BMLResourceTypeIdentifier* kScriptEntityType = nil;
 BMLResourceTypeIdentifier* kExecutionEntityType = nil;
 BMLResourceTypeIdentifier* kPredictionEntityType = nil;
@@ -32,7 +32,7 @@ BMLResourceTypeIdentifier* kProjectEntityType = nil;
 BMLResourceTypeIdentifier* kModelTarget = nil;
 BMLResourceTypeIdentifier* kClusterTarget = nil;
 BMLResourceTypeIdentifier* kAnomalyTarget = nil;
-BMLResourceTypeIdentifier* kEnsembleTarget = nil;
+BMLResourceTypeIdentifier* kEvaluationTarget = nil;
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -51,7 +51,7 @@ BMLResourceTypeIdentifier* kEnsembleTarget = nil;
     kModelEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeModel];
     kClusterEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeCluster];
     kAnomalyEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeAnomaly];
-    kEnsembleEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeEnsemble];
+    kEvaluationEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeEvaluation];
     kScriptEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeWhizzmlScript];
     kExecutionEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeWhizzmlExecution];
     kPredictionEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypePrediction];
@@ -60,7 +60,7 @@ BMLResourceTypeIdentifier* kEnsembleTarget = nil;
     kModelTarget = kModelEntityType;
     kClusterTarget = kClusterEntityType;
     kAnomalyTarget = kAnomalyEntityType;
-    kEnsembleTarget = kEnsembleEntityType;
+    kEvaluationTarget = kEvaluationEntityType;
 }
 
 @end

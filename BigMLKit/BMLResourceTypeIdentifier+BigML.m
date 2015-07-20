@@ -37,8 +37,8 @@
         return kPredictionEntityType;
     if ([type isEqualToString:[kAnomalyEntityType stringValue]])
         return kAnomalyEntityType;
-    if ([type isEqualToString:[kEnsembleEntityType stringValue]])
-        return kEnsembleEntityType;
+    if ([type isEqualToString:[kEvaluationEntityType stringValue]])
+        return kEvaluationEntityType;
     if ([type isEqualToString:[kScriptEntityType stringValue]])
         return kScriptEntityType;
     if ([type isEqualToString:[kExecutionEntityType stringValue]])
@@ -106,6 +106,16 @@
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLResourceUuid*)anomalyScriptPseudoUuid {
     return @"anomalyScriptPseudoUuid";
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
++ (BMLResourceFullUuid*)evaluationScriptPseudoFullUuid {
+    return @"script/evaluationScriptPseudoUuid";
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
++ (BMLResourceUuid*)evaluationScriptPseudoUuid {
+    return @"evaluationScriptPseudoUuid";
 }
 
 @end
