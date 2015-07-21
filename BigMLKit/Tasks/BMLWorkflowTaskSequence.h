@@ -33,6 +33,8 @@ extern NSString* const BMLWorkflowTaskCompletedWorkflow;
  *  A read-only array containing the sequence of steps to execute. Steps are BMLWorkflowTask instances.
  */
 @property (nonatomic, readonly) NSArray* steps;
+@property (nonatomic) NSUInteger initialStep;
+@property (nonatomic) NSUInteger lastStep;
 
 /**
  *  Initializes a BMLWorkflowTaskSequence with an array of NSString representing task

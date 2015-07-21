@@ -46,11 +46,12 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
     if (self = [super init]) {
         
         self.status = BMLWorkflowIdle;
-        self.currentStep = -1;
-        
         _steps = [NSMutableArray new];
         for (NSString* step in steps)
             [_steps addObject:[BMLWorkflowTask newTaskForStep:step configurator:configurator]];
+
+        self.initialStep = 0;
+        self.lastStep = [_steps count] - 1;
     }
     return self;
 }
@@ -66,8 +67,28 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
+- (void)setInitialStep:(NSUInteger)initialStep {
+    
+    NSAssert(self.status != BMLWorkflowStarting && self.status != BMLWorkflowStarted,
+             @"Trying to change initial step while workflow is running");
+    NSAssert(initialStep < [_steps count], @"Wrong initial step (%d in %d elements)", (int)initialStep, (int)[_steps count]);
+    if (initialStep < [_steps count]) {
+        _initialStep = initialStep;
+        self.currentStep = _initialStep - 1;
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (NSArray*)steps {
+    NSAssert(_initialStep <= _lastStep, @"Wrong workflow definition");
+    return  [_steps subarrayWithRange:(NSRange){_initialStep, _lastStep - _initialStep + 1}];
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+//-- workflow's inputResourceTypes are taken to be its initialStep's
+//////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {
-    return [_steps.firstObject inputResourceTypes];
+    return [_steps[_initialStep] inputResourceTypes];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -92,7 +113,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 
     NSAssert(self.status == BMLWorkflowStarting || self.status == BMLWorkflowStarted, @"Trying to execute step before starting workflow");
 
-    if (_currentStep + 1 < [_steps count]) {
+    if (_currentStep < (int)[_steps count]-1 && _currentStep < (int)_lastStep) {
 
         self.currentStep = self.currentStep + 1;
         [_steps[_currentStep] addObserver:self
