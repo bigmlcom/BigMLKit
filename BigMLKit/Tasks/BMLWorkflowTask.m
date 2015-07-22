@@ -68,7 +68,7 @@
 
     switch (self.resourceStatus) {
         case BMLResourceStatusUndefined:
-            return BMLWorkflowIdle;
+            return [super status];
         case BMLResourceStatusWaiting:
         case BMLResourceStatusQueued:
         case BMLResourceStatusStarted:
