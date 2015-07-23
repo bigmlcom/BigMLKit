@@ -33,6 +33,7 @@
 static NSString* const kCSVSourceFilePath = @"kCSVSourceFilePath";
 
 static NSString* const kWorkflowStartResource = @"kWorkflowStartResource";
+static NSString* const kWorkflowSecondResource = @"kWorkflowSecondResource";
 
 static NSString* const kDataSourceId = @"kDataSourceId";
 static NSString* const kDataSourceDefinition = @"kDataSourceDefinition";
