@@ -38,7 +38,6 @@ typedef enum {
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-
 /**
  *  The BMLWorkflow class represents workflows, i.e., collection of BigML operations.
  *  A workflow can be as simple as implying a single call to BigML REST API, e.g.
@@ -54,6 +53,22 @@ typedef enum {
 @property (nonatomic, strong) NSString* name;
 
 /**
+ *  This value, comprised between 0 and 1, represents the progress of the workflow.
+ */
+@property (nonatomic) float progress;
+
+/**
+ *  The overall workflow status.
+ */
+@property (nonatomic) BMLWorkflowStatus status;
+
+/**
+ *  The current task-level status. This value represents the current task status in BigML REST API terms.
+ */
+@property (nonatomic) BMLResourceStatus resourceStatus;
+
+
+/**
  *  A string describing the workflow.
  */
 @property (nonatomic, readonly) NSString* message;
@@ -66,7 +81,7 @@ typedef enum {
 /**
  *  This value, comprised between 0 and 1, represents the progress of the workflow.
  */
-@property (nonatomic) float progress;
+//@property (nonatomic) float progress;
 
 /**
  *  The current task which is being executed.
@@ -76,17 +91,12 @@ typedef enum {
 /**
  *  The overall workflow status.
  */
-@property (nonatomic) BMLWorkflowStatus status;
-
-/**
- *  The current task-level status. This value represents the current task status in BigML REST API terms.
- */
-@property (nonatomic) BMLResourceStatus resourceStatus;
+//@property (nonatomic) BMLWorkflowStatus status;
 
 /**
  *  An array of the BMLResourceTypeIdentifier this workflow requires.
  */
-@property (nonatomic, readonly) NSArray* inputResourceTypes;
+@property (nonatomic, readonly) NSDictionary* inputResourceTypes;
 
 /**
  *  An array of resources that this task is responsible to handle (create, retrieve, etc.).

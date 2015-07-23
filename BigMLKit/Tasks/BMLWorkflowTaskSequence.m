@@ -57,7 +57,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-+ (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString *)key {
++ (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
     
     NSSet* keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
     
@@ -85,9 +85,10 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-//-- workflow's inputResourceTypes are taken to be its initialStep's
+//-- sequence workflow's inputResourceTypes are taken to be its initialStep's
+//-- this might not be always the case
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSArray*)inputResourceTypes {
+- (NSDictionary*)inputResourceTypes {
     return [_steps[_initialStep] inputResourceTypes];
 }
 
