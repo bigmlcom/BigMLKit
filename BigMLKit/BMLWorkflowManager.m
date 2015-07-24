@@ -115,7 +115,7 @@
                             [wself.tasks insertObject:[self dictFromTask:wtask count:[dict[@"count"] intValue]] atArrangedObjectIndex:index];
                         }
                         
-                        NSLog(@"Task %@ status changed to %d", wtask, wtask.status);
+//                        NSLog(@"Task %@ status changed to %d", wtask, wtask.status);
                     });
                 }];
 }

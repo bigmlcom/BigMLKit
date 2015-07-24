@@ -105,6 +105,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
 
+    NSLog(@"START WORKFLOW: %@", self);
     [super runWithResources:resources inContext:context completionBlock:completion];
     [self executeStepWithResources:resources];
 }
