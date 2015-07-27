@@ -22,6 +22,25 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
+@interface BMLWorkflowTaskDescriptor : NSObject
+
+@property (nonatomic, copy) NSString* verb;
+@property (nonatomic, copy) BMLResourceTypeIdentifier* type;
+@property (nonatomic, copy) NSDictionary* properties;
+
+- (instancetype)initWithType:(BMLResourceTypeIdentifier*)typeIdentifier
+                        verb:(NSString*)verb
+                  properties:(NSDictionary*)properties;
+
+- (instancetype)initWithType:(BMLResourceTypeIdentifier*)typeIdentifier;
+
+- (NSString*)typeAsString;
+
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 /**
  *  BMLWorkflowTask is the simplest form of BMLWorkflow, i.e., a workflow comprised of 
  *  one single step (e.g., create data source, create data set, etc.). This can be used
@@ -35,18 +54,26 @@
 @property (nonatomic, strong) BMLWorkflowTaskConfiguration* configuration;
 
 /**
- *  Convenience constructor. It acts as a factory method, in that it takes a string and creates
- *  a BMLWorkflowTask. The string is used to idnetify the concrete class to instantiate, e.g., 
- *  BMLWorkflowTaskCreateDataset from a CreateDataset parameter. The class must be defined,
- *  otherwise the program will crash.
- *  The task is furthermore initialized so to use the given configurator object.
+ *  A descriptor object encapsulating both the main resource associated with this task
+ *  as well as any additional properties to be used when instantiating the task.
+ */
+@property (nonatomic, strong) BMLWorkflowTaskDescriptor* descriptor;
+
+/**
+ *  Convenience constructor. It acts as a factory method, in that it takes a descriptor and creates
+ *  a BMLWorkflowTask. The descriptor type and verb are used to identify the concrete class
+ *  to instantiate, e.g., BMLWorkflowTaskCreateDataset from a Create/Dataset descriptor.
+ *  The descriptor's properties are used to initialize the task properties.
+ *  The class must be defined, otherwise the program will crash.
+ *  The task is set up to use the given configurator object.
  *
- *  @param step         a string representing the task name.
- *  @param configurator the configurator object to use.
+ *  @param descriptor    a descriptor representing the task to be created.
+ *  @param configurator  the configurator object to use.
  *
  *  @return the initialized instance.
  */
-+ (BMLWorkflowTask*)newTaskForStep:(NSString*)step configurator:(BMLWorkflowConfigurator*)configurator;
++ (BMLWorkflowTask*)newTaskWithDescriptor:(BMLWorkflowTaskDescriptor*)step
+                             configurator:(BMLWorkflowConfigurator*)configurator;
 
 @end
 

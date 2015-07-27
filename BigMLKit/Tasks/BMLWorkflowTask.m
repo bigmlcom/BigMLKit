@@ -21,16 +21,63 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@implementation BMLWorkflowTask
+@implementation BMLWorkflowTaskDescriptor
 
 //////////////////////////////////////////////////////////////////////////////////////
-+ (BMLWorkflowTask*)newTaskForStep:(NSString*)step configurator:(BMLWorkflowConfigurator*)configurator {
+- (instancetype)initWithType:(BMLResourceTypeIdentifier*)typeIdentifier
+                        verb:(NSString*)verb
+                  properties:(NSDictionary*)properties {
     
-    NSString* taskClassName = [NSString stringWithFormat:@"BMLWorkflowTask%@", step];
-    BMLWorkflowTask* item = [NSClassFromString(taskClassName) new];
-    item.name = step;
-    item.configuration = [configurator configurationForResourceType:item.resourceType];
+    if (self = [super init]) {
+        self.verb = verb ?: @"create";
+        self.type = typeIdentifier;
+        self.properties = properties;
+    }
+    return  self;
+}
 
+//////////////////////////////////////////////////////////////////////////////////////
+- (instancetype)initWithType:(BMLResourceTypeIdentifier*)typeIdentifier {
+
+    return [self initWithType:typeIdentifier verb:nil properties:nil];
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (NSString*)typeAsString {
+    
+    return _type.stringValue;
+}
+
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+@interface BMLWorkflowTask ()
+@property (nonatomic, strong, readwrite) NSString* name;
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+@implementation BMLWorkflowTask
+
+@synthesize name;
+
+//////////////////////////////////////////////////////////////////////////////////////
++ (BMLWorkflowTask*)newTaskWithDescriptor:(BMLWorkflowTaskDescriptor*)descriptor
+                             configurator:(BMLWorkflowConfigurator*)configurator {
+    
+    NSString* taskName = [NSString stringWithFormat:@"%@%@",
+                          [descriptor.verb capitalizedString],
+                          [[descriptor.type stringValue] capitalizedString]];
+    NSString* taskClassName = [NSString stringWithFormat:@"BMLWorkflowTask%@", taskName];
+
+    BMLWorkflowTask* item = [NSClassFromString(taskClassName) new];
+    item.descriptor = descriptor;
+    item.name = taskName;
+    item.configuration = [configurator configurationForResourceType:item.resourceType];
+    
     return item;
 }
 

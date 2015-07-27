@@ -41,14 +41,15 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 @dynamic currentTask;
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (instancetype)initWithSteps:(NSArray*)steps configurator:(BMLWorkflowConfigurator*)configurator {
+- (instancetype)initWithDescriptors:(NSArray*)descriptors
+                       configurator:(BMLWorkflowConfigurator*)configurator {
     
     if (self = [super init]) {
         
         self.status = BMLWorkflowIdle;
         _steps = [NSMutableArray new];
-        for (NSString* step in steps)
-            [_steps addObject:[BMLWorkflowTask newTaskForStep:step configurator:configurator]];
+        for (BMLWorkflowTaskDescriptor* d in descriptors)
+            [_steps addObject:[BMLWorkflowTask newTaskWithDescriptor:d configurator:configurator]];
 
         self.initialStep = 0;
         self.lastStep = [_steps count] - 1;

@@ -38,7 +38,7 @@ extern NSString* const BMLWorkflowTaskCompletedWorkflow;
 
 /**
  *  Initializes a BMLWorkflowTaskSequence with an array of NSString representing task
- *  names and a configurator object. Task names are passed into [BMLWorkflowTask newTaskForStep:]
+ *  names and a configurator object. Task names are passed into [BMLWorkflowTask newTaskWithDescriptors:]
  *  convenience constructor to create a task from its name.
  *  The configurator decouples task configuration from task execution.
  *
@@ -47,7 +47,7 @@ extern NSString* const BMLWorkflowTaskCompletedWorkflow;
  *
  *  @return The initialized task sequence instance.
  */
-- (instancetype)initWithSteps:(NSArray*)steps
+- (instancetype)initWithDescriptors:(NSArray*)descriptors
                  configurator:(BMLWorkflowConfigurator*)configurator;
 
 @end
