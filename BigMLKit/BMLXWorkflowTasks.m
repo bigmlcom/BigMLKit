@@ -8,7 +8,7 @@
 
 #if TARGET_OS_IPHONE
 
-#warning The BMLXWorkflowTaskCreatePrediction class is only available on OS X
+#warning The BMLWorkflowTaskDisplayPrediction class is only available on OS X
 
 #else
 
@@ -21,17 +21,18 @@
 #import "BMLCoreDataLayer.h"
 
 #import "BMLWorkflowTask+Private.h"
+#import "BMLResourceTypeIdentifier+BigML.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@interface BMLXWorkflowTaskCreatePrediction : BMLWorkflowTask
+@interface BMLWorkflowTaskDisplayPrediction : BMLWorkflowTaskCreatePrediction
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@implementation BMLXWorkflowTaskCreatePrediction
+@implementation BMLWorkflowTaskDisplayPrediction
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)init {
@@ -46,63 +47,16 @@
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
-    if (context.info[kModelId] || context.info[kClusterId]) {
+    id<BMLResource> resource = resources.firstObject;
+    if (!resource.jsonDefinition) {
         
-        [super runWithResources:resources inContext:context completionBlock:nil];
-
-        void(^predictFromDefinition)(NSDictionary* definition) = ^(NSDictionary* definition) {
-            
-            if (definition) {
-                if (context.info[kModelId]) {
-                    context.info[kModelDefinition] = definition;
-                } else if (context.info[kClusterId]) {
-                    context.info[kClusterDefinition] = definition;
-                }
-                self.resourceStatus = BMLResourceStatusEnded;
-            } else {
-                
-                self.error = [NSError errorWithInfo:@"The model this prediction was based upon has not been found" code:-1];
-                self.resourceStatus = BMLResourceStatusFailed;
-            }
-        };
-        
-        BMLResourceTypeIdentifier* type = nil;
-        BMLResourceUuid* uuid = nil;
-        NSDictionary* definition = nil;
-        if (context.info[kModelId]) { //-- predicting from tree
-            
-            type = kModelEntityType;
-            uuid = context.info[kModelId];
-            definition = context.info[kModelDefinition];
-            
-        } else if (context.info[kClusterId]) { //-- predicting from cluster
-            
-            type = kClusterEntityType;
-            uuid = context.info[kClusterId];
-            definition = context.info[kClusterDefinition];
+        BMLResource* model = [[BMLResource fetchByType:[[BMLResourceTypeIdentifier alloc] initWithRawType:resource.type]
+                                                  uuid:resource.uuid] firstObject];
+        if (model.jsonDefinition) {
+            resource.jsonDefinition = model.jsonDefinition;
         }
-        if (!definition) {
-            
-            BMLResource* model = [[BMLResource fetchByType:type uuid:uuid] firstObject];
-            
-            if (!(definition = model.jsonDefinition)) {
-            
-                [context.ml getResource:type.type
-                                   uuid:(type == kModelEntityType) ? context.info[kModelId] : context.info[kClusterId]
-                             completion:^(id<BMLResource> resource, NSError* error) {
-                                 
-                                 predictFromDefinition(resource.jsonDefinition);
-                             }];
-            }
-        } else {
-            predictFromDefinition(definition);
-        }
-        //        NSDictionary* options = [self optionForCurrentContext:context];
-        
-    } else {
-        self.error = [NSError errorWithInfo:@"Could not find requested model/cluster" code:-1];
-        self.resourceStatus = BMLResourceStatusFailed;
-    }    
+    }
+    [super runWithResources:resources inContext:context completionBlock:completion];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

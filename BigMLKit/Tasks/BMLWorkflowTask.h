@@ -25,7 +25,7 @@
 @interface BMLWorkflowTaskDescriptor : NSObject
 
 @property (nonatomic, copy) NSString* verb;
-@property (nonatomic, copy) BMLResourceTypeIdentifier* type;
+@property (nonatomic, strong) BMLResourceTypeIdentifier* type;
 @property (nonatomic, copy) NSDictionary* properties;
 
 - (instancetype)initWithType:(BMLResourceTypeIdentifier*)typeIdentifier
@@ -85,3 +85,12 @@
  */
 @interface BMLWorkflowNoOpTask : BMLWorkflowTask
 @end
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+@interface BMLWorkflowTaskCreatePrediction : BMLWorkflowTask
+
+@end
+
+
