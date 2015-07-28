@@ -422,6 +422,8 @@
                 self.error = [NSError errorWithInfo:@"The model this prediction was based upon\nhas not been found" code:-1];
                 self.resourceStatus = BMLResourceStatusFailed;
             }
+            if (completion)
+                completion(@[resource], self.error);
         };
         
         if (!resource.jsonDefinition) {
