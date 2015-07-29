@@ -67,7 +67,6 @@
             BMLWorkflow* task = object;
             if (task.resourceStatus == BMLResourceStatusEnded) {
                 
-                
                 ///--- HERE WE SHOULD HANDLE OUTPUT AND INPUT RESOURCES!!
                 
                 self.outputResources = task.outputResources;
