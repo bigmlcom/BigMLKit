@@ -39,7 +39,7 @@
 @property (nonatomic, strong) NSString* inputName;
 @property (nonatomic, strong, readwrite) NSString* name;
 
-+ (BMLInputTask*)newInputForType:(BMLResourceTypeIdentifier*)typeIdentifier;
++ (BMLInputTask*)newInputForDescriptor:(BMLWorkflowInputDescriptor*)inputDescriptor;
 
 @end
 

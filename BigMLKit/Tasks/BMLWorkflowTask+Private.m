@@ -85,11 +85,12 @@ static void* gRunningResourcePropertyKey = &gRunningResourcePropertyKey;
 @synthesize name = _name;
 
 //////////////////////////////////////////////////////////////////////////////////////
-+ (BMLInputTask*)newInputForType:(BMLResourceTypeIdentifier*)typeIdentifier {
++ (BMLInputTask*)newInputForDescriptor:(BMLWorkflowInputDescriptor*)inputDescriptor {
     
-    BMLInputTask* item = [[BMLInputTask alloc] initWithResourceType:typeIdentifier];
-    item.name = [NSString stringWithFormat:@"Create%@", [[typeIdentifier stringValue] capitalizedString]];
-    [item setResourceType:typeIdentifier];
+    BMLInputTask* item = [[BMLInputTask alloc] initWithResourceType:inputDescriptor.type];
+    item.name = [NSString stringWithFormat:@"%@%@", [inputDescriptor.verb capitalizedString],
+                 [[inputDescriptor.type stringValue] capitalizedString]];
+    [item setResourceType:inputDescriptor.type];
     return item;
 }
 
