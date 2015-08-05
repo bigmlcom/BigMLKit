@@ -43,12 +43,6 @@
  */
 @property (nonatomic, weak) IBOutlet NSArrayController* tasks;
 
-/**
- *  An NSArrayController representing favourite workflows.
- *  For each workflow, the array contains the corresponding BMLResource.
- */
-@property (nonatomic, weak) IBOutlet NSArrayController* workflows;
-
 @property (nonatomic, weak) BMLWorkflowTask* currentWorkflow;
 
 @end
@@ -63,23 +57,15 @@
  
     if (self = [super init]) {
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)),
-                       dispatch_get_main_queue(), ^{
-                           
-                           _workflows.managedObjectContext = [BMLCoreDataLayer dataLayer].managedObjectContext;
-                           _workflows.filterPredicate = [self defaultWorkflowPredicate];
-                           _workflows.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:NO]];
-                           [_workflows fetch:self];
-        });
     }
     return self;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSPredicate*)defaultWorkflowPredicate {
-    
-    return [NSPredicate predicateWithFormat:@"typeString = %@", kScriptEntityType.stringValue];
-}
+//- (void)setWorkflows:(NSArrayController *)workflows {
+//
+//    _workflows = workflows;
+//}
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSDictionary*)dictFromTask:(BMLWorkflow*)task count:(NSUInteger)count {
@@ -136,10 +122,10 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSArray*)allWorkflows {
-    
-    return [_workflows arrangedObjects];
-}
+//- (NSArray*)allWorkflows {
+//    
+//    return [_workflows arrangedObjects];
+//}
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)setCurrentWorkflowAtIndex:(NSUInteger)index {

@@ -36,6 +36,12 @@
 @interface BMLWorkflowManager : NSObject
 
 /**
+ *  An NSArrayController representing favourite workflows.
+ *  For each workflow, the array contains the corresponding BMLResource.
+ */
+//@property (nonatomic, weak) NSArrayController* workflows;
+
+/**
  *   The currently running workflow, i.e., the latest one.
  */
 @property(nonatomic, readonly, weak) BMLWorkflow* currentWorkflow;
@@ -65,6 +71,6 @@
 - (void)setCurrentWorkflowAtIndex:(NSUInteger)index;
 
 - (NSArray*)allTasks;
-- (NSArray*)allWorkflows;
+//- (NSArray*)allWorkflows;
 
 @end
