@@ -45,8 +45,6 @@
  *   - task: the task itself, aBMLWorkflowTask
  *   - count: the sequence index of the task, an integer.
  */
-//@property (nonatomic, weak) NSArrayController* workflows;
-
 @property (nonatomic, weak) NSArrayController* tasks;
 
 /**
@@ -78,7 +76,6 @@
 
 - (void)setCurrentWorkflowAtIndex:(NSUInteger)index;
 
-- (NSArray*)allTasks;
-//- (NSArray*)allWorkflows;
+- (NSNumber*)areThereAnyTasks;
 
 @end
