@@ -41,7 +41,7 @@
  *   - task: the task itself, aBMLWorkflowTask
  *   - count: the sequence index of the task, an integer.
  */
-@property (nonatomic, weak) IBOutlet NSArrayController* tasks;
+//@property (nonatomic, weak) NSArrayController* tasks;
 
 @property (nonatomic, weak) BMLWorkflowTask* currentWorkflow;
 
@@ -60,12 +60,6 @@
     }
     return self;
 }
-
-//////////////////////////////////////////////////////////////////////////////////////
-//- (void)setWorkflows:(NSArrayController *)workflows {
-//
-//    _workflows = workflows;
-//}
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSDictionary*)dictFromTask:(BMLWorkflow*)task count:(NSUInteger)count {

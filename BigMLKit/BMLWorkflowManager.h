@@ -36,10 +36,18 @@
 @interface BMLWorkflowManager : NSObject
 
 /**
- *  An NSArrayController representing favourite workflows.
- *  For each workflow, the array contains the corresponding BMLResource.
+ *  An NSArrayController representing all tasks in execution.
+ *  For each handled task, the array controller provides access to a NSDictionary
+ *  with the following keys:
+ *
+ *   - task: task title, a NSString
+ *   - status: task status, a BMLWorkflowStatus
+ *   - task: the task itself, aBMLWorkflowTask
+ *   - count: the sequence index of the task, an integer.
  */
 //@property (nonatomic, weak) NSArrayController* workflows;
+
+@property (nonatomic, weak) NSArrayController* tasks;
 
 /**
  *   The currently running workflow, i.e., the latest one.
