@@ -45,6 +45,8 @@
         return kExecutionEntityType;
     if ([type isEqualToString:[kProjectEntityType stringValue]])
         return kProjectEntityType;
+    if ([type isEqualToString:[kConfigurationEntityType stringValue]])
+        return kConfigurationEntityType;
     NSAssert(NO, @"Should not be here!");
     return nil;
 }
@@ -116,6 +118,16 @@
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLResourceUuid*)evaluationScriptPseudoUuid {
     return @"evaluationScriptPseudoUuid";
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
++ (BMLResourceFullUuid*)defaultConfigurationPseudoFullUuid {
+    return @"configuration/defaultConfigurationPseudoFullUuid";
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
++ (BMLResourceUuid*)defaultConfigurationPseudoUuid {
+    return @"defaultConfigurationPseudoFullUuid";
 }
 
 @end

@@ -40,6 +40,8 @@
 + (BMLResourceFullUuid*)evaluationScriptPseudoFullUuid;
 + (BMLResourceUuid*)evaluationScriptPseudoUuid;
 
++ (BMLResourceUuid*)defaultConfigurationPseudoFullUuid;
++ (BMLResourceUuid*)defaultConfigurationPseudoUuid;
 
 @end
 

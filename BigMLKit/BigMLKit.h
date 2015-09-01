@@ -42,6 +42,7 @@ extern BMLResourceTypeIdentifier* kScriptEntityType;
 extern BMLResourceTypeIdentifier* kExecutionEntityType;
 extern BMLResourceTypeIdentifier* kPredictionEntityType;
 extern BMLResourceTypeIdentifier* kProjectEntityType;
+extern BMLResourceTypeIdentifier* kConfigurationEntityType;
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
