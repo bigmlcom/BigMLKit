@@ -50,7 +50,7 @@ typedef enum {
 /**
  *  The name used to identify this workflow.
  */
-@property (nonatomic, readonly) NSString* name;
+@property (nonatomic, strong) NSString* name;
 
 /**
  *  This value, comprised between 0 and 1, represents the progress of the workflow.
