@@ -583,10 +583,10 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSDictionary*)inputResourceTypes {
     
-    return @{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kModelEntityType],
-             kWorkflowSecondResource: [[BMLWorkflowInputDescriptor alloc] initWithType:kClusterEntityType],
-             @"3" : [[BMLWorkflowInputDescriptor alloc] initWithType:kDatasetEntityType],
-             @"4" : [[BMLWorkflowInputDescriptor alloc] initWithType:kEvaluationEntityType]};
+    return @{@"Input 1" : [[BMLWorkflowInputDescriptor alloc] initWithType:kModelEntityType],
+             @"Input 2": [[BMLWorkflowInputDescriptor alloc] initWithType:kClusterEntityType],
+             @"Input 3" : [[BMLWorkflowInputDescriptor alloc] initWithType:kDatasetEntityType],
+             @"Input 4" : [[BMLWorkflowInputDescriptor alloc] initWithType:kEvaluationEntityType]};
 }
 
 @end
