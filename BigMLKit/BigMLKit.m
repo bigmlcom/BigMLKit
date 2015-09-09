@@ -34,6 +34,7 @@ BMLResourceTypeIdentifier* kModelTarget = nil;
 BMLResourceTypeIdentifier* kClusterTarget = nil;
 BMLResourceTypeIdentifier* kAnomalyTarget = nil;
 BMLResourceTypeIdentifier* kEvaluationTarget = nil;
+BMLResourceTypeIdentifier* kWhizzMLTarget = nil;
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -63,6 +64,7 @@ BMLResourceTypeIdentifier* kEvaluationTarget = nil;
     kClusterTarget = kClusterEntityType;
     kAnomalyTarget = kAnomalyEntityType;
     kEvaluationTarget = kEvaluationEntityType;
+    kWhizzMLTarget = kScriptEntityType;
 }
 
 @end

@@ -28,6 +28,7 @@
 + (BMLResourceFullUuid*)allProjectsPseudoFullUuid;
 + (BMLResourceUuid*)allProjectsPseudoUuid;
 
+//-- Default Workflows
 + (BMLResourceFullUuid*)modelScriptPseudoFullUuid;
 + (BMLResourceUuid*)modelScriptPseudoUuid;
 
@@ -40,6 +41,10 @@
 + (BMLResourceFullUuid*)evaluationScriptPseudoFullUuid;
 + (BMLResourceUuid*)evaluationScriptPseudoUuid;
 
++ (BMLResourceFullUuid*)multipleInputsScriptPseudoFullUuid;
++ (BMLResourceUuid*)multipleInputsScriptPseudoUuid;
+
+//-- Default Configurations
 + (BMLResourceUuid*)defaultConfigurationPseudoFullUuid;
 + (BMLResourceUuid*)defaultConfigurationPseudoUuid;
 

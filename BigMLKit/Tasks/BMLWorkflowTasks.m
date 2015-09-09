@@ -552,6 +552,7 @@
     options[[t stringValue]] = r.fullUuid;
     return options;
 }
+
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSDictionary*)inputResourceTypes {
     return @{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kModelEntityType],
@@ -577,6 +578,15 @@
     if (self = [super initWithResourceType:kScriptEntityType]) {
     }
     return self;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (NSDictionary*)inputResourceTypes {
+    
+    return @{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kModelEntityType],
+             kWorkflowSecondResource: [[BMLWorkflowInputDescriptor alloc] initWithType:kClusterEntityType],
+             @"3" : [[BMLWorkflowInputDescriptor alloc] initWithType:kDatasetEntityType],
+             @"4" : [[BMLWorkflowInputDescriptor alloc] initWithType:kEvaluationEntityType]};
 }
 
 @end
