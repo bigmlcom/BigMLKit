@@ -26,4 +26,22 @@
     return  nil;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
+- (NSString*)displayValue {
+    
+    return @"";
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
++ (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
+    
+    NSMutableSet* keyPaths = [NSMutableSet setWithSet:[super keyPathsForValuesAffectingValueForKey:key]];
+    
+    if ([key isEqualToString:@"displayValue"]) {
+        [keyPaths addObject:@"currentValue"];
+    }
+    
+    return keyPaths;
+}
+
 @end

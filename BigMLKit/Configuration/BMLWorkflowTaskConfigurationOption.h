@@ -35,7 +35,6 @@
  */
 @property (nonatomic) BOOL isFieldIncluded;
 
-
 /**
  *  Virtual method that should be mandatorily overriden to return the currentValue for the field.
  *  Take care of overriding keyPathsForValuesAffectingValueForKey so currentValue
@@ -44,5 +43,13 @@
  *  @return The field's currentValue
  */
 - (id)currentValue;
+
+/**
+ *  This method can be overridden to customize how this option's currentValue is to be displayed.
+ *  Its default implementation will just return the empty string.
+ *
+ *  @return The field's currentValue
+ */
+- (NSString*)displayValue;
 
 @end
