@@ -436,7 +436,12 @@
             [context.ml getResource:resource.type
                                uuid:resource.uuid
                          completion:^(id<BMLResource> resource, NSError* error) {
-                             predict(resource);
+                             if (!error) {
+                                 predict(resource);
+                             } else {
+                                 self.error = [NSError errorWithInfo:@"Could not find requested model/cluster" code:-1];
+                                 self.resourceStatus = BMLResourceStatusFailed;
+                             }
                          }];
         } else {
             predict(resource);
