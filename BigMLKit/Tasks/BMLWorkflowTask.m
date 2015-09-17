@@ -118,7 +118,7 @@
     BMLWorkflowTask* item = [NSClassFromString(taskClassName) new];
     item.descriptor = descriptor;
     item.name = taskName;
-    item.configuration = [configurator configurationForResourceType:item.resourceType];
+    item.configuration = [configurator configurationForResourceType:item.inputResourceType];
     
     return item;
 }

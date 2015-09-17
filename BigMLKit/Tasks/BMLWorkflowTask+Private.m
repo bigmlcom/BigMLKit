@@ -27,12 +27,12 @@ static void* gRunningResourcePropertyKey = &gRunningResourcePropertyKey;
 @implementation BMLWorkflowTask (Private)
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (BMLResourceTypeIdentifier*)resourceType {
+- (BMLResourceTypeIdentifier*)inputResourceType {
     return objc_getAssociatedObject(self, gResourceTypePropertyKey);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)setResourceType:(BMLResourceTypeIdentifier*)resourceType {
+- (void)setInputResourceType:(BMLResourceTypeIdentifier*)resourceType {
     objc_setAssociatedObject(self, gResourceTypePropertyKey, resourceType, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
@@ -56,7 +56,7 @@ static void* gRunningResourcePropertyKey = &gRunningResourcePropertyKey;
     
     if (self = [super init]) {
         self.resourceStatus = BMLResourceStatusUndefined;
-        self.resourceType = resourceName;
+        self.inputResourceType = resourceName;
     }
     return self;
 }
@@ -90,7 +90,7 @@ static void* gRunningResourcePropertyKey = &gRunningResourcePropertyKey;
     BMLInputTask* item = [[BMLInputTask alloc] initWithResourceType:inputDescriptor.type];
     item.name = [NSString stringWithFormat:@"%@%@", [inputDescriptor.verb capitalizedString],
                  [[inputDescriptor.type stringValue] capitalizedString]];
-    [item setResourceType:inputDescriptor.type];
+    [item setInputResourceType:inputDescriptor.type];
     return item;
 }
 
