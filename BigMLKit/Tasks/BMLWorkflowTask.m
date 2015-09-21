@@ -15,7 +15,6 @@
 #import "BMLWorkflowTask.h"
 #import "BMLWorkflowTask+Private.h"
 #import "BMLWorkflowTaskContext.h"
-#import "BMLWorkflowTaskConfiguration.h"
 #import "BMLWorkflowConfigurator.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -118,7 +117,8 @@
     BMLWorkflowTask* item = [NSClassFromString(taskClassName) new];
     item.descriptor = descriptor;
     item.name = taskName;
-    item.configuration = [configurator configurationForResourceType:item.inputResourceType];
+    item.configurator = configurator;
+//    item.configuration = [configurator configurationForResourceType:item.inputResourceType];
     
     return item;
 }

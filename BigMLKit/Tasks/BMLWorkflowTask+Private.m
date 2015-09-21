@@ -15,6 +15,7 @@
 
 #import "BMLWorkflowTask+Private.h"
 #import "BMLWorkflowTaskConfiguration.h"
+#import "BMLWorkflowConfigurator.h"
 
 #import <objc/runtime.h>
 
@@ -72,7 +73,7 @@ static void* gRunningResourcePropertyKey = &gRunningResourcePropertyKey;
 //            optionValues[collectionName] = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 //        }
 //    }
-    return self.configuration.optionDictionary;
+    return [self.configurator configurationForResourceType:self.inputResourceType].optionDictionary;
 }
 
 @end

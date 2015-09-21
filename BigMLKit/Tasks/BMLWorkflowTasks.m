@@ -15,7 +15,6 @@
 #import "BMLWorkflowTask.h"
 #import "BMLWorkflowTask+Private.h"
 #import "BMLWorkflowTaskContext.h"
-#import "BMLWorkflowTaskConfiguration.h"
 #import "BMLWorkflowConfigurator.h"
 #import "BigMLKit.h"
 

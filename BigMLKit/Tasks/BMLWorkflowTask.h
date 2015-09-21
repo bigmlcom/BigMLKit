@@ -16,7 +16,6 @@
 #import "BMLWorkflow.h"
 
 @class BMLWorkflowTaskContext;
-@class BMLWorkflowTaskConfiguration;
 @class BMLWorkflowConfigurator;
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +67,7 @@
 /**
  *  A configuration object storing the current configuration for this task.
  */
-@property (nonatomic, strong) BMLWorkflowTaskConfiguration* configuration;
+//@property (nonatomic, strong) BMLWorkflowTaskConfiguration* configuration;
 
 /**
  *  A descriptor object encapsulating both the main resource associated with this task
