@@ -32,4 +32,6 @@
 
 - (BMLWorkflowTaskConfiguration*)configurationForResourceType:(BMLResourceTypeIdentifier*)resourceType;
 
+- (NSDictionary*)optionDictionaryAllOptions:(BOOL)allOptions;
+
 @end

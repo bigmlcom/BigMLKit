@@ -49,6 +49,6 @@
 - (BMLWorkflowTaskConfigurationOption*)optionModelForOptionNamed:(NSString*)optionName;
 - (void)setOptionModel:(BMLWorkflowTaskConfigurationOption*)optionModel forOptionNamed:(NSString*)optionName;
 
-- (NSMutableDictionary*)optionDictionary;
+- (NSMutableDictionary*)optionDictionaryAllOptions:(BOOL)fullDictionary;
 
 @end

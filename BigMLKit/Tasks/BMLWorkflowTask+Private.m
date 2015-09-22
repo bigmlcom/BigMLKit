@@ -73,7 +73,7 @@ static void* gRunningResourcePropertyKey = &gRunningResourcePropertyKey;
 //            optionValues[collectionName] = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 //        }
 //    }
-    return [self.configurator configurationForResourceType:self.inputResourceType].optionDictionary;
+    return [[self.configurator configurationForResourceType:self.inputResourceType] optionDictionaryAllOptions:NO];
 }
 
 @end

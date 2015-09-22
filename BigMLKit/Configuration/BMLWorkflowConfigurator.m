@@ -43,4 +43,14 @@
     return _taskConfigurations[typeString];
 }
 
+- (NSDictionary*)optionDictionaryAllOptions:(BOOL)allOptions {
+    
+    NSMutableDictionary* d = [NSMutableDictionary dictionaryWithCapacity:_taskConfigurations.allKeys.count];
+    for  (NSString* k in _taskConfigurations.allKeys) {
+        BMLWorkflowTaskConfiguration* c = _taskConfigurations[k];
+        d[k] = [c optionDictionaryAllOptions:allOptions];
+    }
+    return d;
+}
+
 @end

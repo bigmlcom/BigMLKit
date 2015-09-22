@@ -78,14 +78,14 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-- (NSMutableDictionary*)optionDictionary {
+- (NSMutableDictionary*)optionDictionaryAllOptions:(BOOL)fullDictionary {
     
     NSMutableDictionary* optionValues = [NSMutableDictionary new];
     for (NSArray* optionArray in [_options allValues]) {
         for (NSString* option in optionArray) {
             
             BMLWorkflowTaskConfigurationOption* optionModel = _optionModels[option];
-            if (!optionModel.showOnly && optionModel.isFieldIncluded && optionModel.currentValue) {
+            if ((!optionModel.showOnly || fullDictionary) && optionModel.isFieldIncluded && optionModel.currentValue) {
                 
                 //-- options may belong to collections (see datasources text_analysis)
                 //-- in this case, we collect individual options into dictionaries,

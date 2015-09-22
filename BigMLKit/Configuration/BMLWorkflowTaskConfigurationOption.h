@@ -45,6 +45,13 @@
 - (id)currentValue;
 
 /**
+ *  Virtual method that should be mandatorily overriden to set the currentValue for the field.
+ *  This is only used when restoring field models from a persistent store, e.g., with configurations.
+ *
+ */
+- (void)setCurrentValue:(id)value;
+
+/**
  *  This method can be overridden to customize how this option's currentValue is to be displayed.
  *  Its default implementation will just return the empty string.
  *
