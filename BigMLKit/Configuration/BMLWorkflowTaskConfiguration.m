@@ -21,7 +21,10 @@
 @implementation BMLWorkflowTaskConfiguration {
     
     NSMutableDictionary* _optionModels;
+    BMLResourceTypeIdentifier* _resourceType;
 }
+
+@synthesize resourceType = _resourceType;
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (NSString*)configurationPlistForResourceType:(BMLResourceTypeIdentifier*)resourceType {
@@ -45,8 +48,6 @@
             _options = myDic[@"optionNames"];
             _optionDescriptions = myDic[@"optionDescriptions"];
             
-        } else {
-            return nil;
         }
     }
     return self;
@@ -57,6 +58,7 @@
     
     NSString* plistName = [BMLWorkflowTaskConfiguration configurationPlistForResourceType:resourceType];
     if (self = [self initWithPList:plistName]) {
+        _resourceType = resourceType;
     }
     return self;
 }

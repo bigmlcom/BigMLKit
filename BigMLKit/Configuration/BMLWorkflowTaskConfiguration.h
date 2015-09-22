@@ -40,10 +40,10 @@
 @property (nonatomic, readonly) NSDictionary* options;
 @property (nonatomic, readonly) NSDictionary* optionDescriptions;
 @property (nonatomic, readonly) NSDictionary* optionModels;
+@property (nonatomic, readonly) BMLResourceTypeIdentifier* resourceType;
 
 + (NSString*)configurationPlistForResourceType:(BMLResourceTypeIdentifier*)resourceType;
 
-- (instancetype)initWithPList:(NSString*)plistName;
 - (instancetype)initWithResourceType:(BMLResourceTypeIdentifier*)resourceType;
 
 - (BMLWorkflowTaskConfigurationOption*)optionModelForOptionNamed:(NSString*)optionName;

@@ -35,8 +35,8 @@
     
     NSString* typeString = resourceType.stringValue;
     if (!_taskConfigurations[typeString]) {
-        NSString* plistName = [BMLWorkflowTaskConfiguration configurationPlistForResourceType:resourceType];
-        BMLWorkflowTaskConfiguration* configuration = [[BMLWorkflowTaskConfiguration alloc] initWithPList:plistName];
+        BMLWorkflowTaskConfiguration* configuration =
+        [[BMLWorkflowTaskConfiguration alloc] initWithResourceType:resourceType];
         if (configuration)
             _taskConfigurations[typeString] = configuration;
     }
