@@ -43,6 +43,7 @@
     return _taskConfigurations[typeString];
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
 - (NSDictionary*)optionDictionaryAllOptions:(BOOL)allOptions {
     
     NSMutableDictionary* d = [NSMutableDictionary dictionaryWithCapacity:_taskConfigurations.allKeys.count];
