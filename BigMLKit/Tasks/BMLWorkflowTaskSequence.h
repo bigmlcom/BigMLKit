@@ -48,6 +48,7 @@ extern NSString* const BMLWorkflowTaskCompletedWorkflow;
  *  @return The initialized task sequence instance.
  */
 - (instancetype)initWithDescriptors:(NSArray*)descriptors
+                             inputs:(NSArray*)inputs
                  configurator:(BMLWorkflowConfigurator*)configurator;
 
 @end

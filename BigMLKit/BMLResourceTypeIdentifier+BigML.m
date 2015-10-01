@@ -41,6 +41,8 @@
         return kEvaluationEntityType;
     if ([type isEqualToString:[kScriptEntityType stringValue]])
         return kScriptEntityType;
+    if ([type isEqualToString:[kSourceCodeEntityType stringValue]])
+        return kSourceCodeEntityType;
     if ([type isEqualToString:[kExecutionEntityType stringValue]])
         return kExecutionEntityType;
     if ([type isEqualToString:[kProjectEntityType stringValue]])
@@ -82,7 +84,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLResourceFullUuid*)modelScriptPseudoFullUuid {
-    return @"script/modelScriptPseudoUuid";
+    return @"sourcecode/modelScriptPseudoUuid";
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -92,7 +94,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLResourceFullUuid*)clusterScriptPseudoFullUuid {
-    return @"script/clusterScriptPseudoUuid";
+    return @"sourcecode/clusterScriptPseudoUuid";
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -102,7 +104,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLResourceFullUuid*)anomalyScriptPseudoFullUuid {
-    return @"script/anomalyScriptPseudoUuid";
+    return @"sourcecode/anomalyScriptPseudoUuid";
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -112,18 +114,18 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLResourceFullUuid*)multipleInputsScriptPseudoFullUuid {
-    return @"script/multipleInputsScriptPseudoUuid";
+    return @"sourcecode/multipleInputsScriptPseudoUuid";
 
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLResourceUuid*)multipleInputsScriptPseudoUuid {
-    return @"script/multipleInputsScriptPseudoUuid";
+    return @"multipleInputsScriptPseudoUuid";
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLResourceFullUuid*)evaluationScriptPseudoFullUuid {
-    return @"script/evaluationScriptPseudoUuid";
+    return @"sourcecode/evaluationScriptPseudoUuid";
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

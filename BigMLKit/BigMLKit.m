@@ -66,7 +66,7 @@ BMLResourceTypeIdentifier* kWhizzMLTarget = nil;
     kClusterTarget = kClusterEntityType;
     kAnomalyTarget = kAnomalyEntityType;
     kEvaluationTarget = kEvaluationEntityType;
-    kWhizzMLTarget = kScriptEntityType;
+    kWhizzMLTarget = kSourceCodeEntityType;
 }
 
 @end

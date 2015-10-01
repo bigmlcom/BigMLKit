@@ -35,6 +35,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 @implementation BMLWorkflowTaskSequence {
     
     NSMutableArray* _steps;
+    NSArray* _inputs;
 }
 
 @synthesize steps = _steps;
@@ -42,10 +43,12 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)initWithDescriptors:(NSArray*)descriptors
+                             inputs:(NSArray*)inputs
                        configurator:(BMLWorkflowConfigurator*)configurator {
     
     if (self = [super init]) {
         
+        _inputs = inputs;
         self.status = BMLWorkflowIdle;
         _steps = [NSMutableArray new];
         for (BMLWorkflowTaskDescriptor* d in descriptors)
@@ -89,7 +92,9 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 //-- sequence workflow's inputResourceTypes are taken to be its initialStep's
 //-- this might not be always the case
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSDictionary*)inputResourceTypes {
+- (NSArray*)inputResourceTypes {
+    if ([NSStringFromClass([_steps.firstObject class]) isEqualToString:@"BMLWorkflowTaskCreateScript"])
+        return _inputs ?:@[];
     return [_steps[_initialStep] inputResourceTypes];
 }
 

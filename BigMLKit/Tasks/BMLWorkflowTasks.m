@@ -237,9 +237,9 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSDictionary*)inputResourceTypes {
-    return @{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kFileEntityType
-                                                                                  name:kWorkflowStartResource]};
+- (NSArray*)inputResourceTypes {
+    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kFileEntityType
+                                                                                  name:kWorkflowStartResource]}];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -292,9 +292,9 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSDictionary*)inputResourceTypes {
-    return @{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kSourceEntityType
-                                                                                  name:kWorkflowStartResource]};
+- (NSArray*)inputResourceTypes {
+    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kSourceEntityType
+                                                                                  name:kWorkflowStartResource]}];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -330,9 +330,9 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSDictionary*)inputResourceTypes {
-    return @{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kDatasetEntityType
-                                                                                  name:kWorkflowStartResource]};
+- (NSArray*)inputResourceTypes {
+    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kDatasetEntityType
+                                                                                  name:kWorkflowStartResource]}];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -382,9 +382,9 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSDictionary*)inputResourceTypes {
-    return @{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kDatasetEntityType
-                                                                                  name:kWorkflowStartResource]};
+- (NSArray*)inputResourceTypes {
+    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kDatasetEntityType
+                                                                                  name:kWorkflowStartResource]}];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -454,8 +454,10 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSDictionary*)inputResourceTypes {
-    return [self.descriptor.properties dictionaryWithValuesForKeys:@[kWorkflowStartResource]];
+- (NSArray*)inputResourceTypes {
+    return nil;
+    NSAssert(NO, @"FAULT!!!");
+//    return [self.descriptor.properties dictionaryWithValuesForKeys:@[kWorkflowStartResource]];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -563,11 +565,11 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSDictionary*)inputResourceTypes {
-    return @{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kModelEntityType
+- (NSArray*)inputResourceTypes {
+    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kModelEntityType
                                                                                   name:kWorkflowStartResource],
              kWorkflowSecondResource: [[BMLWorkflowInputDescriptor alloc] initWithType:kDatasetEntityType
-                                                                                  name:kWorkflowSecondResource]};
+                                                                                  name:kWorkflowSecondResource]}];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -576,7 +578,6 @@
     return @"Evaluating model";
 }
 @end
-
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -592,16 +593,19 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSDictionary*)inputResourceTypes {
+- (NSArray*)inputResourceTypes {
     
-    return @{@"Input 1" : [[BMLWorkflowInputDescriptor alloc] initWithType:kModelEntityType
-                           name:@"input 1"],
-             @"Input 2": [[BMLWorkflowInputDescriptor alloc] initWithType:kClusterEntityType
-                          name:@"input 2"],
-             @"Input 3" : [[BMLWorkflowInputDescriptor alloc] initWithType:kDatasetEntityType
-                           name:@"input 3"],
-             @"Input 4" : [[BMLWorkflowInputDescriptor alloc] initWithType:kEvaluationEntityType
-                           name:@"input 4"]};
+    NSAssert(NO, @"BMLWorkflowTaskCreateScript inputResourceTypes SHOULD NOT BE HERE");
+    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kSourceCodeEntityType
+                                                                                  name:kWorkflowStartResource]}];
+//    return @{@"Input 1" : [[BMLWorkflowInputDescriptor alloc] initWithType:kModelEntityType
+//                           name:@"input 1"],
+//             @"Input 2": [[BMLWorkflowInputDescriptor alloc] initWithType:kClusterEntityType
+//                          name:@"input 2"],
+//             @"Input 3" : [[BMLWorkflowInputDescriptor alloc] initWithType:kDatasetEntityType
+//                           name:@"input 3"],
+//             @"Input 4" : [[BMLWorkflowInputDescriptor alloc] initWithType:kEvaluationEntityType
+//                           name:@"input 4"]};
 }
 
 @end
@@ -619,4 +623,11 @@
     return self;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
+- (NSArray*)inputResourceTypes {
+    
+    NSAssert(NO, @"BMLWorkflowTaskCreateExecution inputResourceTypes SHOULD NOT BE HERE");
+    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kScriptEntityType
+                                                                                  name:kWorkflowStartResource]}];
+}
 @end
