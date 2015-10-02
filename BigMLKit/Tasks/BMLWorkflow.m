@@ -102,7 +102,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResources:(NSArray*)resources
+- (void)runWithArguments:(NSArray*)inputs
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     

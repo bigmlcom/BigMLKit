@@ -100,13 +100,13 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@interface BMLWorkflowTaskCreateScript : BMLWorkflowTask
+@interface BMLWorkflowTaskCreateScript : BMLWorkflowTaskCreateResource
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@interface BMLWorkflowTaskCreateExecution : BMLWorkflowTask
+@interface BMLWorkflowTaskCreateExecution : BMLWorkflowTaskCreateResource
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -121,11 +121,11 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResources:(NSArray*)resources
+- (void)runWithArguments:(NSArray*)inputs
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
-    [super runWithResources:resources inContext:context completionBlock:nil];
+    [super runWithArguments:inputs inContext:context completionBlock:nil];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.resourceStatus = BMLResourceStatusEnded;
     });
@@ -150,11 +150,11 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResources:(NSArray*)resources
+- (void)runWithArguments:(NSArray*)inputs
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
-    [super runWithResources:resources inContext:context completionBlock:nil];
+    [super runWithArguments:inputs inContext:context completionBlock:nil];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.error = [NSError errorWithInfo:@"Test failure" code:-1];
         self.resourceStatus = BMLResourceStatusFailed;
@@ -199,16 +199,16 @@
 @implementation BMLWorkflowTaskCreateResource
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResources:(NSArray*)resources
+- (void)runWithArguments:(NSArray*)inputs
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
-    NSAssert([resources count] == 1, @"Calling BMLWorkflowTaskCreateResource with wrong number of input resources");
-    [super runWithResources:resources inContext:context completionBlock:nil];
+//    NSAssert([inputs count] == 1, @"Calling BMLWorkflowTaskCreateResource with wrong number of input resources");
+    [super runWithArguments:inputs inContext:context completionBlock:nil];
     [context.ml createResource:self.inputResourceType.type
                           name:context.info[kWorkflowName]
                        options:[self optionsForCurrentContext:context]
-                          from:resources.firstObject
+                          from:inputs.firstObject
                     completion:^(id<BMLResource> resource, NSError* error) {
 
                         if (resource) {
@@ -243,14 +243,14 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResources:(NSArray*)resources
+- (void)runWithArguments:(NSArray*)inputs
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
 
-    NSAssert([resources count] == 1, @"Calling BMLWorkflowTaskCreateSource with wrong number of input resources");
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[resources.firstObject uuid]]) {
+    NSAssert([inputs count] == 1, @"Calling BMLWorkflowTaskCreateSource with wrong number of input resources");
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[inputs.firstObject uuid]]) {
         
-        [super runWithResources:resources inContext:context completionBlock:completion];
+        [super runWithArguments:inputs inContext:context completionBlock:completion];
 
     } else {
         
@@ -408,13 +408,13 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResources:(NSArray*)resources
+- (void)runWithArguments:(NSArray*)inputs
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
-    NSAssert([resources count] == 1, @"Calling BMLWorkflowTaskCreatePrediction with wrong number of input resources");
-    [super runWithResources:resources inContext:context completionBlock:nil];
-    id<BMLResource> resource = resources.firstObject;
+    NSAssert([inputs count] == 1, @"Calling BMLWorkflowTaskCreatePrediction with wrong number of input resources");
+    [super runWithArguments:inputs inContext:context completionBlock:nil];
+    id<BMLResource> resource = inputs.firstObject;
     if (resource) {
         
         void(^predict)(id<BMLResource>) = ^(id<BMLResource> resource) {
@@ -481,12 +481,12 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResources:(NSArray*)resources
+- (void)runWithArguments:(NSArray*)inputs
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
     NSAssert(context.info[kModelId], @"No model ID provided");
-    [super runWithResources:resources inContext:context completionBlock:nil];
+    [super runWithArguments:inputs inContext:context completionBlock:nil];
 
     [context.ml getResource:BMLResourceTypeModel
                        uuid:context.info[kModelId]
@@ -517,12 +517,12 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithResources:(NSArray*)resources
+- (void)runWithArguments:(NSArray*)inputs
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
     NSAssert(context.info[kModelId], @"No model ID provided");
-    [super runWithResources:resources inContext:context completionBlock:nil];
+    [super runWithArguments:inputs inContext:context completionBlock:nil];
     [context.ml getResource:BMLResourceTypeCluster
                        uuid:context.info[kClusterId]
                  completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
@@ -590,6 +590,31 @@
     if (self = [super initWithResourceType:kScriptEntityType]) {
     }
     return self;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)runWithArguments:(NSArray*)inputs
+               inContext:(BMLWorkflowTaskContext*)context
+         completionBlock:(BMLWorkflowCompletedBlock)completion {
+
+    BMLMinimalResource* resource = [[BMLMinimalResource alloc] initWithName:@""
+                                                                    rawType:BMLResourceTypeWhizzmlScript
+                                                                       uuid:[inputs.firstObject fullUuid]];
+    [context.ml createResource:BMLResourceTypeWhizzmlExecution
+                          name:context.info[@"name"]
+                       options:@{}
+                          from:resource
+                    completion:^(id<BMLResource> resource, NSError* error) {
+                        
+                        if (resource) {
+                            self.outputResources = @[resource];
+                            self.resourceStatus = BMLResourceStatusEnded;
+                        } else {
+                            self.error = error ?: [NSError errorWithInfo:@"Could not complete task" code:-1];
+                            self.resourceStatus = BMLResourceStatusFailed;
+                        }
+                    }];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
