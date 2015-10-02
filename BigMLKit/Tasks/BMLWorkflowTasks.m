@@ -16,6 +16,7 @@
 #import "BMLWorkflowTask+Private.h"
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflowConfigurator.h"
+#import "BMLFieldModels.h"
 #import "BigMLKit.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -601,9 +602,15 @@
     BMLMinimalResource* resource = [[BMLMinimalResource alloc] initWithName:@""
                                                                     rawType:BMLResourceTypeWhizzmlScript
                                                                        uuid:[inputs.firstObject fullUuid]];
+    
+    NSMutableArray* arguments = [NSMutableArray new];
+    for (BMLFieldModel* field in [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]) {
+        [arguments addObject:@[field.title, field.currentValue]];
+    }
+    NSLog(@"ARGS: %@", arguments);
     [context.ml createResource:BMLResourceTypeWhizzmlExecution
                           name:context.info[@"name"]
-                       options:@{}
+                       options:@{ @"arguments" : arguments }
                           from:resource
                     completion:^(id<BMLResource> resource, NSError* error) {
                         
