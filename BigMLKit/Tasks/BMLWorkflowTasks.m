@@ -600,8 +600,8 @@
          completionBlock:(BMLWorkflowCompletedBlock)completion {
 
     BMLMinimalResource* resource = [[BMLMinimalResource alloc] initWithName:@""
-                                                                    rawType:BMLResourceTypeWhizzmlScript
-                                                                       uuid:[inputs.firstObject fullUuid]];
+                                                                   fullUuid:[inputs.firstObject fullUuid]
+                                                                 definition:@{}];
     
     NSMutableArray* arguments = [NSMutableArray new];
     for (BMLFieldModel* field in [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]) {
