@@ -599,15 +599,13 @@
                inContext:(BMLWorkflowTaskContext*)context
          completionBlock:(BMLWorkflowCompletedBlock)completion {
 
-    BMLMinimalResource* resource = [[BMLMinimalResource alloc] initWithName:@""
-                                                                   fullUuid:[inputs.firstObject fullUuid]
-                                                                 definition:@{}];
-    
     NSMutableArray* arguments = [NSMutableArray new];
     for (BMLFieldModel* field in [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]) {
         [arguments addObject:@[field.title, field.currentValue]];
     }
-    NSLog(@"ARGS: %@", arguments);
+    BMLMinimalResource* resource = [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
+                                                                   fullUuid:[inputs.firstObject fullUuid]
+                                                                 definition:@{}];
     [context.ml createResource:BMLResourceTypeWhizzmlExecution
                           name:context.info[@"name"]
                        options:@{ @"arguments" : arguments }
