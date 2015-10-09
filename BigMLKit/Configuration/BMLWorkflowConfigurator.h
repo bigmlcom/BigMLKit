@@ -17,6 +17,7 @@
 
 @class BMLWorkflowTaskConfiguration;
 @class BMLWorkflowTask;
+@class BMLResource;
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -29,6 +30,8 @@
 @interface BMLWorkflowConfigurator : NSObject
 
 @property (nonatomic, strong) NSMutableDictionary* taskConfigurations;
+
++ (BMLWorkflowConfigurator*)configuratorFromConfigurationResource:(BMLResource*)resource;
 
 - (BMLWorkflowTaskConfiguration*)configurationForResourceType:(BMLResourceTypeIdentifier*)resourceType;
 

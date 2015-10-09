@@ -16,6 +16,11 @@
 #import "BMLWorkflowTaskConfiguration.h"
 #import "BMLWorkflowTask.h"
 
+#import "BMLResource.h"
+#import "BMLResourceDefinition.h"
+#import "BMLResourceTypeIdentifier+BigML.h"
+#import "BMLWorkflowTaskConfigurationOption.h"
+
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -29,6 +34,38 @@
     }
     return self;
 }
+
+//////////////////////////////////////////////////////////////////////////////////////
++ (void)setOption:(NSString*)optionName withValue:(id)currentValue configuration:(BMLWorkflowTaskConfiguration*)configuration {
+    
+    if ([currentValue isKindOfClass:[NSDictionary class]]) {
+        for (NSString* optionName in [currentValue allKeys]) {
+            [self setOption:optionName
+                  withValue:currentValue[optionName]
+              configuration:configuration];
+        }
+    } else {
+        BMLWorkflowTaskConfigurationOption* model = [configuration optionModelForOptionNamed:optionName];
+        model.isFieldIncluded = YES;
+        model.currentValue = currentValue;
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
++ (BMLWorkflowConfigurator*)configuratorFromConfigurationResource:(BMLResource*)resource {
+    
+    BMLWorkflowConfigurator* configurator = [BMLWorkflowConfigurator new];
+    for (NSString* resourceType in resource.definition.json.allKeys) {
+        BMLWorkflowTaskConfiguration* configuration = [configurator configurationForResourceType:[BMLResourceTypeIdentifier typeFromTypeString:resourceType]];
+        for (NSString* optionName in [resource.definition.json[resourceType] allKeys]) {
+            [self setOption:optionName
+                  withValue:resource.definition.json[resourceType][optionName]
+              configuration:configuration];
+        }
+    }
+    return configurator;
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (BMLWorkflowTaskConfiguration*)configurationForResourceType:(BMLResourceTypeIdentifier*)resourceType {
