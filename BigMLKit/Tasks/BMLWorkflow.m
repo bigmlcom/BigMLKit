@@ -71,7 +71,7 @@
                 
                 self.outputResources = task.outputResources;
                 [task removeObserver:self forKeyPath:@"resourceStatus"];
-                [self executeStepWithResources:task.outputResources];
+                [self executeStepWithArguments:task.outputResources];
                 
             } else if (task.resourceStatus == BMLResourceStatusFailed) {
                 
@@ -117,7 +117,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)executeStepWithResources:(NSArray*)resources {
+- (void)executeStepWithArguments:(NSArray*)resources {
 
     [self stopWithError:nil];
 }

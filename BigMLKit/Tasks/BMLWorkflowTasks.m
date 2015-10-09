@@ -613,7 +613,7 @@
                     completion:^(id<BMLResource> resource, NSError* error) {
                         
                         if (resource) {
-                            self.outputResources = @[resource];
+                            self.outputResources = resource.jsonDefinition[@"execution"][@"results"];
                             self.resourceStatus = BMLResourceStatusEnded;
                         } else {
                             self.error = error ?: [NSError errorWithInfo:@"Could not complete task" code:-1];
