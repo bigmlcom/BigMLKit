@@ -626,8 +626,8 @@
 - (NSArray*)inputResourceTypes {
     
     NSAssert(NO, @"BMLWorkflowTaskCreateScript inputResourceTypes SHOULD NOT BE HERE");
-    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kSourceCodeEntityType
-                                                                                  name:kWorkflowStartResource]}];
+    return nil;
+
 //    return @{@"Input 1" : [[BMLWorkflowInputDescriptor alloc] initWithType:kModelEntityType
 //                           name:@"input 1"],
 //             @"Input 2": [[BMLWorkflowInputDescriptor alloc] initWithType:kClusterEntityType
@@ -654,10 +654,39 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
+- (void)runWithArguments:(NSArray*)inputs
+               inContext:(BMLWorkflowTaskContext*)context
+         completionBlock:(BMLWorkflowCompletedBlock)completion {
+    
+    NSMutableArray* arguments = [NSMutableArray new];
+    for (BMLFieldModel* field in [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]) {
+        [arguments addObject:@[field.title, field.currentValue]];
+    }
+    BMLMinimalResource* resource = [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
+                                                                   fullUuid:[inputs.firstObject fullUuid]
+                                                                 definition:@{}];
+    id<BMLResource> r = [context.ml createResource:BMLResourceTypeWhizzmlExecution
+                                              name:context.info[@"name"]
+                                           options:@{ @"arguments" : arguments }
+                                              from:resource
+                                        completion:^(id<BMLResource> resource, NSError* error) {
+                                            
+                                            if (resource) {
+//                                                self.outputResources = @[resource];
+                                                self.resourceStatus = BMLResourceStatusEnded;
+                                            } else {
+                                                self.error = error ?: [NSError errorWithInfo:@"Could not complete task" code:-1];
+                                                self.resourceStatus = BMLResourceStatusFailed;
+                                            }
+                                        }];
+    self.outputResources = @[r];
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {
     
     NSAssert(NO, @"BMLWorkflowTaskCreateExecution inputResourceTypes SHOULD NOT BE HERE");
-    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kScriptEntityType
-                                                                                  name:kWorkflowStartResource]}];
+    return nil;
 }
 @end

@@ -54,6 +54,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLWorkflowConfigurator*)configuratorFromConfigurationResource:(BMLResource*)resource {
     
+    NSAssert(resource.typeIdentifier == kConfigurationEntityType, @"I expected a configuration resource here!");
     BMLWorkflowConfigurator* configurator = [BMLWorkflowConfigurator new];
     for (NSString* resourceType in resource.definition.json.allKeys) {
         BMLWorkflowTaskConfiguration* configuration = [configurator configurationForResourceType:[BMLResourceTypeIdentifier typeFromTypeString:resourceType]];
@@ -65,7 +66,6 @@
     }
     return configurator;
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (BMLWorkflowTaskConfiguration*)configurationForResourceType:(BMLResourceTypeIdentifier*)resourceType {

@@ -69,13 +69,13 @@
                 
                 ///--- HERE WE SHOULD HANDLE OUTPUT AND INPUT RESOURCES!!
                 
-                self.outputResources = task.outputResources;
+                self.outputResources = [task.outputResources arrayByAddingObjectsFromArray:self.outputResources?:@[]];
                 [task removeObserver:self forKeyPath:@"resourceStatus"];
                 [self executeStepWithArguments:task.outputResources];
                 
             } else if (task.resourceStatus == BMLResourceStatusFailed) {
                 
-                self.outputResources = nil;
+//                self.outputResources = nil;
                 [task removeObserver:self forKeyPath:@"resourceStatus"];
                 [self handleError:task.error];
                 self.status = BMLWorkflowFailed;

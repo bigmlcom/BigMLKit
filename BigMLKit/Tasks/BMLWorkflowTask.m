@@ -78,14 +78,14 @@
                         verb:(NSString*)verb
                   properties:(NSDictionary*)properties {
     
-    NSAssert(NO, @"Should not be here!");
+    NSAssert(NO, @"WorkflowTask initWithType:verb:... Should not be here!");
     return  nil;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)initWithType:(BMLResourceTypeIdentifier*)typeIdentifier {
     
-    NSAssert(NO, @"Should not be here!");
+    NSAssert(NO, @"WorkflowTask initWithType: Should not be here!");
     return  nil;
 }
 

@@ -93,7 +93,9 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 //-- this might not be always the case
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {
-    if ([NSStringFromClass([_steps.firstObject class]) isEqualToString:@"BMLWorkflowTaskCreateScript"])
+    
+    if ([NSStringFromClass([_steps.firstObject class]) isEqualToString:@"BMLWorkflowTaskCreateScript"] ||
+        [NSStringFromClass([_steps.firstObject class]) isEqualToString:@"BMLWorkflowTaskCreateExecution"])
         return _inputs ?:@[];
     return [_steps[_initialStep] inputResourceTypes];
 }
@@ -143,6 +145,8 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 //////////////////////////////////////////////////////////////////////////////////////
 - (BMLWorkflowTask*)currentTask {
     
+    if (_currentStep < 0)
+        return nil;
     return _steps[_currentStep];
 }
 

@@ -49,7 +49,7 @@
         return kProjectEntityType;
     if ([type isEqualToString:[kConfigurationEntityType stringValue]])
         return kConfigurationEntityType;
-    NSAssert(NO, @"Should not be here!");
+    NSAssert(NO, @"Type Id: Should not be here! (%@)", type);
     return nil;
 }
 

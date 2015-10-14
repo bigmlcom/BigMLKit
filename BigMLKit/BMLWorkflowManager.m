@@ -67,10 +67,18 @@
     static int counter = 0;
     if (count == NSNotFound)
         count = ++counter;
-    return @{ @"title":task.name?:[NSString stringWithFormat:@"Task %d: %@", (int)count, task.statusMessage],
-              @"task":task,
-              @"status":@(task.status),
-              @"count":@(count)};
+
+    if ([NSStringFromClass(task.currentTask.class) isEqualToString:@"BMLWorkflowTaskCreateExecution"])
+        return @{ @"title":task.name?:[NSString stringWithFormat:@"Task %d: %@", (int)count, task.statusMessage],
+                  @"task":task,
+                  @"execution":task.currentTask,
+                  @"status":@(task.status),
+                  @"count":@(count)};
+    else
+        return @{ @"title":task.name?:[NSString stringWithFormat:@"Task %d: %@", (int)count, task.statusMessage],
+                  @"task":task,
+                  @"status":@(task.status),
+                  @"count":@(count)};
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -94,8 +102,6 @@
                             [wself.tasks removeObjectAtArrangedObjectIndex:index];
                             [wself.tasks insertObject:[self dictFromTask:wtask count:[dict[@"count"] intValue]] atArrangedObjectIndex:index];
                         }
-                        
-//                        NSLog(@"Task %@ status changed to %d", wtask, wtask.status);
                     });
                 }];
 }
