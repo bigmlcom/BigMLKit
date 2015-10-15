@@ -26,6 +26,7 @@
 @property (nonatomic, copy) NSString* verb;
 @property (nonatomic, strong) BMLResourceTypeIdentifier* type;
 @property (nonatomic, copy) NSDictionary* properties;
+@property (nonatomic, readonly) NSString* taskName;
 
 - (instancetype)initWithType:(BMLResourceTypeIdentifier*)typeIdentifier
                         verb:(NSString*)verb
@@ -90,6 +91,9 @@
  */
 + (BMLWorkflowTask*)newTaskWithDescriptor:(BMLWorkflowTaskDescriptor*)step
                              configurator:(BMLWorkflowConfigurator*)configurator;
+
+- (instancetype)initWithDescriptor:(BMLWorkflowTaskDescriptor*)step
+                      configurator:(BMLWorkflowConfigurator*)configurator NS_DESIGNATED_INITIALIZER;
 
 @end
 

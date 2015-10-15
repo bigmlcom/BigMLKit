@@ -42,6 +42,14 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
+- (NSString*)taskName {
+    
+    return [NSString stringWithFormat:@"%@%@",
+            [_verb capitalizedString],
+            [[_type stringValue] capitalizedString]];
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)typeAsString {
     
     return _type.stringValue;
@@ -109,26 +117,28 @@
 + (BMLWorkflowTask*)newTaskWithDescriptor:(BMLWorkflowTaskDescriptor*)descriptor
                              configurator:(BMLWorkflowConfigurator*)configurator {
     
-    NSString* taskName = [NSString stringWithFormat:@"%@%@",
-                          [descriptor.verb capitalizedString],
-                          [[descriptor.type stringValue] capitalizedString]];
-    NSString* taskClassName = [NSString stringWithFormat:@"BMLWorkflowTask%@", taskName];
-
-    BMLWorkflowTask* item = [NSClassFromString(taskClassName) new];
-    item.descriptor = descriptor;
-    item.name = taskName;
-    item.configurator = configurator;
-//    item.configuration = [configurator configurationForResourceType:item.inputResourceType];
-    
-    return item;
+    NSString* taskClassName = [NSString stringWithFormat:@"BMLWorkflowTask%@", descriptor.taskName];
+    return [[NSClassFromString(taskClassName) alloc] initWithDescriptor:descriptor configurator:configurator];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
+- (instancetype)initWithDescriptor:(BMLWorkflowTaskDescriptor*)descriptor
+                      configurator:(BMLWorkflowConfigurator*)configurator {
+    
+    if (self = [super init]) {
+    
+        self.descriptor = descriptor;
+        self.name = descriptor.taskName;
+        self.configurator = configurator;
+        //    item.configuration = [configurator configurationForResourceType:item.inputResourceType];
+    }
+    return self;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)init {
 
-    if (self = [super init])
-        self.resourceStatus = BMLResourceStatusUndefined;
-    return self;
+    return [self initWithDescriptor:nil configurator:nil];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

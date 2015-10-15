@@ -654,6 +654,21 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
+- (NSDictionary*)optionsForCurrentContext:(BMLWorkflowTaskContext*)context {
+    
+//    NSMutableDictionary* options = [super optionsForCurrentContext:context];
+    NSDictionary* options = [self.configurator optionDictionaryAllOptions:YES];
+
+    if (!options)
+        options = [NSMutableDictionary new];
+    
+//    BMLMinimalResource* r = context.info[kWorkflowSecondResource];
+//    BMLResourceTypeIdentifier* t = [[BMLResourceTypeIdentifier alloc] initWithRawType:r.type];
+//    options[[t stringValue]] = r.fullUuid;
+    return options;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
 - (void)runWithArguments:(NSArray*)inputs
                inContext:(BMLWorkflowTaskContext*)context
          completionBlock:(BMLWorkflowCompletedBlock)completion {
@@ -667,7 +682,8 @@
                                                                  definition:@{}];
     id<BMLResource> r = [context.ml createResource:BMLResourceTypeWhizzmlExecution
                                               name:context.info[@"name"]
-                                           options:@{ @"arguments" : arguments }
+                                           options:@{ @"arguments" : arguments,
+                                                      @"creation_defaults": [self optionsForCurrentContext:context]}
                                               from:resource
                                         completion:^(id<BMLResource> resource, NSError* error) {
                                             

@@ -27,7 +27,7 @@
 @property (nonatomic, readonly) BMLResourceTypeIdentifier* inputResourceType;
 @property (nonatomic, strong) BMLWorkflowConfigurator* configurator;
 
-- (instancetype)initWithResourceType:(BMLResourceTypeIdentifier*)resourceName NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithResourceType:(BMLResourceTypeIdentifier*)resourceName;
 
 @end
 
