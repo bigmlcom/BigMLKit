@@ -128,12 +128,23 @@
 //}
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)setCurrentWorkflowAtIndex:(NSUInteger)index {
+- (void)selectCurrentWorkflowAtIndex:(NSUInteger)index {
  
     NSArray* arrangedObjects = _tasks.arrangedObjects;
     if (index < [arrangedObjects count])
         self.currentWorkflow = arrangedObjects[index][@"task"];
 
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)selectCurrentWorkflow:(BMLWorkflow*)task {
+    
+    NSArray* arrangedObjects =
+    [_tasks.arrangedObjects filteredArrayUsingPredicate:
+     [NSPredicate predicateWithFormat:@"task == %@", task]];
+    
+    NSUInteger index = [_tasks.arrangedObjects indexOfObject:arrangedObjects.firstObject];
+    [self selectCurrentWorkflowAtIndex:index];
 }
 
 @end

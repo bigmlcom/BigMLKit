@@ -74,8 +74,25 @@
  */
 - (void)removeWorkflow:(BMLWorkflow*)task;
 
-- (void)setCurrentWorkflowAtIndex:(NSUInteger)index;
+/**
+ *  Sets the current workflow so that it matches the workflow at index index in tasks.
+ *
+ *  @param the index of the workflow to set as current.
+ */
+- (void)selectCurrentWorkflowAtIndex:(NSUInteger)index;
 
+/**
+ *  Sets the current workflow so that it matches the workflow passed. The workflow must exist
+ *  for this to have any effect, otherwise the current selection is emptied.
+ *
+ *  @param the index of the workflow to set as current.
+ */
+- (void)selectCurrentWorkflow:(BMLWorkflow*)task;
+
+/**
+ *  Returns true is there are any workflows in tasks.
+ *
+ */
 - (NSNumber*)areThereAnyTasks;
 
 @end
