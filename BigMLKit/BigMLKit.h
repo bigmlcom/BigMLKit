@@ -31,19 +31,19 @@ typedef NSString BMLResourceFullUuid;
 
 static NSString* const BMLExtendedErrorDescriptionKey = @"BMLExtendedErrorDescriptionKey";
 
-extern BMLResourceTypeIdentifier* kFileEntityType;
-extern BMLResourceTypeIdentifier* kSourceEntityType;
-extern BMLResourceTypeIdentifier* kDatasetEntityType;
-extern BMLResourceTypeIdentifier* kModelEntityType;
-extern BMLResourceTypeIdentifier* kClusterEntityType;
-extern BMLResourceTypeIdentifier* kAnomalyEntityType;
-extern BMLResourceTypeIdentifier* kEvaluationEntityType;
-extern BMLResourceTypeIdentifier* kScriptEntityType;
-extern BMLResourceTypeIdentifier* kSourceCodeEntityType;
-extern BMLResourceTypeIdentifier* kExecutionEntityType;
-extern BMLResourceTypeIdentifier* kPredictionEntityType;
-extern BMLResourceTypeIdentifier* kProjectEntityType;
-extern BMLResourceTypeIdentifier* kConfigurationEntityType;
+//extern BMLResourceTypeIdentifier* BMLResourceTypeFile;
+//extern BMLResourceTypeIdentifier* BMLResourceTypeSource;
+//extern BMLResourceTypeIdentifier* BMLResourceTypeDataset;
+//extern BMLResourceTypeIdentifier* BMLResourceTypeModel;
+//extern BMLResourceTypeIdentifier* BMLResourceTypeCluster;
+//extern BMLResourceTypeIdentifier* BMLResourceTypeAnomaly;
+//extern BMLResourceTypeIdentifier* BMLResourceTypeEvaluation;
+//extern BMLResourceTypeIdentifier* BMLResourceTypeWhizzmlScript;
+//extern BMLResourceTypeIdentifier* BMLResourceTypeWhizzmlSource;
+//extern BMLResourceTypeIdentifier* BMLResourceTypeWhizzmlExecution;
+//extern BMLResourceTypeIdentifier* BMLResourceTypePrediction;
+//extern BMLResourceTypeIdentifier* BMLResourceTypeProject;
+extern BMLResourceTypeIdentifier* BMLResourceTypeConfiguration;
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////

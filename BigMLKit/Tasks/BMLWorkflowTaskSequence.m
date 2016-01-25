@@ -15,7 +15,8 @@
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflowTaskSequence.h"
 #import "BMLWorkflowTask.h"
-#import "BMLResourceTypeIdentifier+BigML.h"
+//-- check
+//#import "BMLResourceTypeIdentifier+BigML.h"
 
 NSString* const BMLWorkflowTaskCompletedTask = @"BMLWorkflowTaskCompletedTask";
 NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWorkflow";

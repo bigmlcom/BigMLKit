@@ -14,22 +14,23 @@
 
 #import <Foundation/Foundation.h>
 #import "BigMLKit.h"
+#import "BMLResourceTypeIdentifier.h"
 
-#import "BigMLApp-Swift.h"
+//#import "BigMLApp-Swift.h"
 
-BMLResourceTypeIdentifier* kFileEntityType = nil;
-BMLResourceTypeIdentifier* kSourceEntityType = nil;
-BMLResourceTypeIdentifier* kDatasetEntityType = nil;
-BMLResourceTypeIdentifier* kModelEntityType = nil;
-BMLResourceTypeIdentifier* kClusterEntityType = nil;
-BMLResourceTypeIdentifier* kAnomalyEntityType = nil;
-BMLResourceTypeIdentifier* kEvaluationEntityType = nil;
-BMLResourceTypeIdentifier* kScriptEntityType = nil;
-BMLResourceTypeIdentifier* kSourceCodeEntityType = nil;
-BMLResourceTypeIdentifier* kExecutionEntityType = nil;
-BMLResourceTypeIdentifier* kPredictionEntityType = nil;
-BMLResourceTypeIdentifier* kProjectEntityType = nil;
-BMLResourceTypeIdentifier* kConfigurationEntityType = nil;
+//BMLResourceTypeIdentifier* BMLResourceTypeFile = nil;
+//BMLResourceTypeIdentifier* BMLResourceTypeSource = nil;
+//BMLResourceTypeIdentifier* BMLResourceTypeDataset = nil;
+//BMLResourceTypeIdentifier* BMLResourceTypeModel = nil;
+//BMLResourceTypeIdentifier* BMLResourceTypeCluster = nil;
+//BMLResourceTypeIdentifier* BMLResourceTypeAnomaly = nil;
+//BMLResourceTypeIdentifier* BMLResourceTypeEvaluation = nil;
+//BMLResourceTypeIdentifier* BMLResourceTypeWhizzmlScript = nil;
+//BMLResourceTypeIdentifier* BMLResourceTypeWhizzmlSource = nil;
+//BMLResourceTypeIdentifier* BMLResourceTypeWhizzmlExecution = nil;
+//BMLResourceTypeIdentifier* BMLResourceTypePrediction = nil;
+//BMLResourceTypeIdentifier* BMLResourceTypeProject = nil;
+BMLResourceTypeIdentifier* BMLResourceTypeConfiguration = nil;
 
 BMLResourceTypeIdentifier* kModelTarget = nil;
 BMLResourceTypeIdentifier* kClusterTarget = nil;
@@ -48,25 +49,25 @@ BMLResourceTypeIdentifier* kWhizzMLTarget = nil;
 //////////////////////////////////////////////////////////////////////////////////////
 + (void)load {
     
-    kFileEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeFile];
-    kSourceEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeSource];
-    kDatasetEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeDataset];
-    kModelEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeModel];
-    kClusterEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeCluster];
-    kAnomalyEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeAnomaly];
-    kEvaluationEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeEvaluation];
-    kScriptEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeWhizzmlScript];
-    kSourceCodeEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeWhizzmlSource];
-    kExecutionEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeWhizzmlExecution];
-    kPredictionEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypePrediction];
-    kProjectEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeProject];
-    kConfigurationEntityType = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeConfiguration];
+//    BMLResourceTypeFile = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeFile];
+//    BMLResourceTypeSource = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeSource];
+//    BMLResourceTypeDataset = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeDataset];
+//    BMLResourceTypeModel = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeModel];
+//    BMLResourceTypeCluster = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeCluster];
+//    BMLResourceTypeAnomaly = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeAnomaly];
+//    BMLResourceTypeEvaluation = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeEvaluation];
+//    BMLResourceTypeWhizzmlScript = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeWhizzmlScript];
+//    BMLResourceTypeWhizzmlSource = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeWhizzmlSource];
+//    BMLResourceTypeWhizzmlExecution = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeWhizzmlExecution];
+//    BMLResourceTypePrediction = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypePrediction];
+//    BMLResourceTypeProject = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeProject];
+    BMLResourceTypeConfiguration = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:@"configuration"];
     
-    kModelTarget = kModelEntityType;
-    kClusterTarget = kClusterEntityType;
-    kAnomalyTarget = kAnomalyEntityType;
-    kEvaluationTarget = kEvaluationEntityType;
-    kWhizzMLTarget = kSourceCodeEntityType;
+    kModelTarget = BMLResourceTypeModel;
+    kClusterTarget = BMLResourceTypeCluster;
+    kAnomalyTarget = BMLResourceTypeAnomaly;
+    kEvaluationTarget = BMLResourceTypeEvaluation;
+    kWhizzMLTarget = BMLResourceTypeWhizzmlSource;
 }
 
 @end

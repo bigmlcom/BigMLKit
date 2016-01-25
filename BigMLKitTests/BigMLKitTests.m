@@ -19,7 +19,11 @@
 #import "BMLWorkflowTaskContext.h"
 #import "BMLResourceProtocol.h"
 
-@import BigMLKitConnector;
+//-- check: this should go into an umbrella header for bigml-objc
+#import "BMLEnums.h"
+#import "BMLResource.h"
+#import "BMLResourceTypeIdentifier.h"
+#import "BMLAPIConnector.h"
 
 #define kTestUsernameFilename @"username"
 #define kTestApiKeyFilename @"apikey"
@@ -73,7 +77,7 @@
     NSString* apiKey = [[NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil]
                         stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 
-    _ml = [[BMLConnector alloc] initWithUsername:username
+    _ml = [[BMLAPIConnector alloc] initWithUsername:username
                                           apiKey:apiKey
                                             mode:BMLModeBMLDevelopmentMode];
 }
@@ -169,7 +173,7 @@
         
         BMLResource* resource = [BMLResource new];
         NSURL* url = kResourcePath(@"iris", @"csv");
-        resource.fullUuid = [NSString stringWithFormat:@"%@/%@", kFileEntityType, [url path]];
+        resource.fullUuid = [NSString stringWithFormat:@"%@/%@", BMLResourceTypeFile, [url path]];
         resource.name = @"test";
         
         [_workflow runWithResource:resource connector:_ml completionBlock:^(NSError* e) {
@@ -192,7 +196,7 @@
         
         BMLResource* resource = [BMLResource new];
         NSURL* url = kResourcePath(@"iris", @"csv");
-        resource.fullUuid = [NSString stringWithFormat:@"%@/%@", kFileEntityType, [url path]];
+        resource.fullUuid = [NSString stringWithFormat:@"%@/%@", BMLResourceTypeFile, [url path]];
         resource.name = @"test";
         
         [_workflow runWithResource:resource connector:_ml completionBlock:^(NSError* e) {
@@ -215,7 +219,7 @@
         
         BMLResource* resource = [BMLResource new];
         NSURL* url = kResourcePath(@"iris", @"csv");
-        resource.fullUuid = [NSString stringWithFormat:@"%@/%@", kFileEntityType, [url path]];
+        resource.fullUuid = [NSString stringWithFormat:@"%@/%@", BMLResourceTypeFile, [url path]];
         resource.name = @"test";
         
         BMLConnector* ml = [[BMLConnector alloc] initWithUsername:@"test1"

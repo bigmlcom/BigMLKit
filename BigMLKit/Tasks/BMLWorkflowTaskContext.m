@@ -14,7 +14,7 @@
 
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflow.h"
-#import "BMLResourceTypeIdentifier+BigML.h"
+//#import "BMLResourceTypeIdentifier+BigML.h"
 
 #define kMonitoringPeriod 0.25
 
@@ -23,7 +23,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 @interface BMLWorkflowTaskContext ()
 
-@property (nonatomic, strong) BMLConnector* ml;
+@property (nonatomic, strong) BMLAPIConnector* ml;
 @property (nonatomic, weak) BMLWorkflow* workflow;
 
 @end
@@ -42,7 +42,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)initWithWorkflow:(BMLWorkflow*)workflow
-                       connector:(BMLConnector*)connector {
+                       connector:(BMLAPIConnector*)connector {
     
     if (self = [super init]) {
         

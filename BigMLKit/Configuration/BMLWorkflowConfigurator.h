@@ -17,24 +17,21 @@
 
 @class BMLWorkflowTaskConfiguration;
 @class BMLWorkflowTask;
-@class BMLResource;
-
-//////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
+@protocol BMLResource;
 
 /**
  *  BMLWorkflowConfigurator is a collection of BMLWorkflowTaskConfiguration,
  *  one for each step of a workflow.
  */
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 @interface BMLWorkflowConfigurator : NSObject
 
-@property (nonatomic, strong) NSMutableDictionary* taskConfigurations;
-
-+ (BMLWorkflowConfigurator*)configuratorFromConfigurationResource:(BMLResource*)resource;
++ (BMLWorkflowConfigurator*)configuratorFromConfigurationResource:(id<BMLResource>)resource;
 
 - (BMLWorkflowTaskConfiguration*)configurationForResourceType:(BMLResourceTypeIdentifier*)resourceType;
 
-- (NSDictionary*)optionDictionaryAllOptions:(BOOL)allOptions;
+- (NSDictionary*)configurationDictionary;
 
 @end

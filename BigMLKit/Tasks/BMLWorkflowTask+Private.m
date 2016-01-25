@@ -65,14 +65,6 @@ static void* gRunningResourcePropertyKey = &gRunningResourcePropertyKey;
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSMutableDictionary*)optionsForCurrentContext:(BMLWorkflowTaskContext*)context {
     
-//    NSMutableDictionary* optionValues = ;
-//    for (NSString* collectionName in [optionValues allKeys]) {
-//        id optionValue = optionValues[collectionName];
-//        if ([NSJSONSerialization isValidJSONObject:optionValue]) {
-//            NSData* jsonData = [NSJSONSerialization dataWithJSONObject:optionValue options:0 error:nil];
-//            optionValues[collectionName] = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-//        }
-//    }
     return [[self.configurator configurationForResourceType:self.inputResourceType] optionDictionaryAllOptions:NO];
 }
 

@@ -7,6 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		491700CC1C56993E00D5D389 /* bigmlObjcAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 491700B61C56993E00D5D389 /* bigmlObjcAPITests.m */; };
+		491700CD1C56993E00D5D389 /* bigmlObjcBaseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 491700B81C56993E00D5D389 /* bigmlObjcBaseTests.m */; };
+		491700CE1C56993E00D5D389 /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 491700B91C56993E00D5D389 /* credentials.plist */; };
+		491700CF1C56993E00D5D389 /* diab.csv in Resources */ = {isa = PBXBuildFile; fileRef = 491700BA1C56993E00D5D389 /* diab.csv */; };
+		491700D01C56993E00D5D389 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 491700BB1C56993E00D5D389 /* Info.plist */; };
+		491700D11C56993E00D5D389 /* iris.csv in Resources */ = {isa = PBXBuildFile; fileRef = 491700BC1C56993E00D5D389 /* iris.csv */; };
+		491700D21C56993E00D5D389 /* movies.csv in Resources */ = {isa = PBXBuildFile; fileRef = 491700BD1C56993E00D5D389 /* movies.csv */; };
+		491700D31C56993E00D5D389 /* salaries.csv in Resources */ = {isa = PBXBuildFile; fileRef = 491700BE1C56993E00D5D389 /* salaries.csv */; };
+		491700D41C56993E00D5D389 /* spam.csv in Resources */ = {isa = PBXBuildFile; fileRef = 491700BF1C56993E00D5D389 /* spam.csv */; };
+		491700D51C56993E00D5D389 /* wines.csv in Resources */ = {isa = PBXBuildFile; fileRef = 491700C01C56993E00D5D389 /* wines.csv */; };
+		491700D61C56993E00D5D389 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 491700C11C56993E00D5D389 /* LICENSE */; };
+		491700D71C56993E00D5D389 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 491700C21C56993E00D5D389 /* README.md */; };
+		491700DF1C56A4F100D5D389 /* BMLAPIConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = 491700A31C56993E00D5D389 /* BMLAPIConnector.m */; };
+		491700E01C56A4F100D5D389 /* BMLHTTPConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = 491700A61C56993E00D5D389 /* BMLHTTPConnector.m */; };
+		491700E11C56A4F100D5D389 /* BMLHTTPMethodHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 491700A81C56993E00D5D389 /* BMLHTTPMethodHandler.m */; };
+		491700E21C56A4F100D5D389 /* BMLResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 491700AA1C56993E00D5D389 /* BMLResource.m */; };
+		491700E31C56A4F100D5D389 /* BMLResourceTypeIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 491700AC1C56993E00D5D389 /* BMLResourceTypeIdentifier.m */; };
+		491700E41C56A4F100D5D389 /* NSError+BMLError.m in Sources */ = {isa = PBXBuildFile; fileRef = 491700AF1C56993E00D5D389 /* NSError+BMLError.m */; };
+		491700E51C56A4F100D5D389 /* NSMutableData+BMLData.m in Sources */ = {isa = PBXBuildFile; fileRef = 491700B11C56993E00D5D389 /* NSMutableData+BMLData.m */; };
+		491700E61C56A4F200D5D389 /* BMLAPIConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = 491700A31C56993E00D5D389 /* BMLAPIConnector.m */; };
+		491700E71C56A4F200D5D389 /* BMLHTTPConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = 491700A61C56993E00D5D389 /* BMLHTTPConnector.m */; };
+		491700E81C56A4F200D5D389 /* BMLHTTPMethodHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 491700A81C56993E00D5D389 /* BMLHTTPMethodHandler.m */; };
+		491700E91C56A4F200D5D389 /* BMLResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 491700AA1C56993E00D5D389 /* BMLResource.m */; };
+		491700EA1C56A4F200D5D389 /* BMLResourceTypeIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 491700AC1C56993E00D5D389 /* BMLResourceTypeIdentifier.m */; };
+		491700EB1C56A4F200D5D389 /* NSError+BMLError.m in Sources */ = {isa = PBXBuildFile; fileRef = 491700AF1C56993E00D5D389 /* NSError+BMLError.m */; };
+		491700EC1C56A4F200D5D389 /* NSMutableData+BMLData.m in Sources */ = {isa = PBXBuildFile; fileRef = 491700B11C56993E00D5D389 /* NSMutableData+BMLData.m */; };
 		4956C5D11ADFAEAA00F91E3C /* BigMLKit.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4956C5D01ADFAEAA00F91E3C /* BigMLKit.h */; };
 		4956C5D31ADFAEAA00F91E3C /* BigMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C5D21ADFAEAA00F91E3C /* BigMLKit.m */; };
 		4956C5D91ADFAEAA00F91E3C /* libBigMLKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4956C5CD1ADFAEAA00F91E3C /* libBigMLKit.a */; };
@@ -20,7 +46,6 @@
 		4956C60F1ADFAEFC00F91E3C /* BMLWorkflowTasks.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C6021ADFAEFC00F91E3C /* BMLWorkflowTasks.m */; };
 		4956C6101ADFAEFC00F91E3C /* BMLWorkflowTaskSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C6041ADFAEFC00F91E3C /* BMLWorkflowTaskSequence.m */; };
 		4962150B1ADFBDC0001F1039 /* MAKVONotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4962150A1ADFBDC0001F1039 /* MAKVONotificationCenter.m */; };
-		4962152F1ADFBEB0001F1039 /* BMLResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4962152E1ADFBEB0001F1039 /* BMLResourceUtils.m */; };
 		496215311ADFC21B001F1039 /* BigMLKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 496215301ADFC21B001F1039 /* BigMLKitTests.m */; };
 		496215431ADFC5B2001F1039 /* apikey.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4962153D1ADFC5B2001F1039 /* apikey.txt */; };
 		496215441ADFC5B2001F1039 /* diab.csv in Resources */ = {isa = PBXBuildFile; fileRef = 4962153F1ADFC5B2001F1039 /* diab.csv */; };
@@ -31,7 +56,6 @@
 		4962155A1ADFF592001F1039 /* BigMLKitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4962154F1ADFF592001F1039 /* BigMLKitFramework.framework */; };
 		496215611ADFF592001F1039 /* BigMLKitFrameworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 496215601ADFF592001F1039 /* BigMLKitFrameworkTests.m */; };
 		496215761ADFF611001F1039 /* BigMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C5D21ADFAEAA00F91E3C /* BigMLKit.m */; };
-		496215771ADFF611001F1039 /* BMLResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4962152E1ADFBEB0001F1039 /* BMLResourceUtils.m */; };
 		4962157A1ADFF61B001F1039 /* BMLWorkflowConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C5EF1ADFAEFC00F91E3C /* BMLWorkflowConfigurator.m */; };
 		4962157B1ADFF61B001F1039 /* BMLWorkflowTaskConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C5F11ADFAEFC00F91E3C /* BMLWorkflowTaskConfiguration.m */; };
 		4962157C1ADFF61B001F1039 /* BMLWorkflowTaskConfigurationOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 4956C5F31ADFAEFC00F91E3C /* BMLWorkflowTaskConfigurationOption.m */; };
@@ -47,10 +71,23 @@
 		496215861ADFF695001F1039 /* diab.csv in Resources */ = {isa = PBXBuildFile; fileRef = 4962153F1ADFC5B2001F1039 /* diab.csv */; };
 		496215871ADFF695001F1039 /* iris.csv in Resources */ = {isa = PBXBuildFile; fileRef = 496215401ADFC5B2001F1039 /* iris.csv */; };
 		496215881ADFF695001F1039 /* wines.csv in Resources */ = {isa = PBXBuildFile; fileRef = 496215411ADFC5B2001F1039 /* wines.csv */; };
-		49A022621B01258F00D376F8 /* BigMLKitConnector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49A0225E1B01252800D376F8 /* BigMLKitConnector.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		491700DA1C56993E00D5D389 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 491700B21C56993E00D5D389 /* bigml-objc.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4910F6081BFDD7750087E85A;
+			remoteInfo = bigmlObjc;
+		};
+		491700DC1C56993E00D5D389 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 491700B21C56993E00D5D389 /* bigml-objc.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4910F6121BFDD7750087E85A;
+			remoteInfo = bigmlObjcTests;
+		};
 		4956C5DA1ADFAEAA00F91E3C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4956C5C51ADFAEAA00F91E3C /* Project object */;
@@ -64,34 +101,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 4962154E1ADFF592001F1039;
 			remoteInfo = BigMLKitFramework;
-		};
-		49A0225D1B01252800D376F8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 49A022581B01252800D376F8 /* BigMLKitConnector.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 49C5AA6E1AEF943800B81AA6;
-			remoteInfo = BigMLKitConnector;
-		};
-		49A0225F1B01252800D376F8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 49A022581B01252800D376F8 /* BigMLKitConnector.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 49C5AA791AEF943900B81AA6;
-			remoteInfo = BigMLKitConnectorTests;
-		};
-		49A022631B01454100D376F8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 49A022581B01252800D376F8 /* BigMLKitConnector.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 49C5AA6D1AEF943800B81AA6;
-			remoteInfo = BigMLKitConnector;
-		};
-		49A022871B01FEDE00D376F8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 49A022581B01252800D376F8 /* BigMLKitConnector.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 49C5AA6D1AEF943800B81AA6;
-			remoteInfo = BigMLKitConnector;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -109,6 +118,36 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		491700A11C56993E00D5D389 /* bigml-objc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "bigml-objc.h"; sourceTree = "<group>"; };
+		491700A21C56993E00D5D389 /* BMLAPIConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMLAPIConnector.h; sourceTree = "<group>"; };
+		491700A31C56993E00D5D389 /* BMLAPIConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMLAPIConnector.m; sourceTree = "<group>"; };
+		491700A41C56993E00D5D389 /* BMLEnums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMLEnums.h; sourceTree = "<group>"; };
+		491700A51C56993E00D5D389 /* BMLHTTPConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMLHTTPConnector.h; sourceTree = "<group>"; };
+		491700A61C56993E00D5D389 /* BMLHTTPConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMLHTTPConnector.m; sourceTree = "<group>"; };
+		491700A71C56993E00D5D389 /* BMLHTTPMethodHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMLHTTPMethodHandler.h; sourceTree = "<group>"; };
+		491700A81C56993E00D5D389 /* BMLHTTPMethodHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMLHTTPMethodHandler.m; sourceTree = "<group>"; };
+		491700A91C56993E00D5D389 /* BMLResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMLResource.h; sourceTree = "<group>"; };
+		491700AA1C56993E00D5D389 /* BMLResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMLResource.m; sourceTree = "<group>"; };
+		491700AB1C56993E00D5D389 /* BMLResourceTypeIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMLResourceTypeIdentifier.h; sourceTree = "<group>"; };
+		491700AC1C56993E00D5D389 /* BMLResourceTypeIdentifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMLResourceTypeIdentifier.m; sourceTree = "<group>"; };
+		491700AE1C56993E00D5D389 /* NSError+BMLError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+BMLError.h"; sourceTree = "<group>"; };
+		491700AF1C56993E00D5D389 /* NSError+BMLError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+BMLError.m"; sourceTree = "<group>"; };
+		491700B01C56993E00D5D389 /* NSMutableData+BMLData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableData+BMLData.h"; sourceTree = "<group>"; };
+		491700B11C56993E00D5D389 /* NSMutableData+BMLData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableData+BMLData.m"; sourceTree = "<group>"; };
+		491700B21C56993E00D5D389 /* bigml-objc.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = "bigml-objc.xcodeproj"; sourceTree = "<group>"; };
+		491700B61C56993E00D5D389 /* bigmlObjcAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = bigmlObjcAPITests.m; sourceTree = "<group>"; };
+		491700B71C56993E00D5D389 /* bigmlObjcBaseTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bigmlObjcBaseTests.h; sourceTree = "<group>"; };
+		491700B81C56993E00D5D389 /* bigmlObjcBaseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = bigmlObjcBaseTests.m; sourceTree = "<group>"; };
+		491700B91C56993E00D5D389 /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
+		491700BA1C56993E00D5D389 /* diab.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = diab.csv; sourceTree = "<group>"; };
+		491700BB1C56993E00D5D389 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		491700BC1C56993E00D5D389 /* iris.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = iris.csv; sourceTree = "<group>"; };
+		491700BD1C56993E00D5D389 /* movies.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = movies.csv; sourceTree = "<group>"; };
+		491700BE1C56993E00D5D389 /* salaries.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = salaries.csv; sourceTree = "<group>"; };
+		491700BF1C56993E00D5D389 /* spam.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = spam.csv; sourceTree = "<group>"; };
+		491700C01C56993E00D5D389 /* wines.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wines.csv; sourceTree = "<group>"; };
+		491700C11C56993E00D5D389 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		491700C21C56993E00D5D389 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4956C5CD1ADFAEAA00F91E3C /* libBigMLKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBigMLKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4956C5D01ADFAEAA00F91E3C /* BigMLKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BigMLKit.h; sourceTree = "<group>"; };
 		4956C5D21ADFAEAA00F91E3C /* BigMLKit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BigMLKit.m; sourceTree = "<group>"; };
@@ -141,8 +180,6 @@
 		4956C6041ADFAEFC00F91E3C /* BMLWorkflowTaskSequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMLWorkflowTaskSequence.m; sourceTree = "<group>"; };
 		496215091ADFBDC0001F1039 /* MAKVONotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MAKVONotificationCenter.h; path = vendor/MAKVONotificationCenter/MAKVONotificationCenter.h; sourceTree = "<group>"; };
 		4962150A1ADFBDC0001F1039 /* MAKVONotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MAKVONotificationCenter.m; path = vendor/MAKVONotificationCenter/MAKVONotificationCenter.m; sourceTree = "<group>"; };
-		4962152D1ADFBEB0001F1039 /* BMLResourceUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMLResourceUtils.h; sourceTree = "<group>"; };
-		4962152E1ADFBEB0001F1039 /* BMLResourceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BMLResourceUtils.m; sourceTree = "<group>"; };
 		496215301ADFC21B001F1039 /* BigMLKitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigMLKitTests.m; sourceTree = "<group>"; };
 		4962153D1ADFC5B2001F1039 /* apikey.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = apikey.txt; sourceTree = "<group>"; };
 		4962153F1ADFC5B2001F1039 /* diab.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = diab.csv; sourceTree = "<group>"; };
@@ -157,7 +194,6 @@
 		496215591ADFF592001F1039 /* BigMLKitFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BigMLKitFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4962155F1ADFF592001F1039 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		496215601ADFF592001F1039 /* BigMLKitFrameworkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BigMLKitFrameworkTests.m; sourceTree = "<group>"; };
-		49A022581B01252800D376F8 /* BigMLKitConnector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BigMLKitConnector.xcodeproj; path = vendor/BigMLKitConnector/BigMLKitConnector.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,7 +208,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49A022621B01258F00D376F8 /* BigMLKitConnector.framework in Frameworks */,
 				4956C5D91ADFAEAA00F91E3C /* libBigMLKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -195,10 +230,72 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4917009E1C56993E00D5D389 /* bigml-objc */ = {
+			isa = PBXGroup;
+			children = (
+				491700A01C56993E00D5D389 /* bigml-objc */,
+				491700B21C56993E00D5D389 /* bigml-objc.xcodeproj */,
+				491700B51C56993E00D5D389 /* bigml-objcTests */,
+				491700C11C56993E00D5D389 /* LICENSE */,
+				491700C21C56993E00D5D389 /* README.md */,
+			);
+			name = "bigml-objc";
+			path = "vendor/bigml-objc";
+			sourceTree = "<group>";
+		};
+		491700A01C56993E00D5D389 /* bigml-objc */ = {
+			isa = PBXGroup;
+			children = (
+				491700A11C56993E00D5D389 /* bigml-objc.h */,
+				491700A21C56993E00D5D389 /* BMLAPIConnector.h */,
+				491700A31C56993E00D5D389 /* BMLAPIConnector.m */,
+				491700A41C56993E00D5D389 /* BMLEnums.h */,
+				491700A51C56993E00D5D389 /* BMLHTTPConnector.h */,
+				491700A61C56993E00D5D389 /* BMLHTTPConnector.m */,
+				491700A71C56993E00D5D389 /* BMLHTTPMethodHandler.h */,
+				491700A81C56993E00D5D389 /* BMLHTTPMethodHandler.m */,
+				491700A91C56993E00D5D389 /* BMLResource.h */,
+				491700AA1C56993E00D5D389 /* BMLResource.m */,
+				491700AB1C56993E00D5D389 /* BMLResourceTypeIdentifier.h */,
+				491700AC1C56993E00D5D389 /* BMLResourceTypeIdentifier.m */,
+				491700AE1C56993E00D5D389 /* NSError+BMLError.h */,
+				491700AF1C56993E00D5D389 /* NSError+BMLError.m */,
+				491700B01C56993E00D5D389 /* NSMutableData+BMLData.h */,
+				491700B11C56993E00D5D389 /* NSMutableData+BMLData.m */,
+			);
+			path = "bigml-objc";
+			sourceTree = "<group>";
+		};
+		491700B31C56993E00D5D389 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				491700DB1C56993E00D5D389 /* bigmlObjc.framework */,
+				491700DD1C56993E00D5D389 /* bigmlObjcTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		491700B51C56993E00D5D389 /* bigml-objcTests */ = {
+			isa = PBXGroup;
+			children = (
+				491700B61C56993E00D5D389 /* bigmlObjcAPITests.m */,
+				491700B71C56993E00D5D389 /* bigmlObjcBaseTests.h */,
+				491700B81C56993E00D5D389 /* bigmlObjcBaseTests.m */,
+				491700B91C56993E00D5D389 /* credentials.plist */,
+				491700BA1C56993E00D5D389 /* diab.csv */,
+				491700BB1C56993E00D5D389 /* Info.plist */,
+				491700BC1C56993E00D5D389 /* iris.csv */,
+				491700BD1C56993E00D5D389 /* movies.csv */,
+				491700BE1C56993E00D5D389 /* salaries.csv */,
+				491700BF1C56993E00D5D389 /* spam.csv */,
+				491700C01C56993E00D5D389 /* wines.csv */,
+			);
+			path = "bigml-objcTests";
+			sourceTree = "<group>";
+		};
 		4956C5C41ADFAEAA00F91E3C = {
 			isa = PBXGroup;
 			children = (
-				49A022581B01252800D376F8 /* BigMLKitConnector.xcodeproj */,
 				496215481ADFC7B9001F1039 /* README.md */,
 				496215491ADFCA67001F1039 /* LICENSE */,
 				496215071ADFBD97001F1039 /* Vendor */,
@@ -226,8 +323,6 @@
 			children = (
 				4956C5D01ADFAEAA00F91E3C /* BigMLKit.h */,
 				4956C5D21ADFAEAA00F91E3C /* BigMLKit.m */,
-				4962152D1ADFBEB0001F1039 /* BMLResourceUtils.h */,
-				4962152E1ADFBEB0001F1039 /* BMLResourceUtils.m */,
 				4956C5E71ADFAEFC00F91E3C /* BMLResourceProtocol.h */,
 				4956C5E81ADFAEFC00F91E3C /* BMLWorkflowManager.h */,
 				4956C5E91ADFAEFC00F91E3C /* BMLWorkflowManager.m */,
@@ -240,6 +335,7 @@
 		4956C5DC1ADFAEAA00F91E3C /* BigMLKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				496215301ADFC21B001F1039 /* BigMLKitTests.m */,
 				4962153D1ADFC5B2001F1039 /* apikey.txt */,
 				496215421ADFC5B2001F1039 /* username.txt */,
 				4962153E1ADFC5B2001F1039 /* testFiles */,
@@ -251,7 +347,6 @@
 		4956C5DD1ADFAEAA00F91E3C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				496215301ADFC21B001F1039 /* BigMLKitTests.m */,
 				4956C5DE1ADFAEAA00F91E3C /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -296,6 +391,7 @@
 		496215071ADFBD97001F1039 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				4917009E1C56993E00D5D389 /* bigml-objc */,
 				496215081ADFBDAF001F1039 /* MAKVONotificationCenter */,
 			);
 			name = Vendor;
@@ -354,15 +450,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		49A022591B01252800D376F8 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				49A0225E1B01252800D376F8 /* BigMLKitConnector.framework */,
-				49A022601B01252800D376F8 /* BigMLKitConnectorTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -388,7 +475,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				49A022641B01454100D376F8 /* PBXTargetDependency */,
 			);
 			name = BigMLKit;
 			productName = BigMLKit;
@@ -406,7 +492,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				49A022881B01FEDE00D376F8 /* PBXTargetDependency */,
 				4956C5DB1ADFAEAA00F91E3C /* PBXTargetDependency */,
 			);
 			name = BigMLKitTests;
@@ -485,8 +570,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 49A022591B01252800D376F8 /* Products */;
-					ProjectRef = 49A022581B01252800D376F8 /* BigMLKitConnector.xcodeproj */;
+					ProductGroup = 491700B31C56993E00D5D389 /* Products */;
+					ProjectRef = 491700B21C56993E00D5D389 /* bigml-objc.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -500,18 +585,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		49A0225E1B01252800D376F8 /* BigMLKitConnector.framework */ = {
+		491700DB1C56993E00D5D389 /* bigmlObjc.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = BigMLKitConnector.framework;
-			remoteRef = 49A0225D1B01252800D376F8 /* PBXContainerItemProxy */;
+			path = bigmlObjc.framework;
+			remoteRef = 491700DA1C56993E00D5D389 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		49A022601B01252800D376F8 /* BigMLKitConnectorTests.xctest */ = {
+		491700DD1C56993E00D5D389 /* bigmlObjcTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = BigMLKitConnectorTests.xctest;
-			remoteRef = 49A0225F1B01252800D376F8 /* PBXContainerItemProxy */;
+			path = bigmlObjcTests.xctest;
+			remoteRef = 491700DC1C56993E00D5D389 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -522,10 +607,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				496215441ADFC5B2001F1039 /* diab.csv in Resources */,
+				491700CE1C56993E00D5D389 /* credentials.plist in Resources */,
 				496215461ADFC5B2001F1039 /* wines.csv in Resources */,
+				491700D31C56993E00D5D389 /* salaries.csv in Resources */,
+				491700D11C56993E00D5D389 /* iris.csv in Resources */,
 				496215431ADFC5B2001F1039 /* apikey.txt in Resources */,
 				496215471ADFC5B2001F1039 /* username.txt in Resources */,
+				491700D41C56993E00D5D389 /* spam.csv in Resources */,
 				496215451ADFC5B2001F1039 /* iris.csv in Resources */,
+				491700D61C56993E00D5D389 /* LICENSE in Resources */,
+				491700D51C56993E00D5D389 /* wines.csv in Resources */,
+				491700D01C56993E00D5D389 /* Info.plist in Resources */,
+				491700CF1C56993E00D5D389 /* diab.csv in Resources */,
+				491700D21C56993E00D5D389 /* movies.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -556,17 +650,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				4962150B1ADFBDC0001F1039 /* MAKVONotificationCenter.m in Sources */,
+				491700E11C56A4F100D5D389 /* BMLHTTPMethodHandler.m in Sources */,
 				4956C5D31ADFAEAA00F91E3C /* BigMLKit.m in Sources */,
+				491700E41C56A4F100D5D389 /* NSError+BMLError.m in Sources */,
 				4956C6091ADFAEFC00F91E3C /* BMLWorkflowTaskConfiguration.m in Sources */,
+				491700E51C56A4F100D5D389 /* NSMutableData+BMLData.m in Sources */,
 				4956C60D1ADFAEFC00F91E3C /* BMLWorkflowTask.m in Sources */,
 				4956C60A1ADFAEFC00F91E3C /* BMLWorkflowTaskConfigurationOption.m in Sources */,
 				4956C60F1ADFAEFC00F91E3C /* BMLWorkflowTasks.m in Sources */,
 				4956C60C1ADFAEFC00F91E3C /* BMLWorkflowTask+Private.m in Sources */,
-				4962152F1ADFBEB0001F1039 /* BMLResourceUtils.m in Sources */,
+				491700E21C56A4F100D5D389 /* BMLResource.m in Sources */,
 				4956C60B1ADFAEFC00F91E3C /* BMLWorkflow.m in Sources */,
+				491700DF1C56A4F100D5D389 /* BMLAPIConnector.m in Sources */,
 				4956C6081ADFAEFC00F91E3C /* BMLWorkflowConfigurator.m in Sources */,
 				4956C60E1ADFAEFC00F91E3C /* BMLWorkflowTaskContext.m in Sources */,
 				4956C6101ADFAEFC00F91E3C /* BMLWorkflowTaskSequence.m in Sources */,
+				491700E31C56A4F100D5D389 /* BMLResourceTypeIdentifier.m in Sources */,
+				491700E01C56A4F100D5D389 /* BMLHTTPConnector.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -574,7 +674,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				491700CC1C56993E00D5D389 /* bigmlObjcAPITests.m in Sources */,
 				496215311ADFC21B001F1039 /* BigMLKitTests.m in Sources */,
+				491700CD1C56993E00D5D389 /* bigmlObjcBaseTests.m in Sources */,
+				491700D71C56993E00D5D389 /* README.md in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -585,13 +688,19 @@
 				496215761ADFF611001F1039 /* BigMLKit.m in Sources */,
 				4962157E1ADFF621001F1039 /* BMLWorkflowTask+Private.m in Sources */,
 				4962157D1ADFF621001F1039 /* BMLWorkflow.m in Sources */,
+				491700E91C56A4F200D5D389 /* BMLResource.m in Sources */,
+				491700E71C56A4F200D5D389 /* BMLHTTPConnector.m in Sources */,
+				491700EA1C56A4F200D5D389 /* BMLResourceTypeIdentifier.m in Sources */,
 				4962157B1ADFF61B001F1039 /* BMLWorkflowTaskConfiguration.m in Sources */,
 				4962157F1ADFF621001F1039 /* BMLWorkflowTask.m in Sources */,
+				491700EB1C56A4F200D5D389 /* NSError+BMLError.m in Sources */,
+				491700E61C56A4F200D5D389 /* BMLAPIConnector.m in Sources */,
 				496215801ADFF621001F1039 /* BMLWorkflowTaskContext.m in Sources */,
+				491700EC1C56A4F200D5D389 /* NSMutableData+BMLData.m in Sources */,
 				4962157C1ADFF61B001F1039 /* BMLWorkflowTaskConfigurationOption.m in Sources */,
 				496215811ADFF621001F1039 /* BMLWorkflowTasks.m in Sources */,
+				491700E81C56A4F200D5D389 /* BMLHTTPMethodHandler.m in Sources */,
 				4962157A1ADFF61B001F1039 /* BMLWorkflowConfigurator.m in Sources */,
-				496215771ADFF611001F1039 /* BMLResourceUtils.m in Sources */,
 				496215821ADFF621001F1039 /* BMLWorkflowTaskSequence.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -617,16 +726,6 @@
 			isa = PBXTargetDependency;
 			target = 4962154E1ADFF592001F1039 /* BigMLKitFramework */;
 			targetProxy = 4962155B1ADFF592001F1039 /* PBXContainerItemProxy */;
-		};
-		49A022641B01454100D376F8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = BigMLKitConnector;
-			targetProxy = 49A022631B01454100D376F8 /* PBXContainerItemProxy */;
-		};
-		49A022881B01FEDE00D376F8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = BigMLKitConnector;
-			targetProxy = 49A022871B01FEDE00D376F8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

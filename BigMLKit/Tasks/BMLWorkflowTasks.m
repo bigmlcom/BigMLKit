@@ -16,8 +16,11 @@
 #import "BMLWorkflowTask+Private.h"
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflowConfigurator.h"
-#import "BMLFieldModels.h"
-#import "BigMLKit.h"
+//-- check
+//-- this BigMLAppCore-dependency was required by WhizzML scripts/execs...
+//#import "BMLFieldModels.h"
+
+#import "BMLResourceTypeIdentifier.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -177,7 +180,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)init {
     
-    if (self = [super initWithResourceType:kFileEntityType]) {
+    if (self = [super initWithResourceType:BMLResourceTypeFile]) {
     }
     return self;
 }
@@ -206,7 +209,7 @@
     
 //    NSAssert([inputs count] == 1, @"Calling BMLWorkflowTaskCreateResource with wrong number of input resources");
     [super runWithArguments:inputs inContext:context completionBlock:nil];
-    [context.ml createResource:self.inputResourceType.type
+    [context.ml createResource:self.inputResourceType
                           name:context.info[kWorkflowName]
                        options:[self optionsForCurrentContext:context]
                           from:inputs.firstObject
@@ -232,14 +235,14 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)init {
     
-    if (self = [super initWithResourceType:kSourceEntityType]) {
+    if (self = [super initWithResourceType:BMLResourceTypeSource]) {
     }
     return self;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {
-    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kFileEntityType
+    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeFile
                                                                                   name:kWorkflowStartResource]}];
 }
 
@@ -276,7 +279,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)init {
     
-    if (self = [super initWithResourceType:kDatasetEntityType]) {
+    if (self = [super initWithResourceType:BMLResourceTypeDataset]) {
     }
     return self;
 }
@@ -294,7 +297,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {
-    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kSourceEntityType
+    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeSource
                                                                                   name:kWorkflowStartResource]}];
 }
 
@@ -313,7 +316,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)init {
     
-    if (self = [super initWithResourceType:kModelEntityType]) {
+    if (self = [super initWithResourceType:BMLResourceTypeModel]) {
     }
     return self;
 }
@@ -332,7 +335,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {
-    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kDatasetEntityType
+    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeDataset
                                                                                   name:kWorkflowStartResource]}];
 }
 
@@ -351,14 +354,14 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)init {
     
-    if (self = [super initWithResourceType:kClusterEntityType]) {
+    if (self = [super initWithResourceType:BMLResourceTypeCluster]) {
     }
     return self;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSDictionary*)inputResourceTypes {
-    return @{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kDatasetEntityType
+    return @{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeDataset
                                                                                   name:kWorkflowStartResource]};
 }
 
@@ -377,14 +380,14 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)init {
     
-    if (self = [super initWithResourceType:kAnomalyEntityType]) {
+    if (self = [super initWithResourceType:BMLResourceTypeAnomaly]) {
     }
     return self;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {
-    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kDatasetEntityType
+    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeDataset
                                                                                   name:kWorkflowStartResource]}];
 }
 
@@ -403,7 +406,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)init {
     
-    if (self = [super initWithResourceType:kPredictionEntityType]) {
+    if (self = [super initWithResourceType:BMLResourceTypePrediction]) {
     }
     return self;
 }
@@ -476,7 +479,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)init {
     
-    if (self = [super initWithResourceType:kModelEntityType]) {
+    if (self = [super initWithResourceType:BMLResourceTypeModel]) {
     }
     return self;
 }
@@ -512,7 +515,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)init {
     
-    if (self = [super initWithResourceType:kClusterEntityType]) {
+    if (self = [super initWithResourceType:BMLResourceTypeCluster]) {
     }
     return self;
 }
@@ -546,7 +549,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)init {
     
-    if (self = [super initWithResourceType:kEvaluationEntityType]) {
+    if (self = [super initWithResourceType:BMLResourceTypeEvaluation]) {
     }
     return self;
 }
@@ -560,16 +563,17 @@
         options = [NSMutableDictionary new];
     
     BMLMinimalResource* r = context.info[kWorkflowSecondResource];
-    BMLResourceTypeIdentifier* t = [[BMLResourceTypeIdentifier alloc] initWithRawType:r.type];
-    options[[t stringValue]] = r.fullUuid;
+//    BMLResourceTypeIdentifier* t = [[BMLResourceTypeIdentifier alloc] initWithRawType:r.type];
+//    options[[t stringValue]] = r.fullUuid;
+        options[[r.type stringValue]] = r.fullUuid;
     return options;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {
-    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:kModelEntityType
+    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeModel
                                                                                   name:kWorkflowStartResource],
-             kWorkflowSecondResource: [[BMLWorkflowInputDescriptor alloc] initWithType:kDatasetEntityType
+             kWorkflowSecondResource: [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeDataset
                                                                                   name:kWorkflowSecondResource]}];
 }
 
@@ -580,6 +584,8 @@
 }
 @end
 
+/*
+
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -588,7 +594,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)init {
     
-    if (self = [super initWithResourceType:kScriptEntityType]) {
+    if (self = [super initWithResourceType:BMLResourceTypeWhizzmlScript]) {
     }
     return self;
 }
@@ -628,13 +634,13 @@
     NSAssert(NO, @"BMLWorkflowTaskCreateScript inputResourceTypes SHOULD NOT BE HERE");
     return nil;
 
-//    return @{@"Input 1" : [[BMLWorkflowInputDescriptor alloc] initWithType:kModelEntityType
+//    return @{@"Input 1" : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeModel
 //                           name:@"input 1"],
-//             @"Input 2": [[BMLWorkflowInputDescriptor alloc] initWithType:kClusterEntityType
+//             @"Input 2": [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeCluster
 //                          name:@"input 2"],
-//             @"Input 3" : [[BMLWorkflowInputDescriptor alloc] initWithType:kDatasetEntityType
+//             @"Input 3" : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeDataset
 //                           name:@"input 3"],
-//             @"Input 4" : [[BMLWorkflowInputDescriptor alloc] initWithType:kEvaluationEntityType
+//             @"Input 4" : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeEvaluation
 //                           name:@"input 4"]};
 }
 
@@ -648,7 +654,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)init {
     
-    if (self = [super initWithResourceType:kExecutionEntityType]) {
+    if (self = [super initWithResourceType:BMLResourceTypeWhizzmlExecution]) {
     }
     return self;
 }
@@ -657,7 +663,7 @@
 - (NSDictionary*)optionsForCurrentContext:(BMLWorkflowTaskContext*)context {
     
 //    NSMutableDictionary* options = [super optionsForCurrentContext:context];
-    NSDictionary* options = [self.configurator optionDictionaryAllOptions:YES];
+    NSDictionary* options = [self.configurator configurationDictionary][@"configurations"];
 
     if (!options)
         options = [NSMutableDictionary new];
@@ -680,7 +686,8 @@
     BMLMinimalResource* resource = [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
                                                                    fullUuid:[inputs.firstObject fullUuid]
                                                                  definition:@{}];
-    id<BMLResource> r = [context.ml createResource:BMLResourceTypeWhizzmlExecution
+    id<BMLResource> __block r = nil;
+    [context.ml createResource:BMLResourceTypeWhizzmlExecution
                                               name:context.info[@"name"]
                                            options:@{ @"arguments" : arguments,
                                                       @"creation_defaults": [self optionsForCurrentContext:context]}
@@ -688,14 +695,15 @@
                                         completion:^(id<BMLResource> resource, NSError* error) {
                                             
                                             if (resource) {
-//                                                self.outputResources = @[resource];
+                                                self.outputResources = @[resource];
                                                 self.resourceStatus = BMLResourceStatusEnded;
                                             } else {
                                                 self.error = error ?: [NSError errorWithInfo:@"Could not complete task" code:-1];
                                                 self.resourceStatus = BMLResourceStatusFailed;
                                             }
                                         }];
-    self.outputResources = @[r];
+//-- why did I try to return this value this way (i.e., not waiting for callback)?
+//    self.outputResources = @[r];
 }
 
 
@@ -706,3 +714,4 @@
     return nil;
 }
 @end
+*/

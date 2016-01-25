@@ -17,14 +17,46 @@
 #import "BMLWorkflowTask.h"
 
 #import "BMLResource.h"
-#import "BMLResourceDefinition.h"
-#import "BMLResourceTypeIdentifier+BigML.h"
+//#import "BMLResourceDefinition.h"
+//#import "BMLResourceTypeIdentifier+BigML.h"
 #import "BMLWorkflowTaskConfigurationOption.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
+@interface BMLWorkflowConfigurator ()
+
+@property (nonatomic, strong) NSMutableDictionary* taskConfigurations;
+@property (nonatomic, strong) NSString* configurationName;
+@property (nonatomic, strong) BMLResourceFullUuid* configurationFullUuid;
+
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 @implementation BMLWorkflowConfigurator
+
+//////////////////////////////////////////////////////////////////////////////////////
++ (BMLWorkflowConfigurator*)configuratorFromConfigurationResource:(id<BMLResource>)resource {
+    
+    NSAssert(!resource || resource.type == BMLResourceTypeConfiguration, @"Expected a configuration resource here!");
+    BMLWorkflowConfigurator* configurator = [BMLWorkflowConfigurator new];
+    configurator.configurationName = resource.name;
+    configurator.configurationFullUuid = resource.fullUuid;
+
+//-- check (BigMLAppCore dep)
+//    for (NSString* resourceType in [resource.definition.json[@"configurations"] allKeys]) {
+//        BMLWorkflowTaskConfiguration* configuration =
+//        [configurator configurationForResourceType:[BMLResourceTypeIdentifier typeFromTypeString:resourceType]];
+//        for (NSString* optionName in [resource.definition.json[@"configurations"][resourceType] allKeys]) {
+//            [self setOption:optionName
+//                  withValue:resource.definition.json[@"configurations"][resourceType][optionName]
+//              configuration:configuration];
+//        }
+//    }
+    return configurator;
+}
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)init {
@@ -52,22 +84,6 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-+ (BMLWorkflowConfigurator*)configuratorFromConfigurationResource:(BMLResource*)resource {
-    
-    NSAssert(!resource || resource.typeIdentifier == kConfigurationEntityType, @"Expected a configuration resource here!");
-    BMLWorkflowConfigurator* configurator = [BMLWorkflowConfigurator new];
-    for (NSString* resourceType in resource.definition.json.allKeys) {
-        BMLWorkflowTaskConfiguration* configuration = [configurator configurationForResourceType:[BMLResourceTypeIdentifier typeFromTypeString:resourceType]];
-        for (NSString* optionName in [resource.definition.json[resourceType] allKeys]) {
-            [self setOption:optionName
-                  withValue:resource.definition.json[resourceType][optionName]
-              configuration:configuration];
-        }
-    }
-    return configurator;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
 - (BMLWorkflowTaskConfiguration*)configurationForResourceType:(BMLResourceTypeIdentifier*)resourceType {
     
     NSString* typeString = resourceType.stringValue;
@@ -84,11 +100,19 @@
 - (NSDictionary*)optionDictionaryAllOptions:(BOOL)allOptions {
     
     NSMutableDictionary* d = [NSMutableDictionary dictionaryWithCapacity:_taskConfigurations.allKeys.count];
-    for  (NSString* k in _taskConfigurations.allKeys) {
+    for (NSString* k in _taskConfigurations.allKeys) {
         BMLWorkflowTaskConfiguration* c = _taskConfigurations[k];
         d[k] = [c optionDictionaryAllOptions:allOptions];
     }
     return d;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (NSDictionary*)configurationDictionary {
+    
+    return @{ @"resource" : _configurationFullUuid ?: @"",
+              @"name" : _configurationName ?: @"",
+              @"configurations" : [self optionDictionaryAllOptions:YES] ?: @{} };
 }
 
 @end
