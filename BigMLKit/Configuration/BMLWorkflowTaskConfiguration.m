@@ -17,7 +17,7 @@
 
 #import "BMLResourceTypeIdentifier.h"
 
-//#import "BMLFieldModelFactory.h"
+#import "BMLFieldModelFactory.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -70,20 +70,19 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (BMLWorkflowTaskConfigurationOption*)optionModelForOptionNamed:(NSString*)optionName {
 
-    NSAssert(NO, @"CODE TEMPORARILY REMOVED");
     //-- this method relied on a class, only available in BigMLAppCore, and that should
     //-- not be moved here. it should be understood why this dependency leaked into here
     //-- and how it could be removed.
     
     BMLWorkflowTaskConfigurationOption* fieldModel = _optionModels[optionName];
-//    if (!fieldModel) {
-//        NSDictionary* description = _optionDescriptions[optionName];
-//        //-- we are using here BMLFieldModelFactory, which is not yet part of BigMLKit
-//        fieldModel = (id)[BMLFieldModelFactory fieldModelForOptionNamed:optionName
-//                                                        description:description];
-//        fieldModel.isFieldIncluded = NO;
-//        [self setOptionModel:fieldModel forOptionNamed:optionName];
-//    }
+    if (!fieldModel) {
+        NSDictionary* description = _optionDescriptions[optionName];
+        //-- we are using here BMLFieldModelFactory, which is not yet part of BigMLKit
+        fieldModel = (id)[BMLFieldModelFactory fieldModelForOptionNamed:optionName
+                                                        description:description];
+        fieldModel.isFieldIncluded = NO;
+        [self setOptionModel:fieldModel forOptionNamed:optionName];
+    }
     return _optionModels[optionName];
 }
 

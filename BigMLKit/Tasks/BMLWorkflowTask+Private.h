@@ -15,19 +15,19 @@
 
 #import <Foundation/Foundation.h>
 #import "BMLWorkflowTask.h"
-//#import "BigMLApp-Swift.h"
+//#import "bigml-objc.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 @interface BMLWorkflowTask ()
 
+//-- these properties should be declared in the category below, but it is not allowed
+//-- if no refactoring is possible, then they should be replaced with associated objs
 @property (nonatomic, readonly) BOOL allowsUserInteraction;
 @property (nonatomic, weak) id<BMLResource> runningResource;
 @property (nonatomic, readonly) BMLResourceTypeIdentifier* inputResourceType;
 @property (nonatomic, strong) BMLWorkflowConfigurator* configurator;
-
-- (instancetype)initWithResourceType:(BMLResourceTypeIdentifier*)resourceName;
 
 @end
 
@@ -37,6 +37,7 @@
 @interface BMLWorkflowTask (Private)
 
 - (NSMutableDictionary*)optionsForCurrentContext:(BMLWorkflowTaskContext*)context;
+- (instancetype)initWithResourceType:(BMLResourceTypeIdentifier*)resourceName;
 
 @end
 

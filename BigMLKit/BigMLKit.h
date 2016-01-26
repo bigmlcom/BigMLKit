@@ -15,6 +15,8 @@
 #ifndef BigML_BigML_h
 #define BigML_BigML_h
 
+#import "bigml-objc.h"
+
 @class BMLResourceTypeIdentifier;
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -29,8 +31,6 @@
 typedef NSString BMLResourceUuid;
 typedef NSString BMLResourceFullUuid;
 
-static NSString* const BMLExtendedErrorDescriptionKey = @"BMLExtendedErrorDescriptionKey";
-
 //extern BMLResourceTypeIdentifier* BMLResourceTypeFile;
 //extern BMLResourceTypeIdentifier* BMLResourceTypeSource;
 //extern BMLResourceTypeIdentifier* BMLResourceTypeDataset;
@@ -43,8 +43,9 @@ static NSString* const BMLExtendedErrorDescriptionKey = @"BMLExtendedErrorDescri
 //extern BMLResourceTypeIdentifier* BMLResourceTypeWhizzmlExecution;
 //extern BMLResourceTypeIdentifier* BMLResourceTypePrediction;
 //extern BMLResourceTypeIdentifier* BMLResourceTypeProject;
-extern BMLResourceTypeIdentifier* BMLResourceTypeConfiguration;
+//extern BMLResourceTypeIdentifier* BMLResourceTypeConfiguration;
 
+/*
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -58,7 +59,7 @@ extern BMLResourceTypeIdentifier* BMLResourceTypeConfiguration;
              extendedInfo:(NSDictionary*)extendedInfo;
 
 @end
-
+*/
 #define BMLLoginFailureError -50001
 #define kOptionsDefaultCollection @"options"
 

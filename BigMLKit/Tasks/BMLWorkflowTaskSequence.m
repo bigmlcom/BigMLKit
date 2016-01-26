@@ -52,8 +52,13 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
         _inputs = inputs;
         self.status = BMLWorkflowIdle;
         _steps = [NSMutableArray new];
-        for (BMLWorkflowTaskDescriptor* d in descriptors)
-            [_steps addObject:[BMLWorkflowTask newTaskWithDescriptor:d configurator:configurator]];
+        for (BMLWorkflowTaskDescriptor* d in descriptors) {
+            BMLWorkflowTask* newTask = [BMLWorkflowTask newTaskWithDescriptor:d
+                                                                 configurator:configurator];
+            if (!newTask)
+                NSLog(@"WILL CRASH NOW...");
+            [_steps addObject:newTask];
+        }
 
         self.initialStep = 0;
         self.lastStep = [_steps count] - 1;

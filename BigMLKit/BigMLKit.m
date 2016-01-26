@@ -16,7 +16,7 @@
 #import "BigMLKit.h"
 #import "BMLResourceTypeIdentifier.h"
 
-//#import "BigMLApp-Swift.h"
+//#import "bigml-objc.h"
 
 //BMLResourceTypeIdentifier* BMLResourceTypeFile = nil;
 //BMLResourceTypeIdentifier* BMLResourceTypeSource = nil;
@@ -30,7 +30,7 @@
 //BMLResourceTypeIdentifier* BMLResourceTypeWhizzmlExecution = nil;
 //BMLResourceTypeIdentifier* BMLResourceTypePrediction = nil;
 //BMLResourceTypeIdentifier* BMLResourceTypeProject = nil;
-BMLResourceTypeIdentifier* BMLResourceTypeConfiguration = nil;
+//BMLResourceTypeIdentifier* BMLResourceTypeConfiguration = nil;
 
 BMLResourceTypeIdentifier* kModelTarget = nil;
 BMLResourceTypeIdentifier* kClusterTarget = nil;
@@ -49,19 +49,19 @@ BMLResourceTypeIdentifier* kWhizzMLTarget = nil;
 //////////////////////////////////////////////////////////////////////////////////////
 + (void)load {
     
-//    BMLResourceTypeFile = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeFile];
-//    BMLResourceTypeSource = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeSource];
-//    BMLResourceTypeDataset = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeDataset];
-//    BMLResourceTypeModel = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeModel];
-//    BMLResourceTypeCluster = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeCluster];
-//    BMLResourceTypeAnomaly = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeAnomaly];
-//    BMLResourceTypeEvaluation = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeEvaluation];
-//    BMLResourceTypeWhizzmlScript = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeWhizzmlScript];
-//    BMLResourceTypeWhizzmlSource = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeWhizzmlSource];
-//    BMLResourceTypeWhizzmlExecution = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeWhizzmlExecution];
-//    BMLResourceTypePrediction = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypePrediction];
-//    BMLResourceTypeProject = [[BMLResourceTypeIdentifier alloc] initWithRawType:BMLResourceTypeProject];
-    BMLResourceTypeConfiguration = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:@"configuration"];
+//    BMLResourceTypeFile = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:BMLResourceTypeFile];
+//    BMLResourceTypeSource = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:BMLResourceTypeSource];
+//    BMLResourceTypeDataset = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:BMLResourceTypeDataset];
+//    BMLResourceTypeModel = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:BMLResourceTypeModel];
+//    BMLResourceTypeCluster = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:BMLResourceTypeCluster];
+//    BMLResourceTypeAnomaly = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:BMLResourceTypeAnomaly];
+//    BMLResourceTypeEvaluation = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:BMLResourceTypeEvaluation];
+//    BMLResourceTypeWhizzmlScript = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:BMLResourceTypeWhizzmlScript];
+//    BMLResourceTypeWhizzmlSource = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:BMLResourceTypeWhizzmlSource];
+//    BMLResourceTypeWhizzmlExecution = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:BMLResourceTypeWhizzmlExecution];
+//    BMLResourceTypePrediction = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:BMLResourceTypePrediction];
+//    BMLResourceTypeProject = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:BMLResourceTypeProject];
+//    BMLResourceTypeConfiguration = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:@"configuration"];
     
     kModelTarget = BMLResourceTypeModel;
     kClusterTarget = BMLResourceTypeCluster;
@@ -78,7 +78,7 @@ BMLResourceTypeIdentifier* kWhizzMLTarget = nil;
 @implementation BMLWorkflowType
 
 @end
-
+/*
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -104,3 +104,4 @@ BMLResourceTypeIdentifier* kWhizzMLTarget = nil;
 }
 
 @end
+*/

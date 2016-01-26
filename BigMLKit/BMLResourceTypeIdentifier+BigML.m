@@ -13,40 +13,40 @@
 // under the License.
 
 #import "BMLResourceTypeIdentifier+BigML.h"
-#import "BigMLApp-Swift.h"
+#import "bigml-objc.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 @implementation BMLResourceTypeIdentifier (BigML)
-
+/*
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLResourceTypeIdentifier*)typeFromTypeString:(NSString*)type {
     
     if ([type isEqualToString:[BMLResourceTypeFile stringValue]])
         return BMLResourceTypeFile;
-    if ([type isEqualToString:[kSourceEntityType stringValue]])
-        return kSourceEntityType;
-    if ([type isEqualToString:[kDatasetEntityType stringValue]])
-        return kDatasetEntityType;
-    if ([type isEqualToString:[kModelEntityType stringValue]])
-        return kModelEntityType;
-    if ([type isEqualToString:[kClusterEntityType stringValue]])
-        return kClusterEntityType;
-    if ([type isEqualToString:[kPredictionEntityType stringValue]])
-        return kPredictionEntityType;
-    if ([type isEqualToString:[kAnomalyEntityType stringValue]])
-        return kAnomalyEntityType;
-    if ([type isEqualToString:[kEvaluationEntityType stringValue]])
-        return kEvaluationEntityType;
-    if ([type isEqualToString:[kScriptEntityType stringValue]])
-        return kScriptEntityType;
-    if ([type isEqualToString:[kSourceCodeEntityType stringValue]])
-        return kSourceCodeEntityType;
-    if ([type isEqualToString:[kExecutionEntityType stringValue]])
-        return kExecutionEntityType;
-    if ([type isEqualToString:[kProjectEntityType stringValue]])
-        return kProjectEntityType;
+    if ([type isEqualToString:[BMLResourceTypeSource stringValue]])
+        return BMLResourceTypeSource;
+    if ([type isEqualToString:[BMLResourceTypeDataset stringValue]])
+        return BMLResourceTypeDataset;
+    if ([type isEqualToString:[BMLResourceTypeModel stringValue]])
+        return BMLResourceTypeModel;
+    if ([type isEqualToString:[BMLResourceTypeCluster stringValue]])
+        return BMLResourceTypeCluster;
+    if ([type isEqualToString:[BMLResourceTypePrediction stringValue]])
+        return BMLResourceTypePrediction;
+    if ([type isEqualToString:[BMLResourceTypeAnomaly stringValue]])
+        return BMLResourceTypeAnomaly;
+    if ([type isEqualToString:[BMLResourceTypeEvaluation stringValue]])
+        return BMLResourceTypeEvaluation;
+    if ([type isEqualToString:[BMLResourceTypeWhizzmlScript stringValue]])
+        return BMLResourceTypeWhizzmlScript;
+    if ([type isEqualToString:[BMLResourceTypeWhizzmlSource stringValue]])
+        return BMLResourceTypeWhizzmlSource;
+    if ([type isEqualToString:[BMLResourceTypeWhizzmlExecution stringValue]])
+        return BMLResourceTypeWhizzmlExecution;
+    if ([type isEqualToString:[BMLResourceTypeProject stringValue]])
+        return BMLResourceTypeProject;
     if ([type isEqualToString:[BMLResourceTypeConfiguration stringValue]])
         return BMLResourceTypeConfiguration;
     NSAssert(NO, @"Type Id: Should not be here! (%@)", type);
@@ -71,7 +71,7 @@
     }
     return nil;
 }
-
+*/
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLResourceFullUuid*)allProjectsPseudoFullUuid {
     return @"project/allProjectsPseudoUUID";

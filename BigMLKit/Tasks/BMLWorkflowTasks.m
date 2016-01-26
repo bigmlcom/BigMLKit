@@ -563,7 +563,7 @@
         options = [NSMutableDictionary new];
     
     BMLMinimalResource* r = context.info[kWorkflowSecondResource];
-//    BMLResourceTypeIdentifier* t = [[BMLResourceTypeIdentifier alloc] initWithRawType:r.type];
+//    BMLResourceTypeIdentifier* t = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:r.type];
 //    options[[t stringValue]] = r.fullUuid;
         options[[r.type stringValue]] = r.fullUuid;
     return options;
@@ -669,7 +669,7 @@
         options = [NSMutableDictionary new];
     
 //    BMLMinimalResource* r = context.info[kWorkflowSecondResource];
-//    BMLResourceTypeIdentifier* t = [[BMLResourceTypeIdentifier alloc] initWithRawType:r.type];
+//    BMLResourceTypeIdentifier* t = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:r.type];
 //    options[[t stringValue]] = r.fullUuid;
     return options;
 }
