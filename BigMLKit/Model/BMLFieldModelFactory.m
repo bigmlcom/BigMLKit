@@ -1,0 +1,359 @@
+// Copyright 2014-2015 BigML
+//
+// Licensed under the Apache License, Version 2.0 (the "License"); you may
+// not use this file except in compliance with the License. You may obtain
+// a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+// WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+// License for the specific language governing permissions and limitations
+// under the License.
+
+#import "BMLFieldModelFactory.h"
+#import "BMLFieldModels.h"
+
+/////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+@implementation BMLFieldModelFactory
+
+/////////////////////////////////////////////////////////////////////////////////
++ (BMLFieldModel*)newSliderVal:(float)val
+                           min:(float)min
+                           max:(float)max
+                      datatype:(NSString*)datatype
+                         title:(NSString*)title
+                    importance:(NSNumber*)importance {
+    
+    BMLFieldModel* fieldModel = nil;
+    
+    if ([datatype isEqualToString:@"month"]) {
+        
+        BMLPopUpFieldModel* popValue = [BMLPopUpFieldModel new];
+        popValue.values = @[@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December"];
+        popValue.isFieldIncluded = YES;
+        popValue.title = title;
+        popValue.importance = [importance floatValue];
+        
+        fieldModel = popValue;
+        
+    } else if ([datatype isEqualToString:@"day-of-week"]) {
+        
+        BMLPopUpFieldModel* popValue = [BMLPopUpFieldModel new];
+        popValue.values = @[@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"];
+        popValue.isFieldIncluded = YES;
+        popValue.title = title;
+        popValue.importance = [importance floatValue];
+        
+        fieldModel = popValue;
+        
+    } else {
+        
+        BMLSliderFieldModel* sliderValue = [BMLSliderFieldModel new];
+        sliderValue.min = min;
+        sliderValue.max = max;
+        sliderValue.rawValue = val;
+        
+        sliderValue.isFieldIncluded = YES;
+        sliderValue.title = title;
+        sliderValue.importance = [importance floatValue];
+        
+        fieldModel = sliderValue;
+        
+        if ([datatype isEqualToString:@"double"]) {
+            
+        } else if ([datatype rangeOfString:@"int"].location == 0) {
+            
+            sliderValue.inc = 1;
+            
+        } else if ([datatype isEqualToString:@"year"] ||
+                   [datatype isEqualToString:@"month"] ||
+                   [datatype isEqualToString:@"day-of-month"]) {
+            
+            sliderValue.inc = 1;
+            
+        }
+    }
+    
+    return fieldModel;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
++ (BMLFieldModel*)newRangeSliderLowVal:(float)lowVal
+                                 upVal:(float)upVal
+                                   min:(float)min
+                                   max:(float)max
+                              datatype:(NSString*)datatype
+                                 title:(NSString*)title
+                            importance:(NSNumber*)importance {
+    
+    BMLFieldModel* fieldModel = nil;
+    
+    BMLRangeSliderFieldModel* sliderValue = [BMLRangeSliderFieldModel new];
+    sliderValue.min = min;
+    sliderValue.max = max;
+    sliderValue.lowerValue = lowVal;
+    sliderValue.upperValue = upVal;
+    
+    sliderValue.isFieldIncluded = YES;
+    sliderValue.title = title;
+    sliderValue.importance = [importance floatValue];
+    
+    fieldModel = sliderValue;
+    
+    if ([datatype rangeOfString:@"int_range"].location == 0) {
+        sliderValue.inc = 1;
+    }
+    
+    return fieldModel;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
++ (BMLPopUpFieldModel*)newPopupValues:(NSArray*)values
+                              currentValue:(NSString*)currentValue
+                                title:(NSString*)title
+                           importance:(NSNumber*)importance {
+    
+    BMLPopUpFieldModel* popup = [BMLPopUpFieldModel new];
+    
+    NSUInteger index = 0;
+    if (currentValue) {
+        index = [values indexOfObject:currentValue];
+        if (index == NSNotFound)
+            index = 0;
+    }
+    popup.itemValue = values[index];
+
+    popup.isFieldIncluded = YES;
+    popup.title = title;
+    popup.importance = [importance floatValue];
+    popup.values = values;
+    
+    return popup;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
++ (BMLIndexedPopUpFieldModel*)newIndexedPopupValues:(NSArray*)values
+                                       currentValue:(NSUInteger)currentValue
+                                              title:(NSString*)title
+                                         importance:(NSNumber*)importance {
+    
+    BMLIndexedPopUpFieldModel* popup = [BMLIndexedPopUpFieldModel new];
+    
+    if (currentValue < NSNotFound && currentValue < [values count])
+        popup.itemIndex = currentValue;
+    else
+        popup.itemIndex = 0;
+    popup.isFieldIncluded = YES;
+    popup.title = title;
+    popup.importance = [importance floatValue];
+    popup.values = values;
+    
+    return popup;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
++ (BMLRadioGroupFieldModel*)newRadioGroup:(NSArray*)values
+                        currentValue:(NSString*)currentValue
+                               title:(NSString*)title
+                          importance:(NSNumber*)importance {
+ 
+    BMLRadioGroupFieldModel* radioGroup = [BMLRadioGroupFieldModel new];
+    
+    radioGroup.isFieldIncluded = YES;
+    radioGroup.title = title;
+    radioGroup.importance = [importance floatValue];
+    radioGroup.choices = values;
+    
+    return radioGroup;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
++ (BMLTextFormFieldModel*)newTextFieldTitle:(NSString*)title
+                               currentValue:(NSString*)currentValue
+                                 importance:(float)importance {
+    
+    BMLTextFormFieldModel* textField = [BMLTextFormFieldModel new];
+    textField.isFieldIncluded = YES;
+    textField.title = title;
+    textField.importance = importance;
+    textField.currentValue = currentValue;
+    
+    return textField;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
++ (BMLCheckBoxFieldModel*)newCheckBoxFieldTitle:(NSString*)title
+                                     isSelected:(BOOL)isSelected
+                                     importance:(float)importance {
+    
+    BMLCheckBoxFieldModel* model = [BMLCheckBoxFieldModel new];
+    model.isSelected = isSelected;
+    model.title = title;
+    model.importance = importance;
+    
+    return model;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
++ (BMLTokenFieldModel*)newTokenFieldTitle:(NSString*)title
+                             currentValue:(NSString*)currentValue
+                               importance:(float)importance {
+    
+    BMLTokenFieldModel* tokenField = [BMLTokenFieldModel new];
+    tokenField.isFieldIncluded = YES;
+    tokenField.title = title;
+    tokenField.importance = importance;
+    tokenField.rawValue = currentValue;
+    
+    return tokenField;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
++ (BMLStepperFieldModel*)newStepperFieldTitle:(NSString*)title
+                                  currentValue:(NSUInteger)currentValue
+                                    importance:(float)importance {
+
+    BMLStepperFieldModel* stepperModel = [BMLStepperFieldModel new];
+    stepperModel.isFieldIncluded = YES;
+    stepperModel.title = title;
+    stepperModel.importance = importance;
+    stepperModel.currentValue = @(currentValue);
+    
+    return stepperModel;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
++ (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
+                                          type:(BMLResourceTypeIdentifier*)type
+                                    importance:(float)importance {
+
+    BMLDragDropFieldModel* targetModel = [BMLDragDropFieldModel new];
+    targetModel.title = title;
+    targetModel.name = title;
+    targetModel.resourceType = type;
+    targetModel.importance = 1.0;
+    targetModel.isFieldIncluded = NO;
+    return targetModel;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
++ (BMLFieldModel*)fieldModelForOptionNamed:(NSString*)optionName description:(NSDictionary*)description {
+    
+    BMLFieldModel* fieldModel = nil;
+    if ([description[@"type"] isEqualToString:@"double"] || [description[@"type"] isEqualToString:@"int"]) {
+        
+        float min = [description[@"min"] floatValue];
+        float max = [description[@"max"] floatValue];
+        float val = description[@"default"] ? [description[@"default"] floatValue] : (max + min) / 2;
+        
+        fieldModel = [BMLFieldModelFactory newSliderVal:val
+                                                    min:min
+                                                    max:max
+                                               datatype:description[@"type"]
+                                                  title:optionName
+                                             importance:nil];
+        
+    } else if ([description[@"type"] isEqualToString:@"int_range"]) {
+        
+        float min = [description[@"min"] floatValue];
+        float max = [description[@"max"] floatValue];
+        float loVal = description[@"default_min"] ? [description[@"default_min"] floatValue] : min;
+        float hiVal = description[@"default_max"] ? [description[@"default_max"] floatValue] : max;
+        
+        fieldModel = [BMLFieldModelFactory newRangeSliderLowVal:loVal
+                                                          upVal:hiVal
+                                                            min:min
+                                                            max:max
+                                                       datatype:description[@"type"]
+                                                          title:optionName
+                                                     importance:nil];
+        
+    } else if ([description[@"type"] isEqualToString:@"categorical"]) {
+        
+        NSMutableArray* categories = [NSMutableArray array];
+        for (NSString* categoryName in description[@"categories"])
+            [categories addObject:categoryName];
+        
+        fieldModel = [BMLFieldModelFactory newPopupValues:categories
+                                             currentValue:description[@"default"]
+                                                    title:optionName
+                                               importance:nil];
+        
+    } else if ([description[@"type"] isEqualToString:@"indexed"]) {
+        
+        NSMutableArray* categories = [NSMutableArray array];
+        for (NSString* categoryName in description[@"categories"])
+            [categories addObject:categoryName];
+        
+        fieldModel = [BMLFieldModelFactory newIndexedPopupValues:categories
+                                                    currentValue:[description[@"default"] intValue]
+                                                           title:optionName
+                                                      importance:nil];
+        
+        //    } else if ([description[@"type"] isEqualToString:@"fields"]) {
+        //
+        //        NSLog(@"RES: %@", _resource);
+        //        NSMutableArray* categories = [NSMutableArray array];
+        //        for (NSString* categoryName in description[@"categories"])
+        //            [categories addObject:categoryName];
+        //
+        //        fieldModel = [BMLFieldModelFactory newPopupValues:categories
+        //                                             currentValue:nil
+        //                                                    title:optionName
+        //                                               importance:nil];
+        //        selectedState
+    } else if ([description[@"type"] isEqualToString:@"choice"]) {
+        
+        fieldModel = [BMLFieldModelFactory newRadioGroup:description[@"choices"]
+                                            currentValue:nil
+                                                   title:optionName
+                                              importance:nil];
+        
+    } else if ([description[@"type"] isEqualToString:@"text"]) {
+        
+        fieldModel = [BMLFieldModelFactory newTextFieldTitle:optionName
+                                                currentValue:description[@"default"]?:@""
+                                                  importance:0.0];
+        
+    } else if ([description[@"type"] isEqualToString:@"bool"]) {
+        
+        fieldModel = [BMLFieldModelFactory newCheckBoxFieldTitle:optionName
+                                                      isSelected:[description[@"default"] boolValue]
+                                                      importance:0.0];
+        
+    } else if ([description[@"type"] isEqualToString:@"string_array"]) {
+        
+        fieldModel = [BMLFieldModelFactory newTokenFieldTitle:optionName
+                                                 currentValue:description[@"default"]
+                                                   importance:0.0];
+        
+    } else {
+        
+        NSLog(@"UNK FIELD: %@ (%@)", description, description[@"type"]);
+    }
+    
+    if (fieldModel) {
+        if (description[@"showOn"]) {
+            
+            NSArray* showOnTerms =
+            [description[@"showOn"] componentsSeparatedByCharactersInSet:
+             [NSCharacterSet characterSetWithCharactersInString:@"="]];
+            
+            if ([showOnTerms count] == 2) {
+                fieldModel.showOnProperty = showOnTerms[0];
+                fieldModel.showOnValue = showOnTerms[1];
+            }
+        }
+        if (description[@"showOnly"]) {
+            fieldModel.showOnly = [description[@"showOnly"] boolValue];
+        }
+    }
+
+    return fieldModel;
+}
+
+@end
