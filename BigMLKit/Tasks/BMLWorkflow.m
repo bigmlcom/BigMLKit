@@ -70,7 +70,8 @@
                 
                 ///--- HERE WE SHOULD HANDLE OUTPUT AND INPUT RESOURCES!!
                 
-                self.outputResources = [task.outputResources arrayByAddingObjectsFromArray:self.outputResources?:@[]];
+                if (self != task)
+                    self.outputResources = [task.outputResources arrayByAddingObjectsFromArray:self.outputResources?:@[]];
                 [task removeObserver:self forKeyPath:@"resourceStatus"];
                 [self executeStepWithArguments:task.outputResources];
                 

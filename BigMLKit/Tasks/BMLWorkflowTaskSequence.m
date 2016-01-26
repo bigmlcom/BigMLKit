@@ -134,8 +134,8 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 
         self.status = BMLWorkflowStarted;
         [(BMLWorkflowTask*)_steps[_currentStep] runWithArguments:inputs
-                                                      inContext:self.context
-                                                completionBlock:nil];
+                                                       inContext:self.context
+                                                 completionBlock:nil];
         
     } else {
         

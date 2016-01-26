@@ -23,8 +23,8 @@
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLResourceTypeIdentifier*)typeFromTypeString:(NSString*)type {
     
-    if ([type isEqualToString:[kFileEntityType stringValue]])
-        return kFileEntityType;
+    if ([type isEqualToString:[BMLResourceTypeFile stringValue]])
+        return BMLResourceTypeFile;
     if ([type isEqualToString:[kSourceEntityType stringValue]])
         return kSourceEntityType;
     if ([type isEqualToString:[kDatasetEntityType stringValue]])
@@ -47,8 +47,8 @@
         return kExecutionEntityType;
     if ([type isEqualToString:[kProjectEntityType stringValue]])
         return kProjectEntityType;
-    if ([type isEqualToString:[kConfigurationEntityType stringValue]])
-        return kConfigurationEntityType;
+    if ([type isEqualToString:[BMLResourceTypeConfiguration stringValue]])
+        return BMLResourceTypeConfiguration;
     NSAssert(NO, @"Type Id: Should not be here! (%@)", type);
     return nil;
 }

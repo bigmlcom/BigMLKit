@@ -54,6 +54,8 @@ static NSString* const kClusterDefinition = @"kClusterDefinition";
 static NSString* const kPredictionDefinition = @"kPredictionDefinition";
 
 static NSString* const kProjectFullUuid = @"kProjectFullUuid";
+
+//-- SDS: this does not seem to be in use...
 static NSString* const kWorkflowName = @"kWorkflowName";
 
 @class BMLWorkflow;

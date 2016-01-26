@@ -17,7 +17,7 @@
 #import "BMLWorkflowTask.h"
 #import "BMLResourceProtocol.h"
 
-@class BMLConnector;
+@class BMLAPIConnector;
 
 extern NSString* const BMLWorkflowTaskCompletedTask;
 extern NSString* const BMLWorkflowTaskCompletedWorkflow;
@@ -42,8 +42,9 @@ extern NSString* const BMLWorkflowTaskCompletedWorkflow;
  *  convenience constructor to create a task from its name.
  *  The configurator decouples task configuration from task execution.
  *
- *  @param steps        The task sequence to execute.
- *  @param configurator The configurator object responsible to provide the task configuration.
+ *  @param descriptors   The sequence of tasks to execute (array of BMLWorkflowTaskDescriptors).
+ *  @param inputs        The inputs to be used (wzml-only).
+ *  @param configurator  The configurator object responsible to provide the task configuration.
  *
  *  @return The initialized task sequence instance.
  */

@@ -33,24 +33,6 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@interface BMLResource : NSObject <BMLResourceProtocol>
-
-@property (nonatomic, strong) BMLResourceFullUuid* fullUuid;
-@property (nonatomic, strong) NSString* name;
-
-@end
-
-//////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
-@implementation BMLResource
-
-
-@end
-
-//////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
 @interface BMLWorkflowTestTests : XCTestCase
 
 @end
@@ -61,7 +43,7 @@
 @implementation BMLWorkflowTestTests {
     
     BMLWorkflowTaskSequence* _workflow;
-    BMLConnector* _ml;
+    BMLAPIConnector* _ml;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -79,7 +61,7 @@
 
     _ml = [[BMLAPIConnector alloc] initWithUsername:username
                                           apiKey:apiKey
-                                            mode:BMLModeBMLDevelopmentMode];
+                                            mode:BMLModeDevelopment];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -94,44 +76,57 @@
     
     XCTestExpectation* exp = [self expectationWithDescription:name];
     block(exp);
-    [self waitForExpectationsWithTimeout:30 handler:^(NSError* error) {
+    [self waitForExpectationsWithTimeout:360 handler:^(NSError* error) {
         NSLog(@"Expect Error: %@", error);
     }];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)testLocal {
-    
-    [self runTestName:NSStringFromSelector(_cmd) block:^(XCTestExpectation* exp) {
-        _workflow =
-        [[BMLWorkflowTaskSequence alloc] initWithSteps:@[@"Test",
-                                             @"Test",
-                                             @"FailTest",
-                                             @"Test"]
-                              configurator:nil];
-
-        [_workflow runInContext:[[BMLWorkflowTaskContext alloc] initWithWorkflow:_workflow connector:_ml]
-                          completionBlock:^(NSError* e) {
-            [exp fulfill];
-            XCTAssert(e, @"Error: \"%@\"", e);
-        }];
-    }];
-}
+//- (void)testLocal {
+//    
+//    [self runTestName:NSStringFromSelector(_cmd) block:^(XCTestExpectation* exp) {
+//        _workflow =
+//        [[BMLWorkflowTaskSequence alloc] initWithSteps:@[@"Test",
+//                                             @"Test",
+//                                             @"FailTest",
+//                                             @"Test"]
+//                              configurator:nil];
+//
+//        [_workflow runWithArguments:nil
+//                          inContext:[[BMLWorkflowTaskContext alloc]
+//                                     initWithWorkflow:_workflow connector:_ml]
+//                          completionBlock:^(NSArray* results, NSError* e) {
+//            [exp fulfill];
+//            XCTAssert(e, @"Error: \"%@\"", e);
+//        }];
+//    }];
+//}
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)testFileFail {
     
     [self runTestName:NSStringFromSelector(_cmd) block:^(XCTestExpectation* exp) {
-        _workflow = [[BMLWorkflowTaskSequence alloc] initWithSteps:@[@"CreateSource",
-                                                         @"CreateDataset",
-                                                         @"CreateModel",
-                                                         @"CreatePrediction"]
-                                          configurator:nil];
+        _workflow = [[BMLWorkflowTaskSequence alloc] initWithDescriptors:
+                     @[[[BMLWorkflowTaskDescriptor alloc] initWithType:BMLResourceTypeSource],
+                       [[BMLWorkflowTaskDescriptor alloc] initWithType:BMLResourceTypeModel],
+                       [[BMLWorkflowTaskDescriptor alloc] initWithType:BMLResourceTypePrediction]]
+                                                                  inputs:nil
+                                                            configurator:nil];
         
-        [_workflow runInContext:[[BMLWorkflowTaskContext alloc] initWithWorkflow:_workflow connector:_ml]
-                          completionBlock:^(NSError* e) {
-            [exp fulfill];
-            XCTAssert(e, @"Error: \"%@\"", e);
+        NSURL* url = kResourcePath(@"iris", @"csv");
+        BMLMinimalResource* resource =
+        [[BMLMinimalResource alloc] initWithName:@"test"
+                                        fullUuid:[NSString stringWithFormat:@"%@/%@",
+                                                  BMLResourceTypeFile, [url path]]
+                                      definition:nil];
+
+        [_workflow runWithArguments:@[resource]
+                          inContext:[[BMLWorkflowTaskContext alloc]
+                                     initWithWorkflow:_workflow connector:_ml]
+                          completionBlock:^(NSArray* results, NSError* e) {
+
+                              XCTAssert(e, @"Error: \"%@\"", e);
+                              [exp fulfill];
         }];
     }];
 }
@@ -141,44 +136,29 @@
     
     [self runTestName:NSStringFromSelector(_cmd) block:^(XCTestExpectation* exp) {
     
-        _workflow = [[BMLWorkflowTaskSequence alloc] initWithSteps:@[@"CreateSource",
-                                                         @"CreateDataset",
-                                                         @"CreateModel",
-                                                         @"CreatePrediction"]
-                                          configurator:nil];
+        _workflow = [[BMLWorkflowTaskSequence alloc] initWithDescriptors:
+                     @[[[BMLWorkflowTaskDescriptor alloc] initWithType:BMLResourceTypeSource],
+                       [[BMLWorkflowTaskDescriptor alloc] initWithType:BMLResourceTypeDataset],
+                       [[BMLWorkflowTaskDescriptor alloc] initWithType:BMLResourceTypeModel],
+                       [[BMLWorkflowTaskDescriptor alloc] initWithType:BMLResourceTypePrediction]]
+                                                                  inputs:nil
+                                                            configurator:nil];
         
         BMLWorkflowTaskContext* context =
         [[BMLWorkflowTaskContext alloc] initWithWorkflow:_workflow connector:_ml];
         
-        context.info[kCSVSourceFilePath] = kResourcePath(@"iris", @"csv");
-        context.info[kWorkflowName] = @"test";
-        
-        [_workflow runInContext:context completionBlock:^(NSError* e) {
-            [exp fulfill];
-            XCTAssert(!e, @"Error: \"%@\"", e);
-        }];
-    }];
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
-- (void)testBasicResourceFlow {
-    
-    [self runTestName:NSStringFromSelector(_cmd) block:^(XCTestExpectation* exp) {
-        
-        _workflow = [[BMLWorkflowTaskSequence alloc] initWithSteps:@[@"CreateSource",
-                                                                     @"CreateDataset",
-                                                                     @"CreateModel",
-                                                                     @"CreatePrediction"]
-                                                      configurator:nil];
-        
-        BMLResource* resource = [BMLResource new];
         NSURL* url = kResourcePath(@"iris", @"csv");
-        resource.fullUuid = [NSString stringWithFormat:@"%@/%@", BMLResourceTypeFile, [url path]];
-        resource.name = @"test";
-        
-        [_workflow runWithResource:resource connector:_ml completionBlock:^(NSError* e) {
-            [exp fulfill];
-            XCTAssert(!e, @"Error: \"%@\"", e);
+        BMLMinimalResource* resource =
+        [[BMLMinimalResource alloc] initWithName:@"test"
+                                        fullUuid:[NSString stringWithFormat:@"%@/%@",
+                                                  BMLResourceTypeFile, [url path]]
+                                      definition:nil];
+        [_workflow runWithArguments:@[resource]
+                          inContext:context
+                    completionBlock:^(NSArray* results, NSError* e) {
+
+                        XCTAssert(!e, @"Error: \"%@\"", e);
+                        [exp fulfill];
         }];
     }];
 }
@@ -188,20 +168,30 @@
     
     [self runTestName:NSStringFromSelector(_cmd) block:^(XCTestExpectation* exp) {
         
-        _workflow = [[BMLWorkflowTaskSequence alloc] initWithSteps:@[@"CreateSource",
-                                                                     @"CreateDataset",
-                                                                     @"CreateCluster",
-                                                                     @"CreatePrediction"]
-                                                      configurator:nil];
+        _workflow = [[BMLWorkflowTaskSequence alloc] initWithDescriptors:
+                     @[[[BMLWorkflowTaskDescriptor alloc] initWithType:BMLResourceTypeSource],
+                       [[BMLWorkflowTaskDescriptor alloc] initWithType:BMLResourceTypeDataset],
+                       [[BMLWorkflowTaskDescriptor alloc] initWithType:BMLResourceTypeCluster],
+                       [[BMLWorkflowTaskDescriptor alloc] initWithType:BMLResourceTypePrediction]]
+                                                                  inputs:nil
+                                                            configurator:nil];
         
-        BMLResource* resource = [BMLResource new];
+        BMLWorkflowTaskContext* context =
+        [[BMLWorkflowTaskContext alloc] initWithWorkflow:_workflow connector:_ml];
+        
         NSURL* url = kResourcePath(@"iris", @"csv");
-        resource.fullUuid = [NSString stringWithFormat:@"%@/%@", BMLResourceTypeFile, [url path]];
-        resource.name = @"test";
+        BMLMinimalResource* resource =
+        [[BMLMinimalResource alloc] initWithName:@"test"
+                                        fullUuid:[NSString stringWithFormat:@"%@/%@",
+                                                  BMLResourceTypeFile, [url path]]
+                                      definition:nil];
         
-        [_workflow runWithResource:resource connector:_ml completionBlock:^(NSError* e) {
-            [exp fulfill];
+        [_workflow runWithArguments:@[resource]
+                          inContext:context
+                    completionBlock:^(NSArray* results, NSError* e) {
+                        
             XCTAssert(!e, @"Error: \"%@\"", e);
+                        [exp fulfill];
         }];
     }];
 }
@@ -211,64 +201,34 @@
     
     [self runTestName:NSStringFromSelector(_cmd) block:^(XCTestExpectation* exp) {
         
-        _workflow = [[BMLWorkflowTaskSequence alloc] initWithSteps:@[@"CreateSource",
-                                                                     @"CreateDataset",
-                                                                     @"CreateModel",
-                                                                     @"CreatePrediction"]
-                                                      configurator:nil];
+        _workflow = [[BMLWorkflowTaskSequence alloc] initWithDescriptors:
+                     @[[[BMLWorkflowTaskDescriptor alloc] initWithType:BMLResourceTypeSource],
+                       [[BMLWorkflowTaskDescriptor alloc] initWithType:BMLResourceTypeDataset],
+                       [[BMLWorkflowTaskDescriptor alloc] initWithType:BMLResourceTypeModel],
+                       [[BMLWorkflowTaskDescriptor alloc] initWithType:BMLResourceTypePrediction]]
+                                                                  inputs:nil
+                                                            configurator:nil];
         
-        BMLResource* resource = [BMLResource new];
         NSURL* url = kResourcePath(@"iris", @"csv");
-        resource.fullUuid = [NSString stringWithFormat:@"%@/%@", BMLResourceTypeFile, [url path]];
-        resource.name = @"test";
+        BMLMinimalResource* resource =
+        [[BMLMinimalResource alloc] initWithName:@"test"
+                                        fullUuid:[NSString stringWithFormat:@"%@/%@",
+                                                  BMLResourceTypeFile, [url path]]
+                                      definition:nil];
         
-        BMLConnector* ml = [[BMLConnector alloc] initWithUsername:@"test1"
+        BMLAPIConnector* ml = [[BMLAPIConnector alloc] initWithUsername:@"test1"
                                                               apiKey:@"test2"
-                                                  mode:BMLModeBMLDevelopmentMode];
-
-        [_workflow runWithResource:resource connector:ml completionBlock:^(NSError* e) {
-            [exp fulfill];
-            XCTAssert([e.userInfo[BMLExtendedErrorDescriptionKey][@"Response"][@"code"] intValue] == 401, @"Error: \"%@\"", e);
-        }];
-    }];
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
-- (void)testFailingSingleTaskAsWorkflow {
-    
-    [self runTestName:NSStringFromSelector(_cmd) block:^(XCTestExpectation* exp) {
-        
-        BMLWorkflow* workflow = [BMLWorkflowTask newTaskForStep:@"CreateSource" configurator:nil];
-        
+                                                                   mode:BMLModeDevelopment];
         BMLWorkflowTaskContext* context =
-        [[BMLWorkflowTaskContext alloc] initWithWorkflow:workflow connector:_ml];
-        
-        context.info[kCSVSourceFilePath] = [NSURL URLWithString:@"iris.csv"];
-        context.info[kWorkflowName] = @"test";
-        
-        [workflow runInContext:context completionBlock:^(NSError* e) {
-            [exp fulfill];
-            XCTAssert(e, @"Error: \"%@\"", e);
-        }];
-    }];
-}
+        [[BMLWorkflowTaskContext alloc] initWithWorkflow:_workflow connector:ml];
 
-//////////////////////////////////////////////////////////////////////////////////////
-- (void)testSingleTaskAsWorkflow {
-    
-    [self runTestName:NSStringFromSelector(_cmd) block:^(XCTestExpectation* exp) {
         
-        BMLWorkflow* workflow = [BMLWorkflowTask newTaskForStep:@"CreateSource" configurator:nil];
-        
-        BMLWorkflowTaskContext* context =
-        [[BMLWorkflowTaskContext alloc] initWithWorkflow:workflow connector:_ml];
-        
-        context.info[kCSVSourceFilePath] = kResourcePath(@"iris", @"csv");
-        context.info[kWorkflowName] = @"test";
-        
-        [workflow runInContext:context completionBlock:^(NSError* e) {
-            [exp fulfill];
-            XCTAssert(!e, @"Error: \"%@: %@\"", workflow.name, e);
+        [_workflow runWithArguments:@[resource]
+                          inContext:context
+                    completionBlock:^(NSArray* results, NSError* e) {
+                        
+                        XCTAssert([e code] == 401, @"Error: \"%@\"", e);
+                        [exp fulfill];
         }];
     }];
 }

@@ -158,9 +158,11 @@ typedef enum {
  *  Runs the task using a specified resource as input resource, a given connector to access
  *  BigML REST API, and a completion block.
  *
- *  @param resource   An object implementing BMLResourceProtocol. It must be compatible with
- *                    the first workflow task that is going to be executed (e.g., a data source
- *                    when the first task is "create data set", etc.)
+ *  @param resource   An array of arguments that the task is passed. This is strictly
+ *                    task-dependent. E.g., for resource-creation task (create a source from
+ *                    a dataset, etc.) this array shall contain one BMLResource object to be
+ *                    used to create a new resource (e.g., a data source
+ *                    when the first task is "create data set", etc.). Others task may vary.
  *  @param connector  An ML4iOS instance allowed to access BigML REST API. This object shall
  *                    be capable to authenticate itself.
  *  @param completion A completion block able to handle both success and failure cases.

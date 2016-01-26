@@ -55,7 +55,7 @@ static void* gRunningResourcePropertyKey = &gRunningResourcePropertyKey;
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)initWithResourceType:(BMLResourceTypeIdentifier*)resourceName {
     
-    if (self = [super init]) {
+    if (self = [self init]) {
         self.resourceStatus = BMLResourceStatusUndefined;
         self.inputResourceType = resourceName;
     }

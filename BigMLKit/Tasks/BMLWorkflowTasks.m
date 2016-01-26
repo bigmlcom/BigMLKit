@@ -209,8 +209,8 @@
     
 //    NSAssert([inputs count] == 1, @"Calling BMLWorkflowTaskCreateResource with wrong number of input resources");
     [super runWithArguments:inputs inContext:context completionBlock:nil];
-    [context.ml createResource:self.inputResourceType
-                          name:context.info[kWorkflowName]
+    [context.ml createResource:self.descriptor.type
+                          name:[inputs.firstObject name]
                        options:[self optionsForCurrentContext:context]
                           from:inputs.firstObject
                     completion:^(id<BMLResource> resource, NSError* error) {
