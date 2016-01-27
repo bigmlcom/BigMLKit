@@ -16,9 +16,7 @@
 #import "BMLWorkflowTask+Private.h"
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflowConfigurator.h"
-//-- check
-//-- this BigMLAppCore-dependency was required by WhizzML scripts/execs...
-//#import "BMLFieldModels.h"
+#import "BMLFieldModels.h"
 
 #import "BMLResourceTypeIdentifier.h"
 
@@ -584,8 +582,6 @@
 }
 @end
 
-/*
-
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -714,4 +710,3 @@
     return nil;
 }
 @end
-*/
