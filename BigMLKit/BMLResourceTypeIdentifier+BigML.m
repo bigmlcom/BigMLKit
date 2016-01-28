@@ -19,59 +19,6 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 @implementation BMLResourceTypeIdentifier (BigML)
-/*
-//////////////////////////////////////////////////////////////////////////////////////
-+ (BMLResourceTypeIdentifier*)typeFromTypeString:(NSString*)type {
-    
-    if ([type isEqualToString:[BMLResourceTypeFile stringValue]])
-        return BMLResourceTypeFile;
-    if ([type isEqualToString:[BMLResourceTypeSource stringValue]])
-        return BMLResourceTypeSource;
-    if ([type isEqualToString:[BMLResourceTypeDataset stringValue]])
-        return BMLResourceTypeDataset;
-    if ([type isEqualToString:[BMLResourceTypeModel stringValue]])
-        return BMLResourceTypeModel;
-    if ([type isEqualToString:[BMLResourceTypeCluster stringValue]])
-        return BMLResourceTypeCluster;
-    if ([type isEqualToString:[BMLResourceTypePrediction stringValue]])
-        return BMLResourceTypePrediction;
-    if ([type isEqualToString:[BMLResourceTypeAnomaly stringValue]])
-        return BMLResourceTypeAnomaly;
-    if ([type isEqualToString:[BMLResourceTypeEvaluation stringValue]])
-        return BMLResourceTypeEvaluation;
-    if ([type isEqualToString:[BMLResourceTypeWhizzmlScript stringValue]])
-        return BMLResourceTypeWhizzmlScript;
-    if ([type isEqualToString:[BMLResourceTypeWhizzmlSource stringValue]])
-        return BMLResourceTypeWhizzmlSource;
-    if ([type isEqualToString:[BMLResourceTypeWhizzmlExecution stringValue]])
-        return BMLResourceTypeWhizzmlExecution;
-    if ([type isEqualToString:[BMLResourceTypeProject stringValue]])
-        return BMLResourceTypeProject;
-    if ([type isEqualToString:[BMLResourceTypeConfiguration stringValue]])
-        return BMLResourceTypeConfiguration;
-    NSAssert(NO, @"Type Id: Should not be here! (%@)", type);
-    return nil;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
-+ (BMLResourceTypeIdentifier*)typeFromFullUuid:(BMLResourceFullUuid*)fullUuid {
-    
-    NSString* type = [[fullUuid componentsSeparatedByString:@"/"] firstObject];
-    return [self typeFromTypeString:type];
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
-+ (BMLResourceUuid*)uuidFromFullUuid:(BMLResourceFullUuid*)fullUuid {
-
-    NSMutableArray* parts = [[fullUuid componentsSeparatedByString:@"/"] mutableCopy];
-    if ([parts count] == 2)
-        return [parts lastObject];
-    else if ([parts count] > 2) {
-        return [[parts subarrayWithRange:NSMakeRange(1, [parts count]-1)] componentsJoinedByString:@"/"];
-    }
-    return nil;
-}
-*/
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLResourceFullUuid*)allProjectsPseudoFullUuid {
     return @"project/allProjectsPseudoUUID";

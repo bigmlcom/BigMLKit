@@ -1,10 +1,6 @@
 [submodule "vendor/MAKVONotificationCenter"]
 	path = vendor/MAKVONotificationCenter
 	url = https://github.com/mikeash/MAKVONotificationCenter.git
-[submodule "vendor/BigMLKitConnector"]
-	path = vendor/BigMLKitConnector
-	url = https://github.com/bigmlcom/BigMLKitConnector.git
-	branch = master
 [submodule "vendor/bigml-objc"]
 	path = vendor/bigml-objc
 	url = https://github.com/bigmlcom/bigml-objc.git

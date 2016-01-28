@@ -21,10 +21,6 @@
 //////////////////////////////////////////////////////////////////////////////////////
 @interface BMLResourceTypeIdentifier (BigML)
 
-//+ (BMLResourceTypeIdentifier*)typeFromFullUuid:(BMLResourceFullUuid*)fullUuid;
-//+ (BMLResourceUuid*)uuidFromFullUuid:(BMLResourceFullUuid*)fullUuid;
-//+ (BMLResourceTypeIdentifier*)typeFromTypeString:(NSString*)type;
-
 + (BMLResourceFullUuid*)allProjectsPseudoFullUuid;
 + (BMLResourceUuid*)allProjectsPseudoUuid;
 
