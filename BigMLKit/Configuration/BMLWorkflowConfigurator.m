@@ -17,8 +17,6 @@
 #import "BMLWorkflowTask.h"
 
 #import "BMLResource.h"
-//#import "BMLResourceDefinition.h"
-//#import "BMLResourceTypeIdentifier+BigML.h"
 #import "BMLWorkflowTaskConfigurationOption.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +38,8 @@
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLWorkflowConfigurator*)configuratorFromConfigurationResource:(id<BMLResource>)resource {
     
-    NSAssert(!resource || resource.type == BMLResourceTypeConfiguration, @"Expected a configuration resource here!");
+    NSAssert(!resource || resource.type == BMLResourceTypeConfiguration,
+             @"Expected a configuration resource here!");
     BMLWorkflowConfigurator* configurator = [BMLWorkflowConfigurator new];
     configurator.configurationName = resource.name;
     configurator.configurationFullUuid = resource.fullUuid;
@@ -68,7 +67,8 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-+ (void)setOption:(NSString*)optionName withValue:(id)currentValue configuration:(BMLWorkflowTaskConfiguration*)configuration {
++ (void)setOption:(NSString*)optionName withValue:(id)currentValue
+    configuration:(BMLWorkflowTaskConfiguration*)configuration {
     
     if ([currentValue isKindOfClass:[NSDictionary class]]) {
         for (NSString* optionName in [currentValue allKeys]) {
@@ -77,7 +77,8 @@
               configuration:configuration];
         }
     } else {
-        BMLWorkflowTaskConfigurationOption* model = [configuration optionModelForOptionNamed:optionName];
+        BMLWorkflowTaskConfigurationOption* model =
+        [configuration optionModelForOptionNamed:optionName];
         model.isFieldIncluded = YES;
         model.currentValue = currentValue;
     }
@@ -99,7 +100,8 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSDictionary*)optionDictionaryAllOptions:(BOOL)allOptions {
     
-    NSMutableDictionary* d = [NSMutableDictionary dictionaryWithCapacity:_taskConfigurations.allKeys.count];
+    NSMutableDictionary* d = [NSMutableDictionary
+                              dictionaryWithCapacity:_taskConfigurations.allKeys.count];
     for (NSString* k in _taskConfigurations.allKeys) {
         BMLWorkflowTaskConfiguration* c = _taskConfigurations[k];
         d[k] = [c optionDictionaryAllOptions:allOptions];

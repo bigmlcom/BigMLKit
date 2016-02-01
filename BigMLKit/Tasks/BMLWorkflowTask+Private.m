@@ -65,7 +65,8 @@ static void* gRunningResourcePropertyKey = &gRunningResourcePropertyKey;
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSMutableDictionary*)optionsForCurrentContext:(BMLWorkflowTaskContext*)context {
     
-    return [[self.configurator configurationForResourceType:self.inputResourceType] optionDictionaryAllOptions:NO];
+    return [[self.configurator configurationForResourceType:self.inputResourceType]
+            optionDictionaryAllOptions:NO];
 }
 
 @end
