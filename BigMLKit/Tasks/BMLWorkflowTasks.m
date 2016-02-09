@@ -205,7 +205,6 @@
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
-//    NSAssert([inputs count] == 1, @"Calling BMLWorkflowTaskCreateResource with wrong number of input resources");
     [super runWithArguments:inputs inContext:context completionBlock:nil];
     [context.ml createResource:self.descriptor.type
                           name:[inputs.firstObject name]
@@ -605,9 +604,11 @@
     for (BMLFieldModel* field in [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]) {
         [arguments addObject:@[field.title, field.currentValue]];
     }
-    BMLMinimalResource* resource = [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
-                                                                   fullUuid:[inputs.firstObject fullUuid]
-                                                                 definition:@{}];
+    BMLMinimalResource* resource =
+    [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
+                                    fullUuid:[inputs.firstObject fullUuid]
+                                  definition:@{}];
+
     [context.ml createResource:BMLResourceTypeWhizzmlExecution
                           name:context.info[@"name"]
                        options:@{ @"arguments" : arguments }
@@ -660,7 +661,6 @@
     
 //    NSMutableDictionary* options = [super optionsForCurrentContext:context];
     NSDictionary* options = [self.configurator configurationDictionary][@"configurations"];
-
     if (!options)
         options = [NSMutableDictionary new];
     
@@ -671,37 +671,85 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
+- (NSMutableArray*)argumentsFromInputs:(NSArray*)inputs
+                             inContext:(BMLWorkflowTaskContext*)context
+                                 error:(NSError**)errorp {
+    
+    NSMutableArray* __block processedInputs = [NSMutableArray new];
+    for (BMLFieldModel* field in [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]) {
+        if ([field isKindOfClass:[BMLDragDropFieldModel class]] &&
+            [field.currentValue hasPrefix:@"file/"]) {
+
+            dispatch_semaphore_t sem = dispatch_semaphore_create(0);
+            
+            BMLMinimalResource* resource =
+            [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
+                                            fullUuid:field.currentValue
+                                          definition:@{}];
+            
+            [context.ml createResource:BMLResourceTypeSource
+                                  name:[resource.uuid lastPathComponent]
+                               options:@{}
+                                  from:resource
+                            completion:^(id<BMLResource> resource, NSError* error) {
+                                
+                                if (resource) {
+                                    [processedInputs addObject:@[field.title, resource.fullUuid]];
+                                } else {
+                                    *errorp = error ?:
+                                    [NSError errorWithInfo:@"Could not create datasource from file"
+                                                      code:-1];
+                                }
+                                dispatch_semaphore_signal(sem);
+                            }];
+            dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+
+        } else {
+            [processedInputs addObject:@[field.title, field.currentValue]];
+        }
+    }
+    return processedInputs;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
 - (void)runWithArguments:(NSArray*)inputs
                inContext:(BMLWorkflowTaskContext*)context
          completionBlock:(BMLWorkflowCompletedBlock)completion {
-    
-    NSMutableArray* arguments = [NSMutableArray new];
-    for (BMLFieldModel* field in [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]) {
-        [arguments addObject:@[field.title, field.currentValue]];
-    }
-    BMLMinimalResource* resource = [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
-                                                                   fullUuid:[inputs.firstObject fullUuid]
-                                                                 definition:@{}];
-    id<BMLResource> __block r = nil;
-    [context.ml createResource:BMLResourceTypeWhizzmlExecution
-                                              name:context.info[@"name"]
-                                           options:@{ @"arguments" : arguments,
-                                                      @"creation_defaults": [self optionsForCurrentContext:context]}
-                                              from:resource
-                                        completion:^(id<BMLResource> resource, NSError* error) {
-                                            
-                                            if (resource) {
-                                                self.outputResources = @[resource];
-                                                self.resourceStatus = BMLResourceStatusEnded;
-                                            } else {
-                                                self.error = error ?: [NSError errorWithInfo:@"Could not complete task" code:-1];
-                                                self.resourceStatus = BMLResourceStatusFailed;
-                                            }
-                                        }];
-//-- why did I try to return this value this way (i.e., not waiting for callback)?
-//    self.outputResources = @[r];
-}
 
+    NSError* error = nil;
+    NSMutableArray* arguments = [self argumentsFromInputs:inputs
+                                                inContext:context
+                                                    error:&error];
+    if (!error) {
+        BMLMinimalResource* resource =
+        [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
+                                        fullUuid:[inputs.firstObject fullUuid]
+                                      definition:@{}];
+        [context.ml createResource:BMLResourceTypeWhizzmlExecution
+                              name:context.info[@"name"]?:@"New Script"
+                           options:@{ @"arguments" : arguments,
+                                      @"creation_defaults": [self optionsForCurrentContext:context]}
+                              from:resource
+                        completion:^(id<BMLResource> resource, NSError* error) {
+                            
+                            if (resource) {
+                                self.outputResources = @[resource];
+                                self.resourceStatus = BMLResourceStatusEnded;
+                            } else {
+                                self.error = error ?:
+                                [NSError errorWithInfo:@"Could not complete task" code:-1];
+                                self.resourceStatus = BMLResourceStatusFailed;
+                            }
+                            
+                            //-- MISSING COMPLETION BLOCK CALL!!!
+                        }];
+    } else {
+        self.error = error;
+        self.resourceStatus = BMLResourceStatusFailed;
+        if (completion)
+            completion(nil, error);
+    }
+}
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {

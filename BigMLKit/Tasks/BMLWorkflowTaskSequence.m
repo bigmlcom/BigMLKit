@@ -95,8 +95,8 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-//-- sequence workflow's inputResourceTypes are taken to be its initialStep's
-//-- this might not be always the case
+//-- sequence workflow's inputResourceTypes are taken to be its initialStep's for
+//-- traditional workflow; in case of wzml's, the _inputs property rules
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {
     
@@ -127,8 +127,9 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)executeStepWithArguments:(NSArray*)inputs {
 
-    NSAssert(self.status == BMLWorkflowStarting || self.status == BMLWorkflowStarted, @"Trying to execute step before starting workflow");
-
+    NSAssert(self.status == BMLWorkflowStarting || self.status == BMLWorkflowStarted,
+             @"Trying to execute step before starting workflow");
+    
     if (_currentStep < (int)[_steps count]-1 && _currentStep < (int)_lastStep) {
 
         self.currentStep = self.currentStep + 1;
@@ -141,7 +142,6 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
         [(BMLWorkflowTask*)_steps[_currentStep] runWithArguments:inputs
                                                        inContext:self.context
                                                  completionBlock:nil];
-        
     } else {
         
         [self stopWithError:nil];

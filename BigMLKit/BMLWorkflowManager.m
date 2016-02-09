@@ -94,7 +94,7 @@
               keyPath:NSStringFromSelector(@selector(status))
               options:0
                 block:^(MAKVONotification* notification) {
-                    
+
                     dispatch_async(dispatch_get_main_queue(), ^{
                         NSPredicate* predicate = [NSPredicate predicateWithFormat:@"task == %@", wtask];
                         for (NSMutableDictionary* dict in [[wself.tasks arrangedObjects] filteredArrayUsingPredicate:predicate]) {
