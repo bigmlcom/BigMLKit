@@ -801,6 +801,9 @@
                             
                             if (resource) {
                                 
+                                self.executionUuid = resource.uuid;
+                                //-- this does a GET in place, but it should be replaced through an independent
+                                //-- workflow step.
                                 BMLResourceFullUuid* fullUuid = resource.jsonDefinition[@"execution"][@"result"];
                                 [context.ml getResource:[BMLResourceTypeIdentifier typeFromFullUuid:fullUuid]
                                                    uuid:[BMLResourceTypeIdentifier uuidFromFullUuid:fullUuid]

@@ -112,6 +112,11 @@ typedef enum {
 @property (nonatomic) NSArray* outputResources;
 
 /**
+ *  When the task creates an execution, then this property is set to its full UUID.
+ */
+@property (nonatomic, strong) BMLResourceUuid* executionUuid;
+
+/**
  *  Shortcut to the info dictionary associated to this workflow (through its running context).
  */
 @property (nonatomic, readonly) NSDictionary* info;

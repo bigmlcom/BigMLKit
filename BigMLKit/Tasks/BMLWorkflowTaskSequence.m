@@ -159,6 +159,40 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
     return _steps[_currentStep];
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
+- (NSPredicate*)outputPredicate {
+    
+    NSPredicate* predicate = nil;
+    //-- outputResources is only set when the workflow completes. this causes a delay
+    //-- in resources display, which are not shown as created.
+    for (BMLResource* r in self.steps) {
+        if (r.type == BMLResourceTypeWhizzmlExecution) {
+            predicate = [NSPredicate predicateWithFormat:@"executionId = %@", r.uuid];
+            break;
+        }
+    }
+    if (!predicate)
+        predicate = [NSPredicate predicateWithValue:NO];
+
+    return predicate;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (BMLResourceFullUuid*)executionUuid {
+    
+    for (BMLWorkflow* r in self.steps) {
+        if (r.executionUuid) {
+            return r.executionUuid;
+        }
+    }
+    return nil;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)setExecutionUuid:(BMLResourceUuid*)executionUuid {
+    NSAssert(NO, @"Cannot set the execution ID of a task sequence");
+}
+
 #pragma mark - Error handling
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)stopWithError:(NSError*)error {
