@@ -108,6 +108,12 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
+@interface BMLWorkflowTaskBuildScript : BMLWorkflowTaskCreateResource
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 @interface BMLWorkflowTaskCreateExecution : BMLWorkflowTaskCreateResource
 @end
 
@@ -599,7 +605,7 @@
 - (void)runWithArguments:(NSArray*)inputs
                inContext:(BMLWorkflowTaskContext*)context
          completionBlock:(BMLWorkflowCompletedBlock)completion {
-
+    
     NSMutableArray* arguments = [NSMutableArray new];
     for (BMLFieldModel* field in [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]) {
         [arguments addObject:@[field.title, field.currentValue]];
@@ -608,9 +614,9 @@
     [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
                                     fullUuid:[inputs.firstObject fullUuid]
                                   definition:@{}];
-
+    
     [context.ml createResource:BMLResourceTypeWhizzmlExecution
-                          name:context.info[@"name"]
+                          name:context.info[@"name"] ?: @"Temporary Name"
                        options:@{ @"arguments" : arguments }
                           from:resource
                     completion:^(id<BMLResource> resource, NSError* error) {
@@ -630,15 +636,70 @@
     
     NSAssert(NO, @"BMLWorkflowTaskCreateScript inputResourceTypes SHOULD NOT BE HERE");
     return nil;
+}
 
-//    return @{@"Input 1" : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeModel
-//                           name:@"input 1"],
-//             @"Input 2": [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeCluster
-//                          name:@"input 2"],
-//             @"Input 3" : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeDataset
-//                           name:@"input 3"],
-//             @"Input 4" : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeEvaluation
-//                           name:@"input 4"]};
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+@implementation BMLWorkflowTaskBuildScript
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (instancetype)init {
+    
+    if (self = [super initWithResourceType:BMLResourceTypeWhizzmlScript]) {
+    }
+    return self;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)runWithArguments:(NSArray*)inputs
+               inContext:(BMLWorkflowTaskContext*)context
+         completionBlock:(BMLWorkflowCompletedBlock)completion {
+    
+    BMLResource* workflow = self.descriptor.properties[kWorkflowStartResource];
+    NSDictionary* resourceDict = workflow.jsonDefinition;
+    if ([resourceDict[@"source_code"] length] == 0) {
+        //-- HANDLE ERROR HERE
+        return;
+    }
+    
+    if (inputs)
+        context.info[@"script_inputs"] = inputs;
+    
+    BMLMinimalResource* resource =
+    [[BMLMinimalResource alloc] initWithName:context.info[@"name"] ?: @"Temporary Name"
+                                        type:BMLResourceTypeWhizzmlSource
+                                        uuid:@""
+                                  definition:@{}];
+    NSDictionary* dict = @{ @"source_code" : resourceDict[@"source_code"],
+                            @"description" : resourceDict[@"description"] ?: @"",
+                            @"parameters" : resourceDict[@"parameters"] ?: @[],
+                            @"tags" : @[] };
+    
+    [context.ml createResource:BMLResourceTypeWhizzmlScript
+                          name:context.info[@"name"] ?: @"Temporary Name"
+                       options:dict //-- could we use resourceDict here??????
+                          from:resource
+                    completion:^(id<BMLResource> resource, NSError* error) {
+                        
+                        if (resource) {
+                            self.outputResources = @[resource];
+                            self.resourceStatus = BMLResourceStatusEnded;
+                        } else {
+                            self.error = error ?: [NSError errorWithInfo:@"Could not complete task" code:-1];
+                            self.resourceStatus = BMLResourceStatusFailed;
+                        }
+                    }];
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (NSArray*)inputResourceTypes {
+    
+    NSAssert(NO, @"BMLWorkflowTaskCreateScript inputResourceTypes SHOULD NOT BE HERE");
+    return nil;
 }
 
 @end
@@ -676,6 +737,7 @@
                                  error:(NSError**)errorp {
     
     NSMutableArray* __block processedInputs = [NSMutableArray new];
+    NSLog(@"SUBRANGE: %@", [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]);
     for (BMLFieldModel* field in [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]) {
         if ([field isKindOfClass:[BMLDragDropFieldModel class]] &&
             [field.currentValue hasPrefix:@"file/"]) {
@@ -705,7 +767,7 @@
             dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
 
         } else {
-            [processedInputs addObject:@[field.title, field.currentValue]];
+            [processedInputs addObject:@[field.name, field.currentValue]];
         }
     }
     return processedInputs;
@@ -716,8 +778,13 @@
                inContext:(BMLWorkflowTaskContext*)context
          completionBlock:(BMLWorkflowCompletedBlock)completion {
 
+    
+    //-- Here we handle the input arguments. there are two cases: either this task is executed
+    //-- within a WhizzMLWorkflow, in which case it receives correct 'inputs'; or, it is part
+    //-- of an extended (local) script, in which case it receives its inputs from the previous
+    //-- stage in context.info[@"script_inputs"].
     NSError* error = nil;
-    NSMutableArray* arguments = [self argumentsFromInputs:inputs
+    NSMutableArray* arguments = [self argumentsFromInputs:context.info[@"script_inputs"] ?: inputs
                                                 inContext:context
                                                     error:&error];
     if (!error) {
@@ -733,15 +800,27 @@
                         completion:^(id<BMLResource> resource, NSError* error) {
                             
                             if (resource) {
-                                self.outputResources = @[resource];
-                                self.resourceStatus = BMLResourceStatusEnded;
+                                
+                                BMLResourceFullUuid* fullUuid = resource.jsonDefinition[@"execution"][@"result"];
+                                [context.ml getResource:[BMLResourceTypeIdentifier typeFromFullUuid:fullUuid]
+                                                   uuid:[BMLResourceTypeIdentifier uuidFromFullUuid:fullUuid]
+                                             completion:^(id<BMLResource> resource, NSError* error) {
+                                                 
+                                                 if (resource) {
+
+                                                     self.outputResources = @[resource];
+                                                     self.resourceStatus = BMLResourceStatusEnded;
+                                                 } else {
+                                                     self.error = error ?:
+                                                     [NSError errorWithInfo:@"Could not complete task" code:-1];
+                                                     self.resourceStatus = BMLResourceStatusFailed;
+                                                 }
+                                             }];
                             } else {
                                 self.error = error ?:
                                 [NSError errorWithInfo:@"Could not complete task" code:-1];
                                 self.resourceStatus = BMLResourceStatusFailed;
                             }
-                            
-                            //-- MISSING COMPLETION BLOCK CALL!!!
                         }];
     } else {
         self.error = error;
@@ -754,7 +833,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {
     
-    NSAssert(NO, @"BMLWorkflowTaskCreateExecution inputResourceTypes SHOULD NOT BE HERE");
+//    NSAssert(NO, @"BMLWorkflowTaskCreateExecution inputResourceTypes SHOULD NOT BE HERE");
     return nil;
 }
 @end

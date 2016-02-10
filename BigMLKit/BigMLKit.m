@@ -32,12 +32,6 @@
 //BMLResourceTypeIdentifier* BMLResourceTypeProject = nil;
 //BMLResourceTypeIdentifier* BMLResourceTypeConfiguration = nil;
 
-BMLResourceTypeIdentifier* kModelTarget = nil;
-BMLResourceTypeIdentifier* kClusterTarget = nil;
-BMLResourceTypeIdentifier* kAnomalyTarget = nil;
-BMLResourceTypeIdentifier* kEvaluationTarget = nil;
-BMLResourceTypeIdentifier* kWhizzMLTarget = nil;
-
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -62,12 +56,6 @@ BMLResourceTypeIdentifier* kWhizzMLTarget = nil;
 //    BMLResourceTypePrediction = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:BMLResourceTypePrediction];
 //    BMLResourceTypeProject = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:BMLResourceTypeProject];
 //    BMLResourceTypeConfiguration = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:@"configuration"];
-    
-    kModelTarget = BMLResourceTypeModel;
-    kClusterTarget = BMLResourceTypeCluster;
-    kAnomalyTarget = BMLResourceTypeAnomaly;
-    kEvaluationTarget = BMLResourceTypeEvaluation;
-    kWhizzMLTarget = BMLResourceTypeWhizzmlSource;
 }
 
 @end
