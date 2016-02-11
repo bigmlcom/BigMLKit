@@ -28,6 +28,9 @@
 @property (nonatomic, copy) NSDictionary* properties;
 @property (nonatomic, readonly) NSString* taskName;
 
+//-- In both initializers, typeIdentifier can be nil.
+//-- In this case, an unspecified resource is assumed. Notice that not all conceivable verbs
+//-- can be used with unspecified resources (e.g., create)
 - (instancetype)initWithType:(BMLResourceTypeIdentifier*)typeIdentifier
                         verb:(NSString*)verb
                   properties:(NSDictionary*)properties;

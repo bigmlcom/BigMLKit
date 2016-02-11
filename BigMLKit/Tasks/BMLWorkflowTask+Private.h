@@ -39,6 +39,10 @@
 - (NSMutableDictionary*)optionsForCurrentContext:(BMLWorkflowTaskContext*)context;
 - (instancetype)initWithResourceType:(BMLResourceTypeIdentifier*)resourceName;
 
+- (void)genericCompletionHandler:(id<BMLResource>)resource
+                           error:(NSError*)error
+                      completion:(BMLWorkflowCompletedBlock)completion;
+
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////

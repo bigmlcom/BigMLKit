@@ -46,7 +46,7 @@
     
     return [NSString stringWithFormat:@"%@%@",
             [_verb capitalizedString],
-            [[_type stringValue] capitalizedString]];
+            [[_type stringValue] capitalizedString] ?: @"Resource"];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

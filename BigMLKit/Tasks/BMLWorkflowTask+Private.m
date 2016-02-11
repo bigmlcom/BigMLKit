@@ -69,6 +69,22 @@ static void* gRunningResourcePropertyKey = &gRunningResourcePropertyKey;
             optionDictionaryAllOptions:NO];
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)genericCompletionHandler:(id<BMLResource>)resource
+                           error:(NSError*)error
+                      completion:(BMLWorkflowCompletedBlock)completion {
+    
+    if (resource) {
+        self.outputResources = @[resource];
+        self.resourceStatus = BMLResourceStatusEnded;
+    } else {
+        self.error = error ?: [NSError errorWithInfo:@"Could not complete task" code:-1];
+        self.resourceStatus = BMLResourceStatusFailed;
+    }
+    if (completion)
+        completion(self.outputResources, self.error);
+}
+
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////

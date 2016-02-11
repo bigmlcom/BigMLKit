@@ -37,13 +37,16 @@ extern NSString* const BMLWorkflowTaskCompletedWorkflow;
 @property (nonatomic) NSUInteger lastStep;
 
 /**
- *  Initializes a BMLWorkflowTaskSequence with an array of NSString representing task
- *  names and a configurator object. Task names are passed into [BMLWorkflowTask newTaskWithDescriptors:]
- *  convenience constructor to create a task from its name.
+ *  Initializes a BMLWorkflowTaskSequence with a task descriptor, list of inputs,
+ *  and a configurator object. Descriptors are passed into [BMLWorkflowTask newTaskWithDescriptor:]
+ *  convenience constructor to create a task from its descriptor, which will only succeed if
+ *  a class with the proper name has been defined somewhere. E.g., for a descriptor
+ *  specifying a "create" verb and a BMLResourceTypeModel, a class named BMLWorkflowTaskCreateModel
+ *  is required.
  *  The configurator decouples task configuration from task execution.
  *
  *  @param descriptors   The sequence of tasks to execute (array of BMLWorkflowTaskDescriptors).
- *  @param inputs        The inputs to be used (wzml-only).
+ *  @param inputs        The inputs to be used (wzml-only); shared among all tasks in the sequence.
  *  @param configurator  The configurator object responsible to provide the task configuration.
  *
  *  @return The initialized task sequence instance.
