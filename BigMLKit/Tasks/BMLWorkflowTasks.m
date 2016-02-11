@@ -724,7 +724,7 @@
                                                 inContext:context
                                                     error:&error];
     if (!error) {
-        BMLMinimalResource* resource =
+        BMLMinimalResource* script =
         [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
                                         fullUuid:[inputs.firstObject fullUuid]
                                       definition:@{}];
@@ -732,7 +732,7 @@
                               name:context.info[@"name"]?:@"New Script"
                            options:@{ @"arguments" : arguments,
                                       @"creation_defaults": [self optionsForCurrentContext:context]}
-                              from:resource
+                              from:script
                         completion:^(id<BMLResource> resource, NSError* error) {
                             
                             resource = [[BMLMinimalResource alloc]
@@ -743,6 +743,16 @@
                             [self genericCompletionHandler:resource
                                                      error:error
                                                 completion:completion];
+                            
+                            //-- if this was chained in through buildScript, then delete the script.
+                            //-- this is better solved by allowing script multiplexing.
+                            if (context.info[@"script_inputs"]) {
+                                [context.ml deleteResource:script.type
+                                                      uuid:script.uuid
+                                                completion:^(NSError* error) {
+                                                    NSLog(@"Could not delete intermediate script: %@", error);
+                                                }];
+                            }
                         }];
     } else {
         self.error = error;
