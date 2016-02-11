@@ -90,20 +90,14 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@interface BMLWorkflowTaskChooseCluster : BMLWorkflowTask
-@end
-
-//////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
 @interface BMLWorkflowTaskCreateEvaluation : BMLWorkflowTaskCreateResource
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@interface BMLWorkflowTaskCreateScript : BMLWorkflowTaskCreateResource
-@end
+//@interface BMLWorkflowTaskCreateScript : BMLWorkflowTaskCreateResource
+//@end
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -218,13 +212,9 @@
                           from:inputs.firstObject
                     completion:^(id<BMLResource> resource, NSError* error) {
 
-                        if (resource) {
-                            self.outputResources = @[resource];
-                            self.resourceStatus = BMLResourceStatusEnded;
-                        } else {
-                            self.error = error ?: [NSError errorWithInfo:@"Could not complete task" code:-1];
-                            self.resourceStatus = BMLResourceStatusFailed;
-                        }
+                        [self genericCompletionHandler:resource
+                                                 error:error
+                                            completion:completion];
                     }];
 }
 
@@ -451,40 +441,27 @@
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
-    NSAssert([inputs count] == 1, @"Calling BMLWorkflowTaskCreatePrediction with wrong number of input resources");
+    NSAssert([inputs count] == 1,
+             @"Calling BMLWorkflowTaskCreatePrediction with wrong number of input resources");
     [super runWithArguments:inputs inContext:context completionBlock:nil];
     id<BMLResource> resource = inputs.firstObject;
     if (resource) {
         
-        void(^predict)(id<BMLResource>) = ^(id<BMLResource> resource) {
+        if (resource.jsonDefinition) {
             
-            if (resource && resource.jsonDefinition) {
-                self.outputResources = @[resource];
-                self.resourceStatus = BMLResourceStatusEnded;
-            } else {
-                self.error = [NSError errorWithInfo:@"The model this prediction was based upon\nhas not been found" code:-1];
-                self.resourceStatus = BMLResourceStatusFailed;
-            }
-            if (completion)
-                completion(@[resource], self.error);
-        };
-        
-        if (!resource.jsonDefinition) {
-            
+            [self genericCompletionHandler:resource error:nil completion:completion];
+
+        } else {
+
             [context.ml getResource:resource.type
                                uuid:resource.uuid
                          completion:^(id<BMLResource> resource, NSError* error) {
-                             if (!error) {
-                                 predict(resource);
-                             } else {
-                                 self.error = [NSError errorWithInfo:@"Could not find requested model/cluster" code:-1];
-                                 self.resourceStatus = BMLResourceStatusFailed;
-                             }
+                             
+                             [self genericCompletionHandler:resource.jsonDefinition ? resource : nil
+                                                      error:error
+                                                 completion:completion];
                          }];
-        } else {
-            predict(resource);
         }
-        //        NSDictionary* options = [self optionsForCurrentContext:context];
 
     } else {
         self.error = [NSError errorWithInfo:@"Could not find requested model/cluster" code:-1];
@@ -503,40 +480,6 @@
 - (NSString*)message {
     
     return @"Making Prediction";
-}
-@end
-
-//////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
-@implementation BMLWorkflowTaskChooseCluster
-
-//////////////////////////////////////////////////////////////////////////////////////
-- (instancetype)init {
-    
-    if (self = [super initWithResourceType:BMLResourceTypeCluster]) {
-    }
-    return self;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithArguments:(NSArray*)inputs
-              inContext:(BMLWorkflowTaskContext*)context
-        completionBlock:(BMLWorkflowCompletedBlock)completion {
-    
-    NSAssert(context.info[kModelId], @"No model ID provided");
-    [super runWithArguments:inputs inContext:context completionBlock:nil];
-    [context.ml getResource:BMLResourceTypeCluster
-                       uuid:context.info[kClusterId]
-                 completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
-                 }];
-//    [context.ml getModelWithId:context.info[kModelId]];
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
-- (NSString*)message {
-    
-    return @"Choose cluster";
 }
 @end
 
@@ -583,6 +526,7 @@
 }
 @end
 
+/*
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -635,7 +579,7 @@
 }
 
 @end
-
+*/
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -681,20 +625,16 @@
                           from:resource
                     completion:^(id<BMLResource> resource, NSError* error) {
                         
-                        if (resource) {
-                            self.outputResources = @[resource];
-                            self.resourceStatus = BMLResourceStatusEnded;
-                        } else {
-                            self.error = error ?: [NSError errorWithInfo:@"Could not complete task" code:-1];
-                            self.resourceStatus = BMLResourceStatusFailed;
-                        }
+                        [self genericCompletionHandler:resource
+                                                 error:error
+                                            completion:completion];
                     }];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {
     
-    NSAssert(NO, @"BMLWorkflowTaskCreateScript inputResourceTypes SHOULD NOT BE HERE");
+    NSAssert(NO, @"BMLWorkflowTaskBuildScript inputResourceTypes SHOULD NOT BE HERE");
     return nil;
 }
 
@@ -733,7 +673,6 @@
                                  error:(NSError**)errorp {
     
     NSMutableArray* __block processedInputs = [NSMutableArray new];
-    NSLog(@"SUBRANGE: %@", [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]);
     for (BMLFieldModel* field in [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]) {
         if ([field isKindOfClass:[BMLDragDropFieldModel class]] &&
             [field.currentValue hasPrefix:@"file/"]) {
@@ -796,31 +735,14 @@
                               from:resource
                         completion:^(id<BMLResource> resource, NSError* error) {
                             
-                            if (resource) {
-                                
-                                self.executionUuid = resource.uuid;
-                                //-- this does a GET in place, but it should be replaced through an independent
-                                //-- workflow step.
-                                BMLResourceFullUuid* fullUuid = resource.jsonDefinition[@"execution"][@"result"];
-                                [context.ml getResource:[BMLResourceTypeIdentifier typeFromFullUuid:fullUuid]
-                                                   uuid:[BMLResourceTypeIdentifier uuidFromFullUuid:fullUuid]
-                                             completion:^(id<BMLResource> resource, NSError* error) {
-                                                 
-                                                 if (resource) {
-
-                                                     self.outputResources = @[resource];
-                                                     self.resourceStatus = BMLResourceStatusEnded;
-                                                 } else {
-                                                     self.error = error ?:
-                                                     [NSError errorWithInfo:@"Could not complete task" code:-1];
-                                                     self.resourceStatus = BMLResourceStatusFailed;
-                                                 }
-                                             }];
-                            } else {
-                                self.error = error ?:
-                                [NSError errorWithInfo:@"Could not complete task" code:-1];
-                                self.resourceStatus = BMLResourceStatusFailed;
-                            }
+                            resource = [[BMLMinimalResource alloc]
+                                        initWithName:resource.name
+                                            fullUuid:resource.jsonDefinition[@"execution"][@"result"]
+                                        definition:@{}];
+                            
+                            [self genericCompletionHandler:resource
+                                                     error:error
+                                                completion:completion];
                         }];
     } else {
         self.error = error;
