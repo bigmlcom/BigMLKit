@@ -14,7 +14,6 @@
 
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflow.h"
-//#import "BMLResourceTypeIdentifier+BigML.h"
 
 #define kMonitoringPeriod 0.25
 
