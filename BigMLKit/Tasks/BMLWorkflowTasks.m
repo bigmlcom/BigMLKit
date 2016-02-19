@@ -628,6 +628,17 @@
         return;
     }
     
+    for (BMLFieldModel* f in inputs) {
+        if (!f.currentValue) {
+            [self genericCompletionHandler:nil
+                                     error:[NSError
+                                            errorWithInfo:@"Please provide values for all input fields"
+                                            code:-10601]
+                                completion:completion];
+            return;
+        }
+    }
+    
     if (inputs)
         context.info[@"script_inputs"] = inputs;
     
@@ -771,7 +782,7 @@
                             
                             //-- if this was chained in through buildScript, then delete the script.
                             //-- this is better solved by allowing script multiplexing.
-                            if (context.info[@"script_inputs"]) {
+                            if (context.info[@"script_inputs"] || error) {
                                 [context.ml deleteResource:script.type
                                                       uuid:script.uuid
                                                 completion:^(NSError* error) {
