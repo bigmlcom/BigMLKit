@@ -772,7 +772,8 @@
                             if (!error && resource) {
                                 resource = [[BMLMinimalResource alloc]
                                             initWithName:resource.name
-                                                fullUuid:resource.jsonDefinition[@"execution"][@"result"]
+                                                fullUuid:[resource.jsonDefinition[@"execution"][@"result"]
+                                                          firstObject]
                                             definition:@{}];
                             }
                             
