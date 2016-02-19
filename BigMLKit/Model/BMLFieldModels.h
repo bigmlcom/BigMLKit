@@ -150,7 +150,7 @@ typedef enum BMLDragDropStatus {
 //////////////////////////////////////////////////////////////////////////////////////
 @interface BMLDragDropFieldModel : BMLFieldModel
 
-@property (nonatomic, strong) BMLResourceTypeIdentifier* resourceType;
+@property (nonatomic, strong) NSArray<BMLResourceTypeIdentifier*>* resourceTypes;
 @property (nonatomic) BMLDragDropStatus dragDropStatus;
 @property (nonatomic, copy) NSString* resourceName;
 @property (nonatomic, copy) NSString* fullUuid;

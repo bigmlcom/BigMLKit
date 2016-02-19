@@ -593,6 +593,28 @@
     return self;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
+- (NSArray*)reifyParameters:(NSArray*)parameters inputs:(NSArray*)inputs {
+
+    NSMutableArray* results = [NSMutableArray new];
+    for (NSDictionary* p in parameters) {
+        for (BMLDragDropFieldModel* m in inputs) {
+            if ([p[@"name"] isEqualToString:m.name]) {
+                if (m.resourceTypes.count > 1) {
+                    NSMutableDictionary* q = [p mutableCopy];
+                    q[@"type"] =
+                    [NSString stringWithFormat:@"%@-id",
+                     [BMLResourceTypeIdentifier typeFromFullUuid:m.currentValue].stringValue];
+                    [results addObject:q];
+                } else {
+                    [results addObject:p];
+                }
+                break;
+            }
+        }
+    }
+    return results;
+}
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)runWithArguments:(NSArray*)inputs
@@ -616,7 +638,8 @@
                                   definition:@{}];
     NSDictionary* dict = @{ @"source_code" : resourceDict[@"source_code"],
                             @"description" : resourceDict[@"description"] ?: @"",
-                            @"parameters" : resourceDict[@"parameters"] ?: @[],
+                            @"parameters" : [self reifyParameters:resourceDict[@"parameters"]
+                                                           inputs:inputs],
                             @"tags" : @[] };
     
     [context.ml createResource:BMLResourceTypeWhizzmlScript
@@ -735,10 +758,12 @@
                               from:script
                         completion:^(id<BMLResource> resource, NSError* error) {
                             
-                            resource = [[BMLMinimalResource alloc]
-                                        initWithName:resource.name
-                                            fullUuid:resource.jsonDefinition[@"execution"][@"result"]
-                                        definition:@{}];
+                            if (!error && resource) {
+                                resource = [[BMLMinimalResource alloc]
+                                            initWithName:resource.name
+                                                fullUuid:resource.jsonDefinition[@"execution"][@"result"]
+                                            definition:@{}];
+                            }
                             
                             [self genericCompletionHandler:resource
                                                      error:error

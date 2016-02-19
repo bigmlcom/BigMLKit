@@ -199,7 +199,7 @@
     if (!self.resourceName)
         return @"";
     
-    if (_resourceType == BMLResourceTypeFile) {
+    if ([BMLResourceTypeIdentifier typeFromFullUuid:_fullUuid] == BMLResourceTypeFile) {
         return [self.resourceName lastPathComponent];
     }
     return self.resourceName;
@@ -255,8 +255,8 @@
 - (NSImage*)image {
     
     NSImage* baseImage = [NSImage imageNamed:[NSString stringWithFormat:@"btnCreate%@",
-                                              [[_resourceType stringValue] capitalizedString]]];
-    
+                                              [[_resourceTypes.firstObject stringValue]
+                                               capitalizedString]]];
     if (!baseImage)
         return nil;
     
@@ -292,6 +292,7 @@
     }
     if ([key isEqualToString:@"displayValue"]) {
         affectingKeys = @[@"resourceName"];
+        affectingKeys = @[@"fullUuid"];
     }
     return [keyPaths setByAddingObjectsFromArray:affectingKeys];
 }

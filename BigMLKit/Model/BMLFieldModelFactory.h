@@ -77,6 +77,10 @@
                                           type:(BMLResourceTypeIdentifier*)type
                                     importance:(float)importance;
 
++ (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
+                                         types:(NSArray<BMLResourceTypeIdentifier*>*)types
+                                    importance:(float)importance;
+
 + (BMLFieldModel*)fieldModelForOptionNamed:(NSString*)optionName
                                description:(NSDictionary*)description;
 

@@ -88,6 +88,8 @@
 - (BMLWorkflowTaskConfiguration*)configurationForResourceType:(BMLResourceTypeIdentifier*)resourceType {
     
     NSString* typeString = resourceType.stringValue;
+    if (!typeString)
+        NSLog(@"BMLWorkflowConfigurator");
     if (!_taskConfigurations[typeString]) {
         BMLWorkflowTaskConfiguration* configuration =
         [[BMLWorkflowTaskConfiguration alloc] initWithResourceType:resourceType];

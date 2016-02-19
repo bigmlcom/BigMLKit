@@ -228,16 +228,25 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
-                                          type:(BMLResourceTypeIdentifier*)type
+                                         types:(NSArray<BMLResourceTypeIdentifier*>*)types
                                     importance:(float)importance {
 
     BMLDragDropFieldModel* targetModel = [BMLDragDropFieldModel new];
     targetModel.title = title;
     targetModel.name = title;
-    targetModel.resourceType = type;
+    targetModel.resourceTypes = types;
     targetModel.importance = 1.0;
     targetModel.isFieldIncluded = NO;
     return targetModel;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
++ (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
+                                         type:(BMLResourceTypeIdentifier*)type
+                                    importance:(float)importance {
+    return [self newDragAndDropTarget:title
+                                types:@[type]
+                           importance:importance];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
