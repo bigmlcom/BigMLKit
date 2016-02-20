@@ -74,15 +74,17 @@ static void* gRunningResourcePropertyKey = &gRunningResourcePropertyKey;
                            error:(NSError*)error
                       completion:(BMLWorkflowCompletedBlock)completion {
     
-    if (resource) {
-        self.outputResources = @[resource];
-        self.resourceStatus = BMLResourceStatusEnded;
-    } else {
-        self.error = error ?: [NSError errorWithInfo:@"Could not complete task" code:-1];
-        self.resourceStatus = BMLResourceStatusFailed;
-    }
-    if (completion)
-        completion(self.outputResources, self.error);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (resource) {
+            self.outputResources = @[resource];
+            self.resourceStatus = BMLResourceStatusEnded;
+        } else {
+            self.error = error ?: [NSError errorWithInfo:@"Could not complete task" code:-1];
+            self.resourceStatus = BMLResourceStatusFailed;
+        }
+        if (completion)
+            completion(self.outputResources, self.error);
+    });
 }
 
 @end

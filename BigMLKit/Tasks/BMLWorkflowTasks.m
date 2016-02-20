@@ -741,7 +741,7 @@
                                 dispatch_semaphore_signal(sem);
                             }];
             dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
-            NSLog(@"FINISHED CREATING SOURCE");
+
         } else {
             if (field.name && field.currentValue)
                 [processedInputs addObject:@[field.name, field.currentValue]];
