@@ -658,7 +658,7 @@
                             @"description" : resourceDict[@"description"] ?: @"",
                             @"parameters" : [self reifyParameters:resourceDict[@"parameters"]
                                                            inputs:inputs],
-                            @"tags" : @[] };
+                            @"tags" : @[@"bigmlx_temp_script"] };
     
     [context.ml createResource:BMLResourceTypeWhizzmlScript
                           name:context.info[@"name"] ?: @"Temporary Script"
