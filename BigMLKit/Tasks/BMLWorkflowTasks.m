@@ -601,10 +601,17 @@
         for (BMLDragDropFieldModel* m in inputs) {
             if ([p[@"name"] isEqualToString:m.name]) {
                 if (m.resourceTypes.count > 1) {
+                    
+                    BMLResourceTypeIdentifier* type =
+                    [BMLResourceTypeIdentifier typeFromFullUuid:m.currentValue];
+                    //-- override file type since wzml does not support it and we will send
+                    //-- instead the source-id of a datasource generated on the fly.
+                    if (type == BMLResourceTypeFile) {
+                        type = BMLResourceTypeSource;
+                    }
                     NSMutableDictionary* q = [p mutableCopy];
                     q[@"type"] =
-                    [NSString stringWithFormat:@"%@-id",
-                     [BMLResourceTypeIdentifier typeFromFullUuid:m.currentValue].stringValue];
+                    [NSString stringWithFormat:@"%@-id", type.stringValue];
                     [results addObject:q];
                 } else {
                     [results addObject:p];
@@ -643,7 +650,7 @@
         context.info[@"script_inputs"] = inputs;
     
     BMLMinimalResource* resource =
-    [[BMLMinimalResource alloc] initWithName:context.info[@"name"] ?: @"Temporary Name"
+    [[BMLMinimalResource alloc] initWithName:context.info[@"name"] ?: @"Temporary Script"
                                         type:BMLResourceTypeWhizzmlSource
                                         uuid:@""
                                   definition:@{}];
@@ -654,7 +661,7 @@
                             @"tags" : @[] };
     
     [context.ml createResource:BMLResourceTypeWhizzmlScript
-                          name:context.info[@"name"] ?: @"Temporary Name"
+                          name:context.info[@"name"] ?: @"Temporary Script"
                        options:dict //-- could we use resourceDict here??????
                           from:resource
                     completion:^(id<BMLResource> resource, NSError* error) {
@@ -734,7 +741,7 @@
                                 dispatch_semaphore_signal(sem);
                             }];
             dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
-
+            NSLog(@"FINISHED CREATING SOURCE");
         } else {
             if (field.name && field.currentValue)
                 [processedInputs addObject:@[field.name, field.currentValue]];
@@ -770,11 +777,12 @@
                         completion:^(id<BMLResource> resource, NSError* error) {
                             
                             if (!error && resource) {
-                                resource = [[BMLMinimalResource alloc]
-                                            initWithName:resource.name
-                                                fullUuid:[resource.jsonDefinition[@"execution"][@"result"]
-                                                          firstObject]
-                                            definition:@{}];
+                                resource =
+                                [[BMLMinimalResource alloc]
+                                 initWithName:resource.name
+                                 fullUuid:[resource.jsonDefinition[@"execution"][@"result"]
+                                           firstObject]
+                                 definition:@{}];
                             }
                             
                             [self genericCompletionHandler:resource
