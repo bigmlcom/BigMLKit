@@ -775,16 +775,7 @@
                                       @"creation_defaults": [self optionsForCurrentContext:context]}
                               from:script
                         completion:^(id<BMLResource> resource, NSError* error) {
-                            
-                            if (!error && resource) {
-                                resource =
-                                [[BMLMinimalResource alloc]
-                                 initWithName:resource.name
-                                 fullUuid:[resource.jsonDefinition[@"execution"][@"result"]
-                                           firstObject]
-                                 definition:@{}];
-                            }
-                            
+                                                        
                             [self genericCompletionHandler:resource
                                                      error:error
                                                 completion:completion];
