@@ -85,6 +85,11 @@ static NSString* const kWorkflowName = @"kWorkflowName";
 @property (nonatomic, readonly) BMLAPIConnector* ml;
 
 /**
+ *  The project for which the workflow should be executed.
+ */
+@property (nonatomic, strong) BMLResourceFullUuid* projectFullUuid;
+
+/**
  *  The info dictionary providing access to all input, output, and intermediate results.
  */
 @property (nonatomic, strong) NSMutableDictionary* info;

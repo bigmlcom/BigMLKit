@@ -351,7 +351,8 @@
     
     NSMutableDictionary* defaultCollection = [super optionsForCurrentContext:context];
     if ([defaultCollection[@"objective_field"] isEqualToString:@"first_field"]) {
-        defaultCollection[@"objective_field"] = self.runningResource.jsonDefinition[@"fields"][@"000000"][@"name"];
+        defaultCollection[@"objective_field"] =
+        self.runningResource.jsonDefinition[@"fields"][@"000000"][@"name"];
     } else if ([defaultCollection[@"objective_field"] isEqualToString:@"last_field"]) {
         [defaultCollection removeObjectForKey:@"objective_field"];
     }
@@ -360,8 +361,9 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {
-    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeDataset
-                                                                                  name:kWorkflowStartResource]}];
+    return @[@{kWorkflowStartResource :
+                   [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeDataset
+                                                               name:kWorkflowStartResource]}];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -386,8 +388,9 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSDictionary*)inputResourceTypes {
-    return @{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeDataset
-                                                                                  name:kWorkflowStartResource]};
+    return @{kWorkflowStartResource :
+                 [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeDataset
+                                                             name:kWorkflowStartResource]};
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -412,8 +415,9 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {
-    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeDataset
-                                                                                  name:kWorkflowStartResource]}];
+    return @[@{kWorkflowStartResource :
+                   [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeDataset
+                                                               name:kWorkflowStartResource]}];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -697,8 +701,8 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSDictionary*)optionsForCurrentContext:(BMLWorkflowTaskContext*)context {
     
-//    NSMutableDictionary* options = [super optionsForCurrentContext:context];
-    NSDictionary* options = [self.configurator configurationDictionary][@"configurations"];
+    NSMutableDictionary* options = [[self.configurator configurationDictionary][@"configurations"]
+                                    mutableCopy];
     if (!options)
         options = [NSMutableDictionary new];
     
@@ -719,15 +723,17 @@
             [field.currentValue hasPrefix:@"file/"]) {
 
             dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-            
             BMLMinimalResource* resource =
             [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
                                             fullUuid:field.currentValue
                                           definition:@{}];
             
+            NSMutableDictionary* options = [self optionsForCurrentContext:context];
+            [options setObject:context.projectFullUuid forKey:@"project"];
+
             [context.ml createResource:BMLResourceTypeSource
                                   name:[resource.uuid lastPathComponent]
-                               options:@{}
+                               options:options
                                   from:resource
                             completion:^(id<BMLResource> resource, NSError* error) {
                                 
