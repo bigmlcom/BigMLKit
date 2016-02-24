@@ -718,6 +718,7 @@
                                  error:(NSError**)errorp {
     
     NSMutableArray* __block processedInputs = [NSMutableArray new];
+    NSError* __block processingError = nil;
     for (BMLFieldModel* field in [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]) {
         if ([field isKindOfClass:[BMLDragDropFieldModel class]] &&
             [field.currentValue hasPrefix:@"file/"]) {
@@ -740,19 +741,21 @@
                                 if (resource) {
                                     [processedInputs addObject:@[field.title, resource.fullUuid]];
                                 } else {
-                                    *errorp = error ?:
+                                    processingError = error ?:
                                     [NSError errorWithInfo:@"Could not create datasource from file"
                                                       code:-1];
                                 }
                                 dispatch_semaphore_signal(sem);
                             }];
             dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
-
+            if (processingError)
+                break;
         } else {
             if (field.name && field.currentValue)
                 [processedInputs addObject:@[field.name, field.currentValue]];
         }
     }
+    *errorp = processingError;
     return processedInputs;
 }
 
