@@ -17,6 +17,7 @@
 #import "BMLWorkflowTask.h"
 
 #import "BMLResource.h"
+#import "BMLResourceDefinition.h"
 #import "BMLWorkflowTaskConfigurationOption.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -36,7 +37,7 @@
 @implementation BMLWorkflowConfigurator
 
 //////////////////////////////////////////////////////////////////////////////////////
-+ (BMLWorkflowConfigurator*)configuratorFromConfigurationResource:(id<BMLResource>)resource {
++ (BMLWorkflowConfigurator*)configuratorFromConfigurationResource:(BMLResource*)resource {
     
     NSAssert(!resource || resource.type == BMLResourceTypeConfiguration,
              @"Expected a configuration resource here!");
@@ -45,15 +46,15 @@
     configurator.configurationFullUuid = resource.fullUuid;
 
 //-- check (BigMLAppCore dep)
-//    for (NSString* resourceType in [resource.definition.json[@"configurations"] allKeys]) {
-//        BMLWorkflowTaskConfiguration* configuration =
-//        [configurator configurationForResourceType:[BMLResourceTypeIdentifier typeFromTypeString:resourceType]];
-//        for (NSString* optionName in [resource.definition.json[@"configurations"][resourceType] allKeys]) {
-//            [self setOption:optionName
-//                  withValue:resource.definition.json[@"configurations"][resourceType][optionName]
-//              configuration:configuration];
-//        }
-//    }
+    for (NSString* resourceType in [resource.definition.json[@"configurations"] allKeys]) {
+        BMLWorkflowTaskConfiguration* configuration =
+        [configurator configurationForResourceType:[BMLResourceTypeIdentifier typeFromTypeString:resourceType]];
+        for (NSString* optionName in [resource.definition.json[@"configurations"][resourceType] allKeys]) {
+            [self setOption:optionName
+                  withValue:resource.definition.json[@"configurations"][resourceType][optionName]
+              configuration:configuration];
+        }
+    }
     return configurator;
 }
 

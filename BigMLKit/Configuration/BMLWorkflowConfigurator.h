@@ -17,7 +17,7 @@
 
 @class BMLWorkflowTaskConfiguration;
 @class BMLWorkflowTask;
-@protocol BMLResource;
+@class BMLResource;
 
 /**
  *  BMLWorkflowConfigurator is a collection of BMLWorkflowTaskConfiguration,
@@ -28,7 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 @interface BMLWorkflowConfigurator : NSObject
 
-+ (BMLWorkflowConfigurator*)configuratorFromConfigurationResource:(id<BMLResource>)resource;
++ (BMLWorkflowConfigurator*)configuratorFromConfigurationResource:(BMLResource*)resource;
 
 - (BMLWorkflowTaskConfiguration*)configurationForResourceType:(BMLResourceTypeIdentifier*)resourceType;
 

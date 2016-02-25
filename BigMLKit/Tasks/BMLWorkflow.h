@@ -40,7 +40,6 @@ typedef enum {
     BMLWorkflowFailed,
 } BMLWorkflowStatus;
 
-@class BMLWorkflowConfigurator;
 @class BMLWorkflowTaskContext;
 
 //////////////////////////////////////////////////////////////////////////////////////

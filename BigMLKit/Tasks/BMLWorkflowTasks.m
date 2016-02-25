@@ -730,7 +730,8 @@
                                           definition:@{}];
             
             NSMutableDictionary* options = [self optionsForCurrentContext:context];
-            [options setObject:context.projectFullUuid forKey:@"project"];
+            if (![context.projectFullUuid isEqualToString:[BMLResource allProjectsPseudoFullUuid]])
+                [options setObject:context.projectFullUuid forKey:@"project"];
 
             [context.ml createResource:BMLResourceTypeSource
                                   name:[resource.uuid lastPathComponent]
