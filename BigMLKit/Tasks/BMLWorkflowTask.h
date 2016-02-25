@@ -92,11 +92,9 @@
  *
  *  @return the initialized instance.
  */
-+ (BMLWorkflowTask*)newTaskWithDescriptor:(BMLWorkflowTaskDescriptor*)step
-                             configurator:(BMLWorkflowConfigurator*)configurator;
++ (BMLWorkflowTask*)newTaskWithDescriptor:(BMLWorkflowTaskDescriptor*)step;
 
-- (instancetype)initWithDescriptor:(BMLWorkflowTaskDescriptor*)step
-                      configurator:(BMLWorkflowConfigurator*)configurator NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDescriptor:(BMLWorkflowTaskDescriptor*)step NS_DESIGNATED_INITIALIZER;
 
 @end
 

@@ -701,7 +701,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSDictionary*)optionsForCurrentContext:(BMLWorkflowTaskContext*)context {
     
-    NSMutableDictionary* options = [[self.configurator configurationDictionary][@"configurations"]
+    NSMutableDictionary* options = [[context.configurator configurationDictionary][@"configurations"]
                                     mutableCopy];
     if (!options)
         options = [NSMutableDictionary new];

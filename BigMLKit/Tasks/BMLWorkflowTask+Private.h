@@ -27,7 +27,7 @@
 @property (nonatomic, readonly) BOOL allowsUserInteraction;
 @property (nonatomic, weak) id<BMLResource> runningResource;
 @property (nonatomic, readonly) BMLResourceTypeIdentifier* inputResourceType;
-@property (nonatomic, strong) BMLWorkflowConfigurator* configurator;
+//@property (nonatomic, strong) BMLWorkflowConfigurator* configurator;
 
 @end
 

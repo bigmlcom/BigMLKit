@@ -16,6 +16,7 @@
 #import "BMLWorkflowTask+Private.h"
 #import "BMLWorkflowTaskConfiguration.h"
 #import "BMLWorkflowConfigurator.h"
+#import "BMLWorkflowTaskContext.h"
 
 #import <objc/runtime.h>
 
@@ -65,7 +66,7 @@ static void* gRunningResourcePropertyKey = &gRunningResourcePropertyKey;
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSMutableDictionary*)optionsForCurrentContext:(BMLWorkflowTaskContext*)context {
     
-    return [[self.configurator configurationForResourceType:self.inputResourceType]
+    return [[context.configurator configurationForResourceType:self.inputResourceType]
             optionDictionaryAllOptions:NO];
 }
 

@@ -45,7 +45,6 @@
     configurator.configurationName = resource.name;
     configurator.configurationFullUuid = resource.fullUuid;
 
-//-- check (BigMLAppCore dep)
     for (NSString* resourceType in [resource.definition.json[@"configurations"] allKeys]) {
         BMLWorkflowTaskConfiguration* configuration =
         [configurator configurationForResourceType:[BMLResourceTypeIdentifier typeFromTypeString:resourceType]];

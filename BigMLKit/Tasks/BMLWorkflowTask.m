@@ -114,22 +114,20 @@
 @synthesize name;
 
 //////////////////////////////////////////////////////////////////////////////////////
-+ (BMLWorkflowTask*)newTaskWithDescriptor:(BMLWorkflowTaskDescriptor*)descriptor
-                             configurator:(BMLWorkflowConfigurator*)configurator {
++ (BMLWorkflowTask*)newTaskWithDescriptor:(BMLWorkflowTaskDescriptor*)descriptor {
     
     NSString* taskClassName = [NSString stringWithFormat:@"BMLWorkflowTask%@", descriptor.taskName];
-    return [[NSClassFromString(taskClassName) alloc] initWithDescriptor:descriptor configurator:configurator];
+    return [[NSClassFromString(taskClassName) alloc] initWithDescriptor:descriptor];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (instancetype)initWithDescriptor:(BMLWorkflowTaskDescriptor*)descriptor
-                      configurator:(BMLWorkflowConfigurator*)configurator {
+- (instancetype)initWithDescriptor:(BMLWorkflowTaskDescriptor*)descriptor {
     
     if (self = [super init]) {
     
         self.descriptor = descriptor;
         self.name = descriptor.taskName;
-        self.configurator = configurator;
+//        self.configurator = configurator;
         //    item.configuration = [configurator configurationForResourceType:item.inputResourceType];
     }
     return self;
@@ -138,7 +136,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)init {
 
-    return [self initWithDescriptor:nil configurator:nil];
+    return [self initWithDescriptor:nil];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

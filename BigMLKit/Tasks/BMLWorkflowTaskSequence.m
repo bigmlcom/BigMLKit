@@ -42,8 +42,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)initWithDescriptors:(NSArray*)descriptors
-                             inputs:(NSArray*)inputs
-                       configurator:(BMLWorkflowConfigurator*)configurator {
+                             inputs:(NSArray*)inputs {
     
     if (self = [super init]) {
         
@@ -51,8 +50,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
         self.status = BMLWorkflowIdle;
         _steps = [NSMutableArray new];
         for (BMLWorkflowTaskDescriptor* d in descriptors) {
-            BMLWorkflowTask* newTask = [BMLWorkflowTask newTaskWithDescriptor:d
-                                                                 configurator:configurator];
+            BMLWorkflowTask* newTask = [BMLWorkflowTask newTaskWithDescriptor:d];
             if (!newTask)
                 NSLog(@"WILL CRASH NOW...");
             [_steps addObject:newTask];

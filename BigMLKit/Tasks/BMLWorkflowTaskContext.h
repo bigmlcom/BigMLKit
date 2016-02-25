@@ -15,6 +15,7 @@
 #import <Foundation/Foundation.h>
 
 @class BMLAPIConnector;
+@class BMLWorkflowConfigurator;
 
 /**
  *  The following constants idnetify entities that can be stored inside of a BMLWorkflowTaskContext.
@@ -93,6 +94,11 @@ static NSString* const kWorkflowName = @"kWorkflowName";
  *  The info dictionary providing access to all input, output, and intermediate results.
  */
 @property (nonatomic, strong) NSMutableDictionary* info;
+
+/**
+ *  The configurator object to read creation options from.
+ */
+@property (nonatomic, strong) BMLWorkflowConfigurator* configurator;
 
 /**
  *  Initializes a BMLWorkflowTaskContext object by specifying the connector that
