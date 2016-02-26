@@ -785,7 +785,8 @@
                                       @"creation_defaults": [self optionsForCurrentContext:context]}
                               from:script
                         completion:^(id<BMLResource> resource, NSError* error) {
-                                                        
+                            
+                            self.executionUuid = resource.uuid;
                             [self genericCompletionHandler:resource
                                                      error:error
                                                 completion:completion];
