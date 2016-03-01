@@ -705,10 +705,6 @@
                                     mutableCopy];
     if (!options)
         options = [NSMutableDictionary new];
-    
-//    BMLMinimalResource* r = context.info[kWorkflowSecondResource];
-//    BMLResourceTypeIdentifier* t = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:r.type];
-//    options[[t stringValue]] = r.fullUuid;
     return options;
 }
 
@@ -796,9 +792,7 @@
                             if (context.info[@"script_inputs"] || error) {
                                 [context.ml deleteResource:script.type
                                                       uuid:script.uuid
-                                                completion:^(NSError* error) {
-                                                    NSLog(@"Could not delete intermediate script: %@", error);
-                                                }];
+                                                completion:nil];
                             }
                         }];
     } else {

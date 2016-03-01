@@ -90,15 +90,12 @@
     
     BMLWorkflowManager* __weak wself = self;
     BMLWorkflow* __weak wtask = task;
-    NSLog(@"ADDING STATUS OBS for task %@", task);
     [task addObserver:self
               keyPath:NSStringFromSelector(@selector(status))
               options:0
                 block:^(MAKVONotification* notification) {
 
-                    NSLog(@"DISPATCHING STATUS CHANGE for task %@", task);
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        NSLog(@"EXECUTING STATUS CHANGE for task %@", task);
                         NSPredicate* predicate = [NSPredicate predicateWithFormat:@"task == %@", wtask];
                         for (NSMutableDictionary* dict in [[wself.tasks arrangedObjects] filteredArrayUsingPredicate:predicate]) {
                             NSUInteger index = [[wself.tasks arrangedObjects] indexOfObject:dict];
@@ -112,7 +109,6 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)removeWorkflow:(BMLWorkflow*)task {
     
-    NSLog(@"REMOVING STATUS OBS for task %@", task);
     [task removeObserver:self keyPath:NSStringFromSelector(@selector(status))];
     
     self.runningTasksCount = _runningTasksCount - 1;
