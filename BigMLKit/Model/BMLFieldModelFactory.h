@@ -74,6 +74,10 @@
                                   importance:(float)importance;
 
 + (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
+                                    typeString:(NSString*)typeString
+                                    importance:(float)importance;
+
++ (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
                                           type:(BMLResourceTypeIdentifier*)type
                                     importance:(float)importance;
 

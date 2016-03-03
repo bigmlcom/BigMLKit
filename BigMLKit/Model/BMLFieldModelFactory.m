@@ -242,11 +242,55 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
-                                         type:(BMLResourceTypeIdentifier*)type
+                                          type:(BMLResourceTypeIdentifier*)type
                                     importance:(float)importance {
     return [self newDragAndDropTarget:title
                                 types:@[type]
                            importance:importance];
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
++ (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
+                                    typeString:(NSString*)typeString
+                                    importance:(float)importance {
+   
+    BMLDragDropFieldModel* fieldModel = nil;
+    NSRegularExpression* regex = [NSRegularExpression
+                                  regularExpressionWithPattern:@"^([a-z]+)-id(\\[([^]]*)\\])?"
+                                  options:0
+                                  error:nil];
+    
+    NSArray* matches = [regex matchesInString:typeString
+                                      options:0
+                                        range:NSMakeRange(0, [typeString length])];
+    
+    NSTextCheckingResult* match = [matches firstObject];
+    NSString* type = [typeString substringWithRange:[match rangeAtIndex:1]];
+    NSArray* subtypes = nil;
+    if ([match rangeAtIndex:3].location != NSNotFound) {
+        subtypes = [[typeString substringWithRange:[match rangeAtIndex:3]]
+                    componentsSeparatedByString:@"|"];
+        
+        NSMutableArray<BMLResourceTypeIdentifier*>* types = [NSMutableArray new];
+        for (NSString* t in subtypes) {
+            BMLResourceTypeIdentifier* type =
+            [BMLResourceTypeIdentifier typeFromTypeString:t];
+            if (![types containsObject:type])
+                [types addObject:type];
+        }
+        
+        fieldModel = [BMLFieldModelFactory
+                      newDragAndDropTarget:title
+                      types:types
+                      importance:1.0];
+    } else {
+        
+        fieldModel = [BMLFieldModelFactory
+                      newDragAndDropTarget:title
+                      type:[BMLResourceTypeIdentifier typeFromTypeString:type]
+                      importance:1.0];
+    }
+    return fieldModel;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

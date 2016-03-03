@@ -658,15 +658,15 @@
                                         type:BMLResourceTypeWhizzmlSource
                                         uuid:@""
                                   definition:@{}];
-    NSDictionary* dict = @{ @"source_code" : resourceDict[@"source_code"],
-                            @"description" : resourceDict[@"description"] ?: @"",
-                            @"parameters" : [self reifyParameters:resourceDict[@"parameters"]
-                                                           inputs:inputs],
-                            @"tags" : @[@"bigmlx_temp_script"] };
+    resourceDict = @{ @"source_code" : resourceDict[@"source_code"],
+                      @"description" : resourceDict[@"description"] ?: @"",
+                      @"tags" : @[@"bigmlx_temp_script"],
+                      @"parameters" : [self reifyParameters:resourceDict[@"parameters"]
+                                                     inputs:inputs] };
     
     [context.ml createResource:BMLResourceTypeWhizzmlScript
                           name:context.info[@"name"] ?: @"Temporary Script"
-                       options:dict //-- could we use resourceDict here??????
+                       options:resourceDict
                           from:resource
                     completion:^(id<BMLResource> resource, NSError* error) {
                         

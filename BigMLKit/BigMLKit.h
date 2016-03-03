@@ -22,44 +22,9 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@interface BMLWorkflowType : NSString
-@end
-
-//////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
 typedef NSString BMLResourceUuid;
 typedef NSString BMLResourceFullUuid;
 
-//extern BMLResourceTypeIdentifier* BMLResourceTypeFile;
-//extern BMLResourceTypeIdentifier* BMLResourceTypeSource;
-//extern BMLResourceTypeIdentifier* BMLResourceTypeDataset;
-//extern BMLResourceTypeIdentifier* BMLResourceTypeModel;
-//extern BMLResourceTypeIdentifier* BMLResourceTypeCluster;
-//extern BMLResourceTypeIdentifier* BMLResourceTypeAnomaly;
-//extern BMLResourceTypeIdentifier* BMLResourceTypeEvaluation;
-//extern BMLResourceTypeIdentifier* BMLResourceTypeWhizzmlScript;
-//extern BMLResourceTypeIdentifier* BMLResourceTypeWhizzmlSource;
-//extern BMLResourceTypeIdentifier* BMLResourceTypeWhizzmlExecution;
-//extern BMLResourceTypeIdentifier* BMLResourceTypePrediction;
-//extern BMLResourceTypeIdentifier* BMLResourceTypeProject;
-//extern BMLResourceTypeIdentifier* BMLResourceTypeConfiguration;
-
-/*
-//////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
-@interface NSError (BMLError)
-
-+ (NSError*)errorWithInfo:(NSString*)errorString
-                     code:(NSInteger)code;
-
-+ (NSError*)errorWithInfo:(NSString*)errorString
-                     code:(NSInteger)code
-             extendedInfo:(NSDictionary*)extendedInfo;
-
-@end
-*/
 #define BMLLoginFailureError -50001
 #define kOptionsDefaultCollection @"options"
 
