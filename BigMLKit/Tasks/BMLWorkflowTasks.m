@@ -230,7 +230,12 @@
                inContext:(BMLWorkflowTaskContext*)context
          completionBlock:(BMLWorkflowCompletedBlock)completion {
     
-    id<BMLResource> resource = inputs.firstObject;
+    id<BMLResource> resource = inputs.lastObject;
+    if ([inputs.lastObject isKindOfClass:[BMLDragDropFieldModel class]])
+        resource = [[BMLMinimalResource alloc]
+                    initWithName:@""
+                    fullUuid:[(BMLDragDropFieldModel*)inputs.lastObject currentValue]
+                    definition:@{}];
     NSAssert([resource type] &&  [resource uuid], @"No model ID provided");
     [super runWithArguments:inputs inContext:context completionBlock:nil];
     
@@ -604,7 +609,8 @@
     for (NSDictionary* p in parameters) {
         for (BMLDragDropFieldModel* m in inputs) {
             if ([p[@"name"] isEqualToString:m.name]) {
-                if (m.resourceTypes.count > 1) {
+                //-- if a [ is present, then we have a multi-type argument
+                if ([p[@"type"] containsString:@"["]) {
                     
                     BMLResourceTypeIdentifier* type =
                     [BMLResourceTypeIdentifier typeFromFullUuid:m.currentValue];
