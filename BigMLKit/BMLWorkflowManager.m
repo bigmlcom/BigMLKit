@@ -112,9 +112,7 @@
     [task removeObserver:self keyPath:NSStringFromSelector(@selector(status))];
     
     self.runningTasksCount = _runningTasksCount - 1;
-#ifndef DEBUG
-    [_tasks removeObjectAtArrangedObjectIndex:[_tasks.arrangedObjects count] - 1];
-#endif
+//    [_tasks removeObjectAtArrangedObjectIndex:[_tasks.arrangedObjects count] - 1];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -148,6 +146,15 @@
     NSUInteger index = [_tasks.arrangedObjects indexOfObject:arrangedObjects.firstObject];
     [self selectCurrentWorkflowAtIndex:index];
 }
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (NSString*)description {
+    for (NSDictionary* w in _tasks.arrangedObjects) {
+        NSLog(@"WORKFLOW: %@", [w[@"task"] outputResources]);
+    }
+    return [super description];
+}
+
 
 @end
 #endif

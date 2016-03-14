@@ -149,16 +149,6 @@ typedef enum {
 - (void)stopWithError:(NSError*)error;
 
 /**
- *  Run the workflow in a given context. At the end of the workflow execution, the completion 
- *  block is called.
- *
- *  @param context    The context where the workflow should get/write parameters from/to.
- *  @param completion A completion block.
- */
-//- (void)runInContext:(BMLWorkflowTaskContext*)context
-//         completionBlock:(void(^)(NSError*))completion;
-
-/**
  *  Runs the task using a specified resource as input resource, a given connector to access
  *  BigML REST API, and a completion block.
  *

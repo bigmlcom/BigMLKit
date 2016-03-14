@@ -69,13 +69,13 @@
                 ///--- HERE WE SHOULD HANDLE OUTPUT AND INPUT RESOURCES!!
                 
                 if (self != task)
-                    self.outputResources = [task.outputResources arrayByAddingObjectsFromArray:self.outputResources?:@[]];
+                    self.outputResources =
+                    [task.outputResources arrayByAddingObjectsFromArray:self.outputResources?:@[]];
                 [task removeObserver:self forKeyPath:@"resourceStatus"];
                 [self executeStepWithArguments:task.outputResources];
                 
             } else if (task.resourceStatus == BMLResourceStatusFailed) {
                 
-//                self.outputResources = nil;
                 [task removeObserver:self forKeyPath:@"resourceStatus"];
                 [self handleError:task.error];
                 self.status = BMLWorkflowFailed;
@@ -85,20 +85,6 @@
             }
         }
     }
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
-- (void)runInContext:(BMLWorkflowTaskContext*)context
-         completionBlock:(BMLWorkflowCompletedBlock)completion {
-
-    NSAssert(_status == BMLWorkflowEnded || _status == BMLWorkflowIdle || _status == BMLWorkflowFailed,
-             @"Trying to re-start running task");
-    NSAssert(context, @"Improper BMLWorkflowTaskSequence API usage: you must specify a context.");
-    
-    _completion = completion;
-    _context = context;
-    
-    self.status = BMLWorkflowStarting;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -112,6 +98,7 @@
     
     _completion = completion;
     _context = context;
+    _outputResources = @[];
     
     self.status = BMLWorkflowStarting;
 }

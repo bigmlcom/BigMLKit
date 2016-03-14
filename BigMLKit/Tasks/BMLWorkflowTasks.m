@@ -55,6 +55,12 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
+@interface BMLWorkflowTaskGetExecution : BMLWorkflowTask
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 @interface BMLWorkflowTaskCreateSource : BMLWorkflowTaskCreateResource
 
 @end
@@ -184,10 +190,6 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)runInContext:(BMLWorkflowTaskContext*)context completionBlock:(void(^)(NSError*))completion {
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)message {
     
     return @"";
@@ -241,7 +243,7 @@
     
     [context.ml getResource:[resource type]
                        uuid:[resource uuid]
-                 completion:^(id<BMLResource> __nullable resource, NSError * __nullable error) {
+                 completion:^(id<BMLResource> __nullable resource, NSError* __nullable error) {
                      
                      [self genericCompletionHandler:resource
                                               error:error
@@ -256,6 +258,46 @@
 }
 @end
 
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+@implementation BMLWorkflowTaskGetExecution
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)runWithArguments:(NSArray*)inputs
+               inContext:(BMLWorkflowTaskContext*)context
+         completionBlock:(BMLWorkflowCompletedBlock)completion {
+    
+    id<BMLResource> resource = inputs.lastObject;
+    [super runWithArguments:inputs inContext:context completionBlock:nil];
+    
+    [context.ml getResource:[resource type]
+                       uuid:[resource uuid]
+                 completion:^(id<BMLResource> __nullable resource, NSError* __nullable error) {
+                     
+                     if (resource) {
+                         if (resource.jsonDefinition[@"execution"][@"result"]) {
+                             resource =
+                             [[BMLMinimalResource alloc]
+                              initWithName:resource.name
+                              fullUuid:[resource.jsonDefinition[@"execution"][@"result"]
+                                        firstObject]
+                              definition:nil];
+                         }
+                     }
+
+                     [self genericCompletionHandler:resource
+                                              error:error
+                                         completion:completion];
+                 }];
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (NSString*)message {
+    
+    return @"Choose model";
+}
+@end
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
