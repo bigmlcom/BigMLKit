@@ -74,7 +74,6 @@ typedef enum {
  */
 @property (nonatomic) BMLResourceStatus resourceStatus;
 
-
 /**
  *  A string describing the workflow.
  */
@@ -86,19 +85,9 @@ typedef enum {
 @property (nonatomic, readonly) NSString* statusMessage;
 
 /**
- *  This value, comprised between 0 and 1, represents the progress of the workflow.
- */
-//@property (nonatomic) float progress;
-
-/**
  *  The current task which is being executed.
  */
 @property (nonatomic, readonly) BMLWorkflow* currentTask;
-
-/**
- *  The overall workflow status.
- */
-//@property (nonatomic) BMLWorkflowStatus status;
 
 /**
  *  An array of the BMLResourceTypeIdentifier this workflow requires.

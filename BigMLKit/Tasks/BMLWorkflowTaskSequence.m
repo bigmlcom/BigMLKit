@@ -25,6 +25,8 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 @interface BMLWorkflowTaskSequence ()
 
 @property (nonatomic) NSInteger currentStep;
+@property (nonatomic) NSUInteger initialStep;
+@property (nonatomic) NSUInteger lastStep;
 
 @end
 
@@ -33,19 +35,23 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 //////////////////////////////////////////////////////////////////////////////////////
 @implementation BMLWorkflowTaskSequence {
     
+    BMLResourceFullUuid* _workflowUuid;
     NSMutableArray* _steps;
     NSArray* _inputs;
 }
 
+@synthesize workflowUuid = _workflowUuid;
 @synthesize steps = _steps;
 @dynamic currentTask;
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (instancetype)initWithDescriptors:(NSArray*)descriptors
-                             inputs:(NSArray*)inputs {
-    
+- (instancetype)initWithWorkflowFullUuid:(BMLResourceFullUuid*)fullUuid
+                             descriptors:(NSArray*)descriptors
+                                  inputs:(NSArray*)inputs {
+
     if (self = [super init]) {
         
+        _workflowUuid = fullUuid;
         _inputs = inputs;
         self.status = BMLWorkflowIdle;
         _steps = [NSMutableArray new];
@@ -77,7 +83,8 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
     
     NSAssert(self.status != BMLWorkflowStarting && self.status != BMLWorkflowStarted,
              @"Trying to change initial step while workflow is running");
-    NSAssert(initialStep < [_steps count], @"Wrong initial step (%d in %d elements)", (int)initialStep, (int)[_steps count]);
+    NSAssert(initialStep < [_steps count], @"Wrong initial step (%d in %d elements)",
+             (int)initialStep, (int)[_steps count]);
     if (initialStep < [_steps count]) {
         _initialStep = initialStep;
         self.currentStep = _initialStep - 1;

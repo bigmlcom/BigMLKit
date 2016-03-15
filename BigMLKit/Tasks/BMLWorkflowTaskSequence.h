@@ -22,7 +22,6 @@
 extern NSString* const BMLWorkflowTaskCompletedTask;
 extern NSString* const BMLWorkflowTaskCompletedWorkflow;
 
-@class BMLWorkflowConfigurator;
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -30,11 +29,14 @@ extern NSString* const BMLWorkflowTaskCompletedWorkflow;
 @interface BMLWorkflowTaskSequence : BMLWorkflow
 
 /**
+ *  The read-only full UUID of the workflow resources from which this TaskSequence was created.
+ */
+@property (nonatomic, readonly) BMLResourceFullUuid* workflowUuid;
+
+/**
  *  A read-only array containing the sequence of steps to execute. Steps are BMLWorkflowTask instances.
  */
 @property (nonatomic, readonly) NSArray* steps;
-@property (nonatomic) NSUInteger initialStep;
-@property (nonatomic) NSUInteger lastStep;
 
 /**
  *  Initializes a BMLWorkflowTaskSequence with a task descriptor, list of inputs,
@@ -47,11 +49,11 @@ extern NSString* const BMLWorkflowTaskCompletedWorkflow;
  *
  *  @param descriptors   The sequence of tasks to execute (array of BMLWorkflowTaskDescriptors).
  *  @param inputs        The inputs to be used (wzml-only); shared among all tasks in the sequence.
- *  @param configurator  The configurator object responsible to provide the task configuration.
  *
  *  @return The initialized task sequence instance.
  */
-- (instancetype)initWithDescriptors:(NSArray*)descriptors
+- (instancetype)initWithWorkflowFullUuid:(BMLResourceFullUuid*)fullUuid
+                             descriptors:(NSArray*)descriptors
                              inputs:(NSArray*)inputs;
 
 @end

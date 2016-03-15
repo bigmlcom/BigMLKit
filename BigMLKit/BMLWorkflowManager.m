@@ -150,7 +150,10 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)description {
     for (NSDictionary* w in _tasks.arrangedObjects) {
-        NSLog(@"WORKFLOW: %@", [w[@"task"] outputResources]);
+        NSLog(@"WORKFLOW %@ - %@", [w[@"task"] workflowUuid], w);
+        for (id<BMLResource> r in [w[@"task"] outputResources]) {
+            NSLog(@"Resource: %@", r.fullUuid);
+        }
     }
     return [super description];
 }
