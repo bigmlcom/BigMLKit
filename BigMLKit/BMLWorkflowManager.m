@@ -25,6 +25,7 @@
 
 #import "BMLCoreDataLayer.h"
 #import "BMLUserDefaults.h"
+#import "BMLUtils.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -69,13 +70,13 @@
         count = ++counter;
 
     if ([NSStringFromClass(task.currentTask.class) isEqualToString:@"BMLWorkflowTaskCreateExecution"])
-        return @{ @"title":task.name?:[NSString stringWithFormat:@"Task %d: %@", (int)count, task.statusMessage],
+        return @{ @"name":task.name?:[NSString stringWithFormat:@"Task %d: %@", (int)count, task.statusMessage],
                   @"task":task,
                   @"execution":task.currentTask,
                   @"status":@(task.status),
                   @"count":@(count)};
     else
-        return @{ @"title":task.name?:[NSString stringWithFormat:@"Task %d: %@", (int)count, task.statusMessage],
+        return @{ @"name":task.name?:[NSString stringWithFormat:@"Task %d: %@", (int)count, task.statusMessage],
                   @"task":task,
                   @"status":@(task.status),
                   @"count":@(count)};
@@ -122,12 +123,6 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-//- (NSArray*)allWorkflows {
-//    
-//    return [_workflows arrangedObjects];
-//}
-
-//////////////////////////////////////////////////////////////////////////////////////
 - (void)selectCurrentWorkflowAtIndex:(NSUInteger)index {
  
     NSArray* arrangedObjects = _tasks.arrangedObjects;
@@ -148,14 +143,31 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSString*)description {
-    for (NSDictionary* w in _tasks.arrangedObjects) {
-        NSLog(@"WORKFLOW %@ - %@", [w[@"task"] workflowUuid], w);
-        for (id<BMLResource> r in [w[@"task"] outputResources]) {
-            NSLog(@"Resource: %@", r.fullUuid);
-        }
+- (NSDictionary*)composite {
+    
+    NSMutableArray* composite = [NSMutableArray new];
+    for (long i = [_tasks.arrangedObjects count] - 1; i >= 0 ; --i) {
+        NSDictionary* w =  _tasks.arrangedObjects[i];
+        [composite addObject:@{ @"name" : w[@"name"],
+                                @"fullUuid" : [w[@"task"] workflowUuid]}];
     }
-    return [super description];
+
+    BMLResource* mainTask =
+    [BMLResource fetchByType:[BMLResourceTypeIdentifier typeFromFullUuid:composite.firstObject[@"fullUuid"]]
+                        uuid:[BMLResourceTypeIdentifier uuidFromFullUuid:composite.firstObject[@"fullUuid"]]].firstObject;
+     
+    NSString* creationDate = [BMLUtils stringFromDate:[NSDate new]];
+    NSString* uuid = [[NSUUID UUID] UUIDString];
+    return @{ @"name" : @"Composite",
+              @"description" : @"",
+              @"tags" : @[],
+              @"created" : creationDate,
+              @"updated" : creationDate,
+              @"resource" : [NSString stringWithFormat:@"composite/%@", uuid],
+              @"composite" : composite,
+              @"project" : @"",
+              @"parameters" : [mainTask jsonDefinition][@"parameters"] ?: @[]
+              };
 }
 
 

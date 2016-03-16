@@ -95,4 +95,10 @@
  */
 - (NSNumber*)areThereAnyTasks;
 
+/**
+ *  Returns a representation of the Workflow Manager content as a composite workflow.
+ *
+ */
+- (NSDictionary*)composite;
+
 @end
