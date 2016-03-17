@@ -51,13 +51,16 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
-@implementation BMLWorkflowManager
+@implementation BMLWorkflowManager {
+    
+    NSArray* _stashedTasks;
+}
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)init {
  
     if (self = [super init]) {
-        
+        _keepTasksAfterCompletion = YES;
     }
     return self;
 }
@@ -108,12 +111,42 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)removeWorkflow:(BMLWorkflow*)task {
+- (void)removeTask:(BMLWorkflow*)task {
+    
+    NSUInteger index = [_tasks.arrangedObjects indexOfObject:task];
+    if (index != NSNotFound)
+        [_tasks removeObjectAtArrangedObjectIndex:index];
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)cleanUpWorkflow:(BMLWorkflow*)task {
     
     [task removeObserver:self keyPath:NSStringFromSelector(@selector(status))];
-    
     self.runningTasksCount = _runningTasksCount - 1;
-//    [_tasks removeObjectAtArrangedObjectIndex:[_tasks.arrangedObjects count] - 1];
+    if (!_keepTasksAfterCompletion) {
+        [self removeTask:task];
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)stashWorkflows {
+    
+    _stashedTasks = [_tasks.arrangedObjects copy];
+    for (BMLWorkflowTask* t in _tasks.arrangedObjects) {
+        [self removeTask:t];
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)popWorkflows {
+    
+    for (BMLWorkflowTask* t in _tasks.arrangedObjects) {
+        [self removeTask:t];
+    }
+    for (BMLWorkflowTask* t in _stashedTasks) {
+        [_tasks addObject:t];
+    }
+    _stashedTasks = nil;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

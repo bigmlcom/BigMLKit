@@ -48,6 +48,13 @@
 @property (nonatomic, weak) NSArrayController* tasks;
 
 /**
+ * This option controls whether the cleanUpWorkflow: method effectively
+ * removes a task from the task list. When it is YES, cleanUpWorkflow:
+ * will keep the task in the list.
+ */
+@property (nonatomic) BOOL keepTasksAfterCompletion;
+
+/**
  *   The currently running workflow, i.e., the latest one.
  */
 @property(nonatomic, readonly, weak) BMLWorkflow* currentWorkflow;
@@ -69,10 +76,26 @@
  *  If you remove a workflow before it completes, you have to ensure
  *  that the workflow object is not released, i.e., that someone else
  *  is owning (retaining) it.
+ *  When the keepsTaskAfterCompletion is YES, this method will not
+ *  remove the task (it just does some internal house keeping).
  *
  *  @param the workflow to remove.
  */
-- (void)removeWorkflow:(BMLWorkflow*)task;
+- (void)cleanUpWorkflow:(BMLWorkflow*)task;
+
+/**
+ *  This method will empty the list of current tasks and store them internally
+ *  so they can be recovered later through popWorkflows.
+ *  Only one level of stashing/popping is allowed.
+ */
+- (void)stashWorkflows;
+
+/**
+ *  This method will restore the list of tasks that were previously stashed.
+ *  Existing tasks are removed.
+ *  Only one level of stashing/popping is allowed.
+ */
+- (void)popWorkflows;
 
 /**
  *  Sets the current workflow so that it matches the workflow at index index in tasks.
