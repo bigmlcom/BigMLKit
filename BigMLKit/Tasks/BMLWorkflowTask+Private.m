@@ -88,6 +88,24 @@ static void* gRunningResourcePropertyKey = &gRunningResourcePropertyKey;
     });
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)arrayCompletionHandler:(NSArray*)resources
+                         error:(NSError*)error
+                    completion:(BMLWorkflowCompletedBlock)completion {
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (resources) {
+            self.outputResources = resources;
+            self.resourceStatus = BMLResourceStatusEnded;
+        } else {
+            self.error = error ?: [NSError errorWithInfo:@"Could not complete task" code:-1];
+            self.resourceStatus = BMLResourceStatusFailed;
+        }
+        if (completion)
+            completion(self.outputResources, self.error);
+    });
+}
+
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////

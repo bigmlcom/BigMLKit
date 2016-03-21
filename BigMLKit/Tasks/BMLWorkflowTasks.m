@@ -275,21 +275,28 @@
                        uuid:[resource uuid]
                  completion:^(id<BMLResource> __nullable resource, NSError* __nullable error) {
                      
+                     NSMutableArray* outputs = [NSMutableArray new];
                      if (resource) {
+                         id results = resource.jsonDefinition[@"execution"][@"result"];
+                         if ([results isKindOfClass:[NSDictionary class]]) {
+                             results = [results allValues];
+                         } else if (![results isKindOfClass:[NSArray class]]) {
+                             results = @[results];
+                         }
                          
-                         if ([BMLResourceTypeIdentifier
-                              isValidFullUuid:resource.jsonDefinition[@"execution"][@"result"]]) {
-                             resource =
-                             [[BMLMinimalResource alloc]
-                              initWithName:resource.name
-                              fullUuid:resource.jsonDefinition[@"execution"][@"result"]
-                              definition:nil];
+                         for (id result in results) {
+                             if ([BMLResourceTypeIdentifier isValidFullUuid:result]) {
+                                 [outputs addObject:[[BMLMinimalResource alloc]
+                                                     initWithName:resource.name
+                                                     fullUuid:result
+                                                     definition:nil]];
+                             }
                          }
                      }
 
-                     [self genericCompletionHandler:resource
-                                              error:error
-                                         completion:completion];
+                     [self arrayCompletionHandler:outputs
+                                            error:error
+                                       completion:completion];
                  }];
 }
 

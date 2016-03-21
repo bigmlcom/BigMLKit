@@ -41,6 +41,10 @@
                            error:(NSError*)error
                       completion:(BMLWorkflowCompletedBlock)completion;
 
+- (void)arrayCompletionHandler:(NSArray*)resources
+                         error:(NSError*)error
+                    completion:(BMLWorkflowCompletedBlock)completion;
+
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////
