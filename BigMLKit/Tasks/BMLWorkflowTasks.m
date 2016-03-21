@@ -276,12 +276,13 @@
                  completion:^(id<BMLResource> __nullable resource, NSError* __nullable error) {
                      
                      if (resource) {
-                         if (resource.jsonDefinition[@"execution"][@"result"]) {
+                         
+                         if ([BMLResourceTypeIdentifier
+                              isValidFullUuid:resource.jsonDefinition[@"execution"][@"result"]]) {
                              resource =
                              [[BMLMinimalResource alloc]
                               initWithName:resource.name
-                              fullUuid:[resource.jsonDefinition[@"execution"][@"result"]
-                                        firstObject]
+                              fullUuid:resource.jsonDefinition[@"execution"][@"result"]
                               definition:nil];
                          }
                      }
