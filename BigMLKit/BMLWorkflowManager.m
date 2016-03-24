@@ -178,6 +178,9 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSDictionary*)composite {
     
+    if ([_tasks.arrangedObjects count] == 0)
+        return nil;
+    
     NSMutableArray* composite = [NSMutableArray new];
     for (long i = [_tasks.arrangedObjects count] - 1; i >= 0 ; --i) {
         NSDictionary* w =  _tasks.arrangedObjects[i];
