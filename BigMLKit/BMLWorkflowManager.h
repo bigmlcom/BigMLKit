@@ -119,9 +119,9 @@
 - (NSNumber*)areThereAnyTasks;
 
 /**
- *  Returns a representation of the Workflow Manager content as a composite workflow.
+ *  Returns a representation of the Workflow Manager content as a macro workflow.
  *
  */
-- (NSDictionary*)composite;
+- (NSDictionary*)macro;
 
 @end

@@ -176,21 +176,21 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSDictionary*)composite {
+- (NSDictionary*)macro {
     
     if ([_tasks.arrangedObjects count] == 0)
         return nil;
     
-    NSMutableArray* composite = [NSMutableArray new];
+    NSMutableArray* macro = [NSMutableArray new];
     for (long i = [_tasks.arrangedObjects count] - 1; i >= 0 ; --i) {
         NSDictionary* w =  _tasks.arrangedObjects[i];
-        [composite addObject:@{ @"name" : w[@"name"],
+        [macro addObject:@{ @"name" : w[@"name"],
                                 @"fullUuid" : [w[@"task"] workflowUuid]}];
     }
 
     BMLResource* mainTask =
-    [BMLResource fetchByType:[BMLResourceTypeIdentifier typeFromFullUuid:composite.firstObject[@"fullUuid"]]
-                        uuid:[BMLResourceTypeIdentifier uuidFromFullUuid:composite.firstObject[@"fullUuid"]]].firstObject;
+    [BMLResource fetchByType:[BMLResourceTypeIdentifier typeFromFullUuid:macro.firstObject[@"fullUuid"]]
+                        uuid:[BMLResourceTypeIdentifier uuidFromFullUuid:macro.firstObject[@"fullUuid"]]].firstObject;
      
     NSString* creationDate = [BMLUtils stringFromDate:[NSDate new]];
     NSString* uuid = [[NSUUID UUID] UUIDString];
@@ -199,8 +199,8 @@
               @"tags" : @[],
               @"created" : creationDate,
               @"updated" : creationDate,
-              @"resource" : [NSString stringWithFormat:@"composite/%@", uuid],
-              @"composite" : composite,
+              @"resource" : [NSString stringWithFormat:@"macro/%@", uuid],
+              @"macro" : macro,
               @"project" : @"",
               @"parameters" : [mainTask jsonDefinition][@"parameters"] ?: @[]
               };

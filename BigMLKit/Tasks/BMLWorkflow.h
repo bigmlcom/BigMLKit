@@ -49,7 +49,7 @@ typedef enum {
  *  The BMLWorkflow class represents workflows, i.e., collection of BigML operations.
  *  A workflow can be as simple as implying a single call to BigML REST API, e.g.
  *  to create a data source, or include multiple steps.
- *  BMLWorkflow is an abstract base class that basically is useful to build composite
+ *  BMLWorkflow is an abstract base class that basically is useful to build macro
  *  workflows combining lower-level workflows together.
  */
 @interface BMLWorkflow : NSObject
