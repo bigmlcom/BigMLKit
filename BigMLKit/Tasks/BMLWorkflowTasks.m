@@ -274,11 +274,23 @@
                inContext:(BMLWorkflowTaskContext*)context
          completionBlock:(BMLWorkflowCompletedBlock)completion {
     
-    id<BMLResource> resource = inputs.lastObject;
+    id resource = inputs.lastObject;
     [super runWithArguments:inputs inContext:context completionBlock:nil];
     
-    [context.ml getResource:[resource type]
-                       uuid:[resource uuid]
+    NSString* uuid = nil;
+    BMLResourceTypeIdentifier* type = nil;
+    
+    if (![resource isKindOfClass:[BMLMinimalResource class]]) {
+        NSString* fullUuid = [(BMLDragDropFieldModel*)resource currentValue];
+        uuid = [BMLResourceTypeIdentifier uuidFromFullUuid:fullUuid];
+        type = [BMLResourceTypeIdentifier typeFromFullUuid:fullUuid];
+    } else {
+        uuid = [resource uuid];
+        type = [(id<BMLResource>)resource type];
+    }
+    
+    [context.ml getResource:type
+                       uuid:uuid
                  completion:^(id<BMLResource> __nullable resource, NSError* __nullable error) {
                      
                      NSMutableArray* outputs = [NSMutableArray new];
@@ -687,27 +699,53 @@
 - (NSArray*)reifyParameters:(NSArray*)parameters inputs:(NSArray*)inputs {
 
     NSMutableArray* results = [NSMutableArray new];
-    for (NSDictionary* p in parameters) {
-        for (BMLDragDropFieldModel* m in inputs) {
-            if ([p[@"name"] isEqualToString:m.name]) {
-                //-- if a [ is present, then we have a multi-type argument
-                if ([p[@"type"] containsString:@"["]) {
-                    
-                    BMLResourceTypeIdentifier* type =
-                    [BMLResourceTypeIdentifier typeFromFullUuid:m.currentValue];
-                    //-- override file type since wzml does not support it and we will send
-                    //-- instead the source-id of a datasource generated on the fly.
-                    if (type == BMLResourceTypeFile) {
-                        type = BMLResourceTypeSource;
+    
+    //-- let's consider only a pipeline: 1 input for 1-argument script
+    //-- association is univocal.
+    if (inputs.count == parameters.count == 1) {
+        NSDictionary* p = parameters.firstObject;
+        BMLDragDropFieldModel* m = inputs.firstObject;
+        if ([p[@"type"] containsString:@"["]) {
+            
+            BMLResourceTypeIdentifier* type =
+            [BMLResourceTypeIdentifier typeFromFullUuid:m.currentValue];
+            //-- override file type since wzml does not support it and we will send
+            //-- instead the source-id of a datasource generated on the fly.
+            if (type == BMLResourceTypeFile) {
+                type = BMLResourceTypeSource;
+            }
+            NSMutableDictionary* q = [p mutableCopy];
+            q[@"type"] =
+            [NSString stringWithFormat:@"%@-id", type.stringValue];
+            [results addObject:q];
+        } else {
+            [results addObject:p];
+        }
+        
+    } else {
+
+        for (NSDictionary* p in parameters) {
+            for (BMLDragDropFieldModel* m in inputs) {
+                if ([p[@"name"] isEqualToString:m.name]) {
+                    //-- if a [ is present, then we have a multi-type argument
+                    if ([p[@"type"] containsString:@"["]) {
+                        
+                        BMLResourceTypeIdentifier* type =
+                        [BMLResourceTypeIdentifier typeFromFullUuid:m.currentValue];
+                        //-- override file type since wzml does not support it and we will send
+                        //-- instead the source-id of a datasource generated on the fly.
+                        if (type == BMLResourceTypeFile) {
+                            type = BMLResourceTypeSource;
+                        }
+                        NSMutableDictionary* q = [p mutableCopy];
+                        q[@"type"] =
+                        [NSString stringWithFormat:@"%@-id", type.stringValue];
+                        [results addObject:q];
+                    } else {
+                        [results addObject:p];
                     }
-                    NSMutableDictionary* q = [p mutableCopy];
-                    q[@"type"] =
-                    [NSString stringWithFormat:@"%@-id", type.stringValue];
-                    [results addObject:q];
-                } else {
-                    [results addObject:p];
+                    break;
                 }
-                break;
             }
         }
     }
@@ -722,11 +760,16 @@
     BMLResource* workflow = self.descriptor.properties[kWorkflowStartResource];
     NSDictionary* resourceDict = workflow.jsonDefinition;
     if ([resourceDict[@"source_code"] length] == 0) {
-        //-- HANDLE ERROR HERE
+
+        [self genericCompletionHandler:nil
+                                 error:[NSError
+                                        errorWithInfo:@"Badly defined script found."
+                                        code:-10605]
+                            completion:completion];
         return;
     }
     
-    for (BMLFieldModel* f in inputs) {
+    for (BMLFieldModel* f in context.info[@"script_inputs"]) {
         if (!f.currentValue) {
             [self genericCompletionHandler:nil
                                      error:[NSError
@@ -737,8 +780,8 @@
         }
     }
     
-    if (inputs)
-        context.info[@"script_inputs"] = inputs;
+//    if (inputs)
+//        context.info[@"script_inputs"] = inputs;
     
     BMLMinimalResource* resource =
     [[BMLMinimalResource alloc] initWithName:context.info[@"name"] ?: @"Temporary Script"
@@ -749,7 +792,8 @@
                       @"description" : resourceDict[@"description"] ?: @"",
                       @"tags" : @[@"bigmlx_temp_script"],
                       @"parameters" : [self reifyParameters:resourceDict[@"parameters"]
-                                                     inputs:inputs] };
+                                                     inputs:context.info[@"script_inputs"]]
+                      };
     
     [context.ml createResource:BMLResourceTypeWhizzmlScript
                           name:context.info[@"name"] ?: @"Temporary Script"
@@ -802,6 +846,9 @@
     
     NSMutableArray* __block processedInputs = [NSMutableArray new];
     NSError* __block processingError = nil;
+    
+    inputs = [inputs ?: @[] arrayByAddingObjectsFromArray:context.info[@"script_inputs"] ?: @[]];
+    
     for (BMLFieldModel* field in [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]) {
         if ([field isKindOfClass:[BMLDragDropFieldModel class]] &&
             [field.currentValue hasPrefix:@"file/"]) {
@@ -848,15 +895,12 @@
                inContext:(BMLWorkflowTaskContext*)context
          completionBlock:(BMLWorkflowCompletedBlock)completion {
 
-    
-    //-- Here we handle the input arguments. there are two cases: either this task is executed
-    //-- within a WhizzMLWorkflow, in which case it receives correct 'inputs'; or, it is part
-    //-- of an extended (local) script, in which case it receives its inputs from the previous
-    //-- stage in context.info[@"script_inputs"].
+    //-- Here we handle the input arguments. The first object in inputs is the script to run.
+    //-- The rest of arguments to be passed to the script are taken from inputs and the context.
+    //-- Currently, only a one-to-one relationship is supported, so the second object in inputs
+    //-- or the first in context["script_inputs"] are used as first and unique argument.
     NSError* error = nil;
-    NSMutableArray* arguments = [self argumentsFromInputs:context.info[@"script_inputs"] ?: inputs
-                                                inContext:context
-                                                    error:&error];
+    NSMutableArray* arguments = [self argumentsFromInputs:inputs inContext:context error:&error];
     if (!error) {
         BMLMinimalResource* script =
         [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
@@ -883,10 +927,13 @@
                             }
                         }];
     } else {
-        self.error = error;
-        self.resourceStatus = BMLResourceStatusFailed;
-        if (completion)
-            completion(nil, error);
+        [self genericCompletionHandler:nil
+                                 error:error
+                            completion:completion];
+//        self.error = error;
+//        self.resourceStatus = BMLResourceStatusFailed;
+//        if (completion)
+//            completion(nil, error);
     }
 }
 

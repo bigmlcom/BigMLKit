@@ -83,6 +83,7 @@ static void* gRunningResourcePropertyKey = &gRunningResourcePropertyKey;
             self.error = error ?: [NSError errorWithInfo:@"Could not complete task" code:-1];
             self.resourceStatus = BMLResourceStatusFailed;
         }
+        NSLog(@"TASK %@ completed (%@)", [self class], error);
         if (completion)
             completion(self.outputResources, self.error);
     });

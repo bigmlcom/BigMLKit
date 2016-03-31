@@ -14,6 +14,7 @@
 
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflow.h"
+#import "BMLFieldModels.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -73,6 +74,20 @@
                     [task.outputResources arrayByAddingObjectsFromArray:self.outputResources?:@[]];
                 [task removeObserver:self forKeyPath:@"resourceStatus"];
                 [self executeStepWithArguments:task.outputResources];
+                
+//                NSLog(@"OBSERVING TASK: %@ FROM: %@", task, self);
+//                NSMutableArray* args = [NSMutableArray new];
+//                for (id<BMLResource> r in task.outputResources) {
+//                    if ([r isKindOfClass:[BMLMinimalResource class]]) {
+//                        BMLDragDropFieldModel* f = [BMLDragDropFieldModel new];
+//                        f.fullUuid = r.fullUuid;
+//                        NSLog(@"HANDLING DD ARG %@: %@", r.name, r.fullUuid);
+//                        [args addObject:f];
+//                    } else {
+//                        NSLog(@"HANDLING RES ARG %@: %@", r.name, r);
+//                    }
+//                }
+//                [self executeStepWithArguments:args];
                 
             } else if (task.resourceStatus == BMLResourceStatusFailed) {
                 
