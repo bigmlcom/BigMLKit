@@ -73,16 +73,16 @@
         count = ++counter;
 
     if ([NSStringFromClass(task.currentTask.class) isEqualToString:@"BMLWorkflowTaskCreateExecution"])
-        return @{ @"name":task.name?:[NSString stringWithFormat:@"Task %d: %@", (int)count, task.statusMessage],
+        return [@{ @"name":task.name?:[NSString stringWithFormat:@"Task %d: %@", (int)count, task.statusMessage],
                   @"task":task,
                   @"execution":task.currentTask,
                   @"status":@(task.status),
-                  @"count":@(count)};
+                  @"count":@(count)} mutableCopy];
     else
-        return @{ @"name":task.name?:[NSString stringWithFormat:@"Task %d: %@", (int)count, task.statusMessage],
+        return [@{ @"name":task.name?:[NSString stringWithFormat:@"Task %d: %@", (int)count, task.statusMessage],
                   @"task":task,
                   @"status":@(task.status),
-                  @"count":@(count)};
+                  @"count":@(count)} mutableCopy];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -103,8 +103,7 @@
                         NSPredicate* predicate = [NSPredicate predicateWithFormat:@"task == %@", wtask];
                         for (NSMutableDictionary* dict in [[wself.tasks arrangedObjects] filteredArrayUsingPredicate:predicate]) {
                             NSUInteger index = [[wself.tasks arrangedObjects] indexOfObject:dict];
-                            [wself.tasks removeObjectAtArrangedObjectIndex:index];
-                            [wself.tasks insertObject:[self dictFromTask:wtask count:[dict[@"count"] intValue]] atArrangedObjectIndex:index];
+                            _tasks.arrangedObjects[index][@"status"] = @(wtask.status);
                         }
                     });
                 }];
