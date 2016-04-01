@@ -296,18 +296,20 @@
                      NSMutableArray* outputs = [NSMutableArray new];
                      if (resource) {
                          id results = resource.jsonDefinition[@"execution"][@"result"];
-                         if ([results isKindOfClass:[NSDictionary class]]) {
-                             results = [results allValues];
-                         } else if (![results isKindOfClass:[NSArray class]]) {
-                             results = @[results];
-                         }
-                         
-                         for (id result in results) {
-                             if ([BMLResourceTypeIdentifier isValidFullUuid:result]) {
-                                 [outputs addObject:[[BMLMinimalResource alloc]
-                                                     initWithName:resource.name
-                                                     fullUuid:result
-                                                     definition:nil]];
+                         if (results) {
+                             if ([results isKindOfClass:[NSDictionary class]]) {
+                                 results = [results allValues];
+                             } else if (![results isKindOfClass:[NSArray class]]) {
+                                 results = @[results];
+                             }
+                             
+                             for (id result in results) {
+                                 if ([BMLResourceTypeIdentifier isValidFullUuid:result]) {
+                                     [outputs addObject:[[BMLMinimalResource alloc]
+                                                         initWithName:resource.name
+                                                         fullUuid:result
+                                                         definition:nil]];
+                                 }
                              }
                          }
                      }
