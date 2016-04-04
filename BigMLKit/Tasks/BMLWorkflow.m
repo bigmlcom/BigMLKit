@@ -69,10 +69,14 @@
                 
                 ///--- HERE WE SHOULD HANDLE OUTPUT AND INPUT RESOURCES!!
                 
-                if (self != task)
+                if (self != task) {
                     self.outputResources =
                     [task.outputResources arrayByAddingObjectsFromArray:self.outputResources?:@[]];
+                }
                 [task removeObserver:self forKeyPath:@"resourceStatus"];
+                NSLog(@"PASSING IN script_inputs override: (%@)", self.context.info[@"script_inputs"]);
+//                self.context.info[@"script_inputs"] = self.outputResources;
+//                NSLog(@"PASSED IN script_inputs: %@", self.outputResources);
                 [self executeStepWithArguments:task.outputResources];
                 
 //                NSLog(@"OBSERVING TASK: %@ FROM: %@", task, self);

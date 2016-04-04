@@ -16,7 +16,10 @@
 #import "BMLWorkflowTask+Private.h"
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflowConfigurator.h"
+
+//-- these are required by I/O handling
 #import "BMLFieldModels.h"
+#import "BMLFieldModelFactory.h"
 
 #import "BMLResourceTypeIdentifier.h"
 
@@ -293,7 +296,7 @@
                        uuid:uuid
                  completion:^(id<BMLResource> __nullable resource, NSError* __nullable error) {
                      
-                     NSMutableArray* outputs = [NSMutableArray new];
+                     NSMutableArray* outputResources = [NSMutableArray new];
                      if (resource) {
                          id results = resource.jsonDefinition[@"execution"][@"result"];
                          if (results) {
@@ -303,18 +306,32 @@
                                  results = @[results];
                              }
                              
+                             NSMutableArray* outputs = [NSMutableArray new];
                              for (id result in results) {
+
                                  if ([BMLResourceTypeIdentifier isValidFullUuid:result]) {
-                                     [outputs addObject:[[BMLMinimalResource alloc]
-                                                         initWithName:resource.name
-                                                         fullUuid:result
-                                                         definition:nil]];
+                                     BMLDragDropFieldModel* outputModel =
+                                     [BMLFieldModelFactory
+                                      newDragAndDropTarget:@"resource_id"
+                                      typeString:[NSString stringWithFormat:@"%@-id",
+                                                  [BMLResourceTypeIdentifier typeFromFullUuid:result].stringValue]
+                                      importance:1.0];
+                                     outputModel.fullUuid = result;
+                                     [outputs addObject:outputModel];
+                                 }
+                                 
+                                 if ([BMLResourceTypeIdentifier isValidFullUuid:result]) {
+                                     [outputResources addObject:[[BMLMinimalResource alloc]
+                                                                 initWithName:resource.name
+                                                                 fullUuid:result
+                                                                 definition:nil]];
                                  }
                              }
+                             context.info[@"script_inputs"] = outputs;
                          }
                      }
 
-                     [self arrayCompletionHandler:outputs
+                     [self arrayCompletionHandler:outputResources
                                             error:error
                                        completion:completion];
                  }];
@@ -782,9 +799,6 @@
         }
     }
     
-//    if (inputs)
-//        context.info[@"script_inputs"] = inputs;
-    
     BMLMinimalResource* resource =
     [[BMLMinimalResource alloc] initWithName:context.info[@"name"] ?: @"Temporary Script"
                                         type:BMLResourceTypeWhizzmlSource
@@ -794,8 +808,7 @@
                       @"description" : resourceDict[@"description"] ?: @"",
                       @"tags" : @[@"bigmlx_temp_script"],
                       @"parameters" : [self reifyParameters:resourceDict[@"parameters"]
-                                                     inputs:context.info[@"script_inputs"]]
-                      };
+                                                     inputs:context.info[@"script_inputs"]] };
     
     [context.ml createResource:BMLResourceTypeWhizzmlScript
                           name:context.info[@"name"] ?: @"Temporary Script"
@@ -851,41 +864,47 @@
     
     inputs = [inputs ?: @[] arrayByAddingObjectsFromArray:context.info[@"script_inputs"] ?: @[]];
     
-    for (BMLFieldModel* field in [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]) {
-        if ([field isKindOfClass:[BMLDragDropFieldModel class]] &&
-            [field.currentValue hasPrefix:@"file/"]) {
-
-            dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-            BMLMinimalResource* resource =
-            [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
-                                            fullUuid:field.currentValue
-                                          definition:@{}];
-            
-            NSMutableDictionary* options = [self optionsForCurrentContext:context];
-            if (![context.projectFullUuid isEqualToString:[BMLResource allProjectsPseudoFullUuid]])
-                [options setObject:context.projectFullUuid forKey:@"project"];
-
-            [context.ml createResource:BMLResourceTypeSource
-                                  name:[resource.uuid lastPathComponent]
-                               options:options
-                                  from:resource
-                            completion:^(id<BMLResource> resource, NSError* error) {
-                                
-                                if (resource) {
-                                    [processedInputs addObject:@[field.title, resource.fullUuid]];
-                                } else {
-                                    processingError = error ?:
-                                    [NSError errorWithInfo:@"Could not create datasource from file"
-                                                      code:-1];
-                                }
-                                dispatch_semaphore_signal(sem);
-                            }];
-            dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
-            if (processingError)
-                break;
+    for (id obj in [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]) {
+        if ([obj isKindOfClass:[BMLDragDropFieldModel class]]) {
+            BMLFieldModel* field = obj;
+            if ([field.currentValue hasPrefix:@"file/"]) {
+                
+                dispatch_semaphore_t sem = dispatch_semaphore_create(0);
+                BMLMinimalResource* resource =
+                [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
+                                                fullUuid:field.currentValue
+                                              definition:@{}];
+                
+                NSMutableDictionary* options = [self optionsForCurrentContext:context];
+                if (![context.projectFullUuid isEqualToString:[BMLResource allProjectsPseudoFullUuid]])
+                    [options setObject:context.projectFullUuid forKey:@"project"];
+                
+                [context.ml createResource:BMLResourceTypeSource
+                                      name:[resource.uuid lastPathComponent]
+                                   options:options
+                                      from:resource
+                                completion:^(id<BMLResource> resource, NSError* error) {
+                                    
+                                    if (resource) {
+                                        [processedInputs addObject:@[field.title, resource.fullUuid]];
+                                    } else {
+                                        processingError = error ?:
+                                        [NSError errorWithInfo:@"Could not create datasource from file"
+                                                          code:-1];
+                                    }
+                                    dispatch_semaphore_signal(sem);
+                                }];
+                dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+                if (processingError)
+                    break;
+            } else {
+                if (field.name && field.currentValue)
+                    [processedInputs addObject:@[field.name, field.currentValue]];
+            }
         } else {
-            if (field.name && field.currentValue)
-                [processedInputs addObject:@[field.name, field.currentValue]];
+            BMLMinimalResource* field = obj;
+            if (field.name && field.fullUuid)
+                [processedInputs addObject:@[field.name, field.fullUuid]];
         }
     }
     *errorp = processingError;
@@ -903,6 +922,7 @@
     //-- or the first in context["script_inputs"] are used as first and unique argument.
     NSError* error = nil;
     NSMutableArray* arguments = [self argumentsFromInputs:inputs inContext:context error:&error];
+    NSLog(@"RUNNING EXEC: %@", arguments);
     if (!error) {
         BMLMinimalResource* script =
         [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
