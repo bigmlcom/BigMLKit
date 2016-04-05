@@ -306,6 +306,8 @@
                                  results = @[results];
                              }
                              
+                             //-- convert all results into inputs (for use in macros)
+                             //-- and resources (for display in resource browers)
                              NSMutableArray* outputs = [NSMutableArray new];
                              for (id result in results) {
 
@@ -314,7 +316,8 @@
                                      [BMLFieldModelFactory
                                       newDragAndDropTarget:@"resource_id"
                                       typeString:[NSString stringWithFormat:@"%@-id",
-                                                  [BMLResourceTypeIdentifier typeFromFullUuid:result].stringValue]
+                                                  [BMLResourceTypeIdentifier
+                                                   typeFromFullUuid:result].stringValue]
                                       importance:1.0];
                                      outputModel.fullUuid = result;
                                      [outputs addObject:outputModel];

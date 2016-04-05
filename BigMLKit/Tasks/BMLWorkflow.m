@@ -74,24 +74,7 @@
                     [task.outputResources arrayByAddingObjectsFromArray:self.outputResources?:@[]];
                 }
                 [task removeObserver:self forKeyPath:@"resourceStatus"];
-                NSLog(@"PASSING IN script_inputs override: (%@)", self.context.info[@"script_inputs"]);
-//                self.context.info[@"script_inputs"] = self.outputResources;
-//                NSLog(@"PASSED IN script_inputs: %@", self.outputResources);
                 [self executeStepWithArguments:task.outputResources];
-                
-//                NSLog(@"OBSERVING TASK: %@ FROM: %@", task, self);
-//                NSMutableArray* args = [NSMutableArray new];
-//                for (id<BMLResource> r in task.outputResources) {
-//                    if ([r isKindOfClass:[BMLMinimalResource class]]) {
-//                        BMLDragDropFieldModel* f = [BMLDragDropFieldModel new];
-//                        f.fullUuid = r.fullUuid;
-//                        NSLog(@"HANDLING DD ARG %@: %@", r.name, r.fullUuid);
-//                        [args addObject:f];
-//                    } else {
-//                        NSLog(@"HANDLING RES ARG %@: %@", r.name, r);
-//                    }
-//                }
-//                [self executeStepWithArguments:args];
                 
             } else if (task.resourceStatus == BMLResourceStatusFailed) {
                 
