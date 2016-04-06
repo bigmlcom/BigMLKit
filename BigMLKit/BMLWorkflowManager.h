@@ -36,6 +36,12 @@
 @interface BMLWorkflowManager : NSObject
 
 /**
+ *  The name of the workflow. Used mostly for macro workflows.
+ *
+ */
+@property (nonatomic, strong) NSString* name;
+
+/**
  *  An NSArrayController representing all tasks in execution.
  *  For each handled task, the array controller provides access to a NSDictionary
  *  with the following keys:

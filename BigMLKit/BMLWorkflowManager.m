@@ -193,7 +193,7 @@
      
     NSString* creationDate = [BMLUtils stringFromDate:[NSDate new]];
     NSString* uuid = [[NSUUID UUID] UUIDString];
-    return @{ @"name" : @"Composite",
+    return @{ @"name" : _name ?: @"Custom macro",
               @"description" : @"",
               @"tags" : @[],
               @"created" : creationDate,
