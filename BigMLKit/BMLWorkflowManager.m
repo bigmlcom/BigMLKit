@@ -87,7 +87,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)addWorkflowAsCurrent:(BMLWorkflow*)task {
-    
+
     self.runningTasksCount = _runningTasksCount + 1;
     [_tasks insertObject:[self dictFromTask:task count:NSNotFound] atArrangedObjectIndex:0];
     self.currentWorkflow = task;
@@ -103,7 +103,7 @@
                         NSPredicate* predicate = [NSPredicate predicateWithFormat:@"task == %@", wtask];
                         for (NSMutableDictionary* dict in [[wself.tasks arrangedObjects] filteredArrayUsingPredicate:predicate]) {
                             NSUInteger index = [[wself.tasks arrangedObjects] indexOfObject:dict];
-                            _tasks.arrangedObjects[index][@"status"] = @(wtask.status);
+                            wself.tasks.arrangedObjects[index][@"status"] = @(wtask.status);
                         }
                     });
                 }];
@@ -160,7 +160,8 @@
     NSArray* arrangedObjects = _tasks.arrangedObjects;
     if (index < [arrangedObjects count])
         self.currentWorkflow = arrangedObjects[index][@"task"];
-
+    else
+        self.currentWorkflow = nil;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

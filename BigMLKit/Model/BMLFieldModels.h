@@ -20,13 +20,28 @@
 //////////////////////////////////////////////////////////////////////////////////////
 @interface BMLFieldModel : BMLWorkflowTaskConfigurationOption
 
-#warning resolve redundant properties name and title
+/**
+ *  This property specifies the name of the input.
+ */
 @property (nonatomic, copy) NSString* name;
+
+/**
+ *  This property specifies the title that should be displayed in the UI for the input.
+ */
 @property (nonatomic, copy) NSString* title;
+
+/**
+ *  This property provides a description text for the input.
+ */
+@property (nonatomic, copy) NSString* fieldDescription;
+
+/**
+ *  This property specifies the importance that this input field has in predictions.
+ */
 @property (nonatomic) float importance;
 
 /**
- *  This property specifies the name of a property that determines whether the field
+ *  This property specifies the name of a related property that determines whether the field
  *  should be displayed or not. The field is only displayed if that property has the value
  *  specified by showOnValue.
  *  Defaults to nil.
