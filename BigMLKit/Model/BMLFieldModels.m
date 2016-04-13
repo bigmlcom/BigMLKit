@@ -255,7 +255,7 @@
 - (NSImage*)image {
     
     NSImage* baseImage = [NSImage imageNamed:[NSString stringWithFormat:@"btnCreate%@",
-                                              [[_resourceTypes.firstObject stringValue]
+                                              [[_resourceTypes[_currentResourceType] stringValue]
                                                capitalizedString]]];
     if (!baseImage)
         return nil;
@@ -286,6 +286,7 @@
     NSArray* affectingKeys = nil;
     if ([key isEqualToString:@"image"]) {
         affectingKeys = @[@"dragDropStatus"];
+        affectingKeys = @[@"currentResourceType"];
     }
     if ([key isEqualToString:@"currentValue"]) {
         affectingKeys = @[@"fullUuid"];
