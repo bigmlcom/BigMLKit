@@ -51,7 +51,6 @@
             _groups = myDic[@"optionGroups"];
             _options = myDic[@"optionNames"];
             _optionDescriptions = myDic[@"optionDescriptions"];
-            
         }
     }
     return self;
@@ -84,8 +83,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)setOptionModel:(BMLWorkflowTaskConfigurationOption*)optionModel forOptionNamed:(NSString*)optionName {
     
-    NSAssert(optionModel, @"Passing a nil optionModel!");
-        
+    NSAssert(optionModel, @"Passing a nil optionModel for optionName: %@!", optionName);
     [_optionModels setObject:optionModel forKey:optionName];
 }
 
