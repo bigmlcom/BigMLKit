@@ -265,30 +265,35 @@
                                         range:NSMakeRange(0, [typeString length])];
     
     NSTextCheckingResult* match = [matches firstObject];
-    NSString* type = [typeString substringWithRange:[match rangeAtIndex:1]];
-    NSArray* subtypes = nil;
-    if ([match rangeAtIndex:3].location != NSNotFound) {
-        subtypes = [[typeString substringWithRange:[match rangeAtIndex:3]]
-                    componentsSeparatedByString:@"|"];
-        
-        NSMutableArray<BMLResourceTypeIdentifier*>* types = [NSMutableArray new];
-        for (NSString* t in subtypes) {
-            BMLResourceTypeIdentifier* type =
-            [BMLResourceTypeIdentifier typeFromTypeString:t];
-            if (![types containsObject:type])
-                [types addObject:type];
+    NSAssert(match, @"Wrong type passed to newDragAndDropTarget: %@", typeString);
+    if (match) {
+        NSString* type = [typeString substringWithRange:[match rangeAtIndex:1]];
+        NSArray* subtypes = nil;
+        if ([match rangeAtIndex:3].location != NSNotFound) {
+            subtypes = [[typeString substringWithRange:[match rangeAtIndex:3]]
+                        componentsSeparatedByString:@"|"];
+            
+            NSMutableArray<BMLResourceTypeIdentifier*>* types = [NSMutableArray new];
+            for (NSString* t in subtypes) {
+                BMLResourceTypeIdentifier* type =
+                [BMLResourceTypeIdentifier typeFromTypeString:t];
+                if (![types containsObject:type])
+                    [types addObject:type];
+            }
+            
+            fieldModel = [BMLFieldModelFactory
+                          newDragAndDropTarget:title
+                          types:types
+                          importance:1.0];
+        } else {
+            
+            fieldModel = [BMLFieldModelFactory
+                          newDragAndDropTarget:title
+                          type:[BMLResourceTypeIdentifier typeFromTypeString:type]
+                          importance:1.0];
         }
-        
-        fieldModel = [BMLFieldModelFactory
-                      newDragAndDropTarget:title
-                      types:types
-                      importance:1.0];
     } else {
-        
-        fieldModel = [BMLFieldModelFactory
-                      newDragAndDropTarget:title
-                      type:[BMLResourceTypeIdentifier typeFromTypeString:type]
-                      importance:1.0];
+        NSLog(@"Wrong type passed to newDragAndDropTarget: %@", typeString);
     }
     return fieldModel;
 }
