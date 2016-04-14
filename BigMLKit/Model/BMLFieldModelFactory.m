@@ -244,6 +244,8 @@
 + (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
                                           type:(BMLResourceTypeIdentifier*)type
                                     importance:(float)importance {
+    
+    if (!type) return nil;
     return [self newDragAndDropTarget:title
                                 types:@[type]
                            importance:importance];
