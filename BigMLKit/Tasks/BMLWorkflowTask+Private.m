@@ -17,6 +17,7 @@
 #import "BMLWorkflowTaskConfiguration.h"
 #import "BMLWorkflowConfigurator.h"
 #import "BMLWorkflowTaskContext.h"
+#import "NSError+BMLError.h"
 
 #import <objc/runtime.h>
 

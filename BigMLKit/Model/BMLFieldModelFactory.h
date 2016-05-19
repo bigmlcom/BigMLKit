@@ -21,6 +21,7 @@
 @class BMLCheckBoxFieldModel;
 @class BMLTokenFieldModel;
 @class BMLDragDropFieldModel;
+@class BMLScriptArgumentFieldModel;
 
 /////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
@@ -74,16 +75,18 @@
                                   importance:(float)importance;
 
 + (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
-                                    typeString:(NSString*)typeString
-                                    importance:(float)importance;
+                                    typeString:(NSString*)typeString;
 
 + (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
-                                          type:(BMLResourceTypeIdentifier*)type
-                                    importance:(float)importance;
+                                          type:(BMLResourceTypeIdentifier*)type;
 
 + (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
-                                         types:(NSArray<BMLResourceTypeIdentifier*>*)types
-                                    importance:(float)importance;
+                                         types:(NSArray<BMLResourceTypeIdentifier*>*)types;
+
++ (BMLScriptArgumentFieldModel*)newScriptArgument:(NSString*)name
+                                description:(NSString*)description
+                                       type:(NSString*)type
+                               defaultValue:(NSString*)defaultValue;
 
 + (BMLFieldModel*)fieldModelForOptionNamed:(NSString*)optionName
                                description:(NSDictionary*)description;

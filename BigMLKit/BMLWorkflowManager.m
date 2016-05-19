@@ -18,6 +18,7 @@
 
 #else
 
+#import "BMLResource.h"
 #import "BMLWorkflowManager.h"
 #import "BMLWorkflowTask.h"
 #import "BMLWorkflowTaskSequence.h"

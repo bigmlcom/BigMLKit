@@ -12,10 +12,12 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
+#import "BMLResource.h"
 #import "BMLWorkflowTask.h"
 #import "BMLWorkflowTask+Private.h"
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflowConfigurator.h"
+#import "NSError+BMLError.h"
 
 //-- these are required by I/O handling
 #import "BMLFieldModels.h"
@@ -317,8 +319,7 @@
                                       newDragAndDropTarget:@"resource_id"
                                       typeString:[NSString stringWithFormat:@"%@-id",
                                                   [BMLResourceTypeIdentifier
-                                                   typeFromFullUuid:result].stringValue]
-                                      importance:1.0];
+                                                   typeFromFullUuid:result].stringValue]];
                                      outputModel.fullUuid = result;
                                      [outputs addObject:outputModel];
                                  }

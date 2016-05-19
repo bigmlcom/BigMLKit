@@ -59,7 +59,8 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (instancetype)initWithResourceType:(BMLResourceTypeIdentifier*)resourceType {
     
-    NSString* plistName = [BMLWorkflowTaskConfiguration configurationPlistForResourceType:resourceType];
+    NSString* plistName = [BMLWorkflowTaskConfiguration
+                           configurationPlistForResourceType:resourceType];
     if (self = [self initWithPList:plistName]) {
         _resourceType = resourceType;
     }
@@ -81,7 +82,8 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)setOptionModel:(BMLWorkflowTaskConfigurationOption*)optionModel forOptionNamed:(NSString*)optionName {
+- (void)setOptionModel:(BMLWorkflowTaskConfigurationOption*)optionModel
+        forOptionNamed:(NSString*)optionName {
     
     NSAssert(optionModel, @"Passing a nil optionModel for optionName: %@!", optionName);
     [_optionModels setObject:optionModel forKey:optionName];
@@ -95,7 +97,9 @@
         for (NSString* option in optionArray) {
             
             BMLWorkflowTaskConfigurationOption* optionModel = _optionModels[option];
-            if ((!optionModel.showOnly || fullDictionary) && optionModel.isFieldIncluded && optionModel.currentValue) {
+            if ((!optionModel.showOnly || fullDictionary) &&
+                optionModel.isFieldIncluded &&
+                optionModel.currentValue) {
                 
                 //-- options may belong to collections (see datasources text_analysis)
                 //-- in this case, we collect individual options into dictionaries,

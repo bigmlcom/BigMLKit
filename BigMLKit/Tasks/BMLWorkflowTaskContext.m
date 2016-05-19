@@ -14,6 +14,7 @@
 
 #import "BMLWorkflowTaskContext.h"
 #import "BMLWorkflow.h"
+#import "NSError+BMLError.h"
 
 #define kMonitoringPeriod 0.25
 

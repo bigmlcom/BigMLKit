@@ -14,12 +14,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BigMLKit.h"
-
-//-- check: this should go into an umbrella header for bigml-objc
-#import "BMLEnums.h"
-#import "BMLResource.h"
-#import "BMLResourceTypeIdentifier.h"
-#import "BMLAPIConnector.h"
+#import "bigml-objc.h"
 
 
 //#import "bigml-objc.h"

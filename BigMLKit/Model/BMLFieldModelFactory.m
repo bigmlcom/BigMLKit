@@ -228,8 +228,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
-                                         types:(NSArray<BMLResourceTypeIdentifier*>*)types
-                                    importance:(float)importance {
+                                         types:(NSArray<BMLResourceTypeIdentifier*>*)types {
 
     BMLDragDropFieldModel* targetModel = [BMLDragDropFieldModel new];
     targetModel.title = title;
@@ -242,19 +241,16 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
-                                          type:(BMLResourceTypeIdentifier*)type
-                                    importance:(float)importance {
+                                          type:(BMLResourceTypeIdentifier*)type {
     
     if (!type) return nil;
     return [self newDragAndDropTarget:title
-                                types:@[type]
-                           importance:importance];
+                                types:@[type]];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
-                                    typeString:(NSString*)typeString
-                                    importance:(float)importance {
+                                    typeString:(NSString*)typeString {
    
     BMLDragDropFieldModel* fieldModel = nil;
     NSRegularExpression* regex = [NSRegularExpression
@@ -285,19 +281,44 @@
             
             fieldModel = [BMLFieldModelFactory
                           newDragAndDropTarget:title
-                          types:types
-                          importance:1.0];
+                          types:types];
         } else {
             
             fieldModel = [BMLFieldModelFactory
                           newDragAndDropTarget:title
-                          type:[BMLResourceTypeIdentifier typeFromTypeString:type]
-                          importance:1.0];
+                          type:[BMLResourceTypeIdentifier typeFromTypeString:type]];
         }
     } else {
         NSLog(@"Wrong type passed to newDragAndDropTarget: %@", typeString);
     }
     return fieldModel;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
++ (BMLScriptArgumentFieldModel*)newScriptArgument:(NSString*)name
+                                      description:(NSString*)description
+                                             type:(NSString*)type
+                                     defaultValue:(NSString*)defaultValue {
+    
+    BMLScriptArgumentFieldModel* scriptModel = [BMLScriptArgumentFieldModel new];
+    scriptModel.name = name;
+    scriptModel.title = name;
+    scriptModel.typeModel = [BMLFieldModelFactory
+                             newPopupValues:@[@"string",
+                                              @"number",
+                                              @"boolean",
+                                              @"list",
+                                              @"list-of-string",
+                                              @"list-of-number",
+                                              @"list-of_boolean",
+                                              @"objective-id",
+                                              @{@"resource types" : @[ @"1", @"2"]}]
+                             currentValue:type
+                             title:@"type"
+                             importance:@1.0];
+    scriptModel.fieldDescription = description;
+    scriptModel.isFieldIncluded = NO;
+    return scriptModel;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
