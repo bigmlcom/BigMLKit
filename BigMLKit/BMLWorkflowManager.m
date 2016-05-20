@@ -203,7 +203,7 @@
               @"resource" : [NSString stringWithFormat:@"macro/%@", uuid],
               @"macro" : macro,
               @"project" : @"",
-              @"parameters" : [mainTask jsonDefinition][@"parameters"] ?: @[]
+              @"inputs" : [mainTask jsonDefinition][@"inputs"] ?: @[]
               };
 }
 

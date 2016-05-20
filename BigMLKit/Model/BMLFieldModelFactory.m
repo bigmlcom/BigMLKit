@@ -298,7 +298,8 @@
 + (BMLScriptArgumentFieldModel*)newScriptArgument:(NSString*)name
                                       description:(NSString*)description
                                              type:(NSString*)type
-                                     defaultValue:(NSString*)defaultValue {
+                                     defaultValue:(NSString*)defaultValue
+                                         readOnly:(BOOL)readOnly {
     
     BMLScriptArgumentFieldModel* scriptModel = [BMLScriptArgumentFieldModel new];
     scriptModel.name = name;
@@ -318,6 +319,7 @@
                              importance:@1.0];
     scriptModel.fieldDescription = description;
     scriptModel.isFieldIncluded = NO;
+    scriptModel.isFieldReadOnly = readOnly;
     return scriptModel;
 }
 

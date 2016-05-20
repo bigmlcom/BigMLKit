@@ -811,7 +811,7 @@
     resourceDict = @{ @"source_code" : resourceDict[@"source_code"],
                       @"description" : resourceDict[@"description"] ?: @"",
                       @"tags" : @[@"bigmlx_temp_script"],
-                      @"parameters" : [self reifyParameters:resourceDict[@"parameters"]
+                      @"inputs" : [self reifyParameters:resourceDict[@"inputs"]
                                                      inputs:context.info[@"script_inputs"]] };
     
     [context.ml createResource:BMLResourceTypeWhizzmlScript
@@ -934,7 +934,7 @@
                                       definition:@{}];
         [context.ml createResource:BMLResourceTypeWhizzmlExecution
                               name:context.info[@"name"]?:@"New Script"
-                           options:@{ @"arguments" : arguments,
+                           options:@{ @"inputs" : arguments,
                                       @"creation_defaults": [self optionsForCurrentContext:context]}
                               from:script
                         completion:^(id<BMLResource> resource, NSError* error) {

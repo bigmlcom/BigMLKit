@@ -86,7 +86,8 @@
 + (BMLScriptArgumentFieldModel*)newScriptArgument:(NSString*)name
                                 description:(NSString*)description
                                        type:(NSString*)type
-                               defaultValue:(NSString*)defaultValue;
+                               defaultValue:(NSString*)defaultValue
+                                         readOnly:(BOOL)readOnly;
 
 + (BMLFieldModel*)fieldModelForOptionNamed:(NSString*)optionName
                                description:(NSDictionary*)description;
