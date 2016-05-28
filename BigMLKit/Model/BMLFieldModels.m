@@ -254,7 +254,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSImage*)image {
-    
+    NSLog(@"DRAGGINg INPUT for state: %d", _dragDropStatus);
     NSImage* baseImage = [NSImage imageNamed:[NSString stringWithFormat:@"btnCreate%@",
                                               [[_resourceTypes[_currentResourceType] stringValue]
                                                capitalizedString]]];
@@ -265,11 +265,11 @@
 
     if (_dragDropStatus == BMLDragDropStatusNone || _dragDropStatus == BMLDragDropStatusExited) {
         
-        return [self imageWithCIImage:[self grayImage:cgImage b:0.0 c:1.1 s:0.0] size:baseImage.size];
+        return [self imageWithCIImage:[self grayImage:cgImage b:0.0 c:1.0 s:0.0] size:baseImage.size];
         
     } else if (_dragDropStatus == BMLDragDropStatusStarted) {
 
-        return [self imageWithCIImage:[self grayImage:cgImage b:0.0 c:1.1 s:0.75] size:baseImage.size];
+        return [self imageWithCIImage:[self grayImage:cgImage b:0.0 c:1.0 s:0.75] size:baseImage.size];
 
     } else if (_dragDropStatus == BMLDragDropStatusDenied) {
 
@@ -288,6 +288,7 @@
     if ([key isEqualToString:@"image"]) {
         affectingKeys = @[@"dragDropStatus"];
         affectingKeys = @[@"currentResourceType"];
+        affectingKeys = @[@"fullUuid"];
     }
     if ([key isEqualToString:@"currentValue"]) {
         affectingKeys = @[@"fullUuid"];
