@@ -81,7 +81,7 @@
               @"name" : gistName,
               @"description" : gistName,
               @"inputs" : parameters,
-              @"gist_id" : gistId,
+              @"provider_id" : self.apiURL.absoluteString,
               @"tags" : @[] };
 }
 
@@ -124,8 +124,43 @@
     return nil;
 }
 
-- (NSDictionary*)whizzFromResponse:(NSDictionary*)gist {
+- (NSDictionary*)whizzFromResponse:(NSDictionary*)dict {
 
+    NSString* sourceCode = nil;
+    NSDictionary* parameters = nil;
+    
+    NSError* error = nil;
+    for (NSDictionary* file in [dict allValues]) {
+        if ([[file[@"name"] pathExtension] isEqualToString:@"json"]) {
+            parameters =
+            [NSJSONSerialization
+             JSONObjectWithData:[NSData dataWithContentsOfURL:
+                                 [NSURL URLWithString:file[@"download_url"]]]
+             options:NSJSONReadingAllowFragments
+             error:&error];
+        }
+        if ([[file[@"name"] pathExtension] isEqualToString:@"whizzml"]) {
+            sourceCode = [NSString stringWithContentsOfURL:
+                          [NSURL URLWithString:file[@"download_url"]]
+                                                   encoding:NSUTF8StringEncoding
+                                                      error:nil];
+        }
+    }
+    
+    if (sourceCode &&
+        parameters[@"inputs"] &&
+        parameters[@"outputs"] &&
+        parameters[@"name"] &&
+        parameters[@"description"]) {
+        
+        return @{ @"source_code" : sourceCode,
+                  @"name" : parameters[@"name"],
+                  @"description" : parameters[@"description"],
+                  @"inputs" : parameters[@"inputs"],
+                  @"outputs" : parameters[@"outputs"],
+                  @"provider_id" : self.apiURL.absoluteString,
+                  @"tags" : @[] };
+    }
     return nil;
 }
 
