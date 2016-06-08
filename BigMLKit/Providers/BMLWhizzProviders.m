@@ -81,7 +81,7 @@
               @"name" : gistName,
               @"description" : gistName,
               @"inputs" : parameters,
-              @"provider_id" : self.apiURL.absoluteString,
+              @"provider_id" : self.userURL.absoluteString,
               @"tags" : @[] };
 }
 
@@ -147,6 +147,10 @@
         }
     }
     
+    if (parameters[@"components"]) {
+        return nil;
+    }
+    
     if (sourceCode &&
         parameters[@"inputs"] &&
         parameters[@"outputs"] &&
@@ -158,7 +162,7 @@
                   @"description" : parameters[@"description"],
                   @"inputs" : parameters[@"inputs"],
                   @"outputs" : parameters[@"outputs"],
-                  @"provider_id" : self.apiURL.absoluteString,
+                  @"provider_id" : self.userURL.absoluteString,
                   @"tags" : @[] };
     }
     return nil;
