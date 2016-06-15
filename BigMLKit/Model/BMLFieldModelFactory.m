@@ -125,7 +125,8 @@
         if (index == NSNotFound)
             index = 0;
     }
-    popup.itemValue = values[index];
+    if (index < values.count)
+        popup.itemValue = values[index];
 
     popup.isFieldIncluded = YES;
     popup.title = title;
@@ -142,7 +143,6 @@
                                          importance:(NSNumber*)importance {
     
     BMLIndexedPopUpFieldModel* popup = [BMLIndexedPopUpFieldModel new];
-    
     if (currentValue < NSNotFound && currentValue < [values count])
         popup.itemIndex = currentValue;
     else
