@@ -36,6 +36,7 @@
         popValue.values = @[@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December"];
         popValue.isFieldIncluded = YES;
         popValue.title = title;
+        popValue.name = title;
         popValue.importance = [importance floatValue];
         
         fieldModel = popValue;
@@ -46,6 +47,7 @@
         popValue.values = @[@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"];
         popValue.isFieldIncluded = YES;
         popValue.title = title;
+        popValue.name = title;
         popValue.importance = [importance floatValue];
         
         fieldModel = popValue;
@@ -59,6 +61,7 @@
         
         sliderValue.isFieldIncluded = YES;
         sliderValue.title = title;
+        sliderValue.name = title;
         sliderValue.importance = [importance floatValue];
         
         fieldModel = sliderValue;
@@ -100,6 +103,8 @@
     
     sliderValue.isFieldIncluded = YES;
     sliderValue.title = title;
+    sliderValue.name = title;
+
     sliderValue.importance = [importance floatValue];
     
     fieldModel = sliderValue;
@@ -130,6 +135,7 @@
 
     popup.isFieldIncluded = YES;
     popup.title = title;
+    popup.name = title;
     popup.importance = [importance floatValue];
     popup.values = values;
     
@@ -149,6 +155,7 @@
         popup.itemIndex = 0;
     popup.isFieldIncluded = YES;
     popup.title = title;
+    popup.name = title;
     popup.importance = [importance floatValue];
     popup.values = values;
     
@@ -165,6 +172,7 @@
     
     radioGroup.isFieldIncluded = YES;
     radioGroup.title = title;
+    radioGroup.name = title;
     radioGroup.importance = [importance floatValue];
     radioGroup.choices = values;
     
@@ -179,6 +187,7 @@
     BMLTextFormFieldModel* textField = [BMLTextFormFieldModel new];
     textField.isFieldIncluded = YES;
     textField.title = title;
+    textField.name = title;
     textField.importance = importance;
     textField.currentValue = currentValue;
     
@@ -193,6 +202,7 @@
     BMLCheckBoxFieldModel* model = [BMLCheckBoxFieldModel new];
     model.isSelected = isSelected;
     model.title = title;
+    model.name = title;
     model.importance = importance;
     
     return model;
@@ -206,6 +216,7 @@
     BMLTokenFieldModel* tokenField = [BMLTokenFieldModel new];
     tokenField.isFieldIncluded = YES;
     tokenField.title = title;
+    tokenField.name = title;
     tokenField.importance = importance;
     tokenField.rawValue = currentValue;
     
@@ -220,6 +231,7 @@
     BMLStepperFieldModel* stepperModel = [BMLStepperFieldModel new];
     stepperModel.isFieldIncluded = YES;
     stepperModel.title = title;
+    stepperModel.name = title;
     stepperModel.importance = importance;
     stepperModel.currentValue = @(currentValue);
     

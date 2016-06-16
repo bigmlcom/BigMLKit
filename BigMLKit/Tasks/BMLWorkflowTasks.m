@@ -905,6 +905,10 @@
                 if (field.name && field.currentValue)
                     [processedInputs addObject:@[field.name, field.currentValue]];
             }
+        } else if ([obj isKindOfClass:[BMLFieldModel class]]) {
+            BMLFieldModel* field = obj;
+            if (field.name && field.currentValue)
+                [processedInputs addObject:@[field.name, field.currentValue]];
         } else {
             BMLMinimalResource* field = obj;
             if (field.name && field.fullUuid)
@@ -926,7 +930,7 @@
     //-- or the first in context["script_inputs"] are used as first and unique argument.
     NSError* error = nil;
     NSMutableArray* arguments = [self argumentsFromInputs:inputs inContext:context error:&error];
-    NSLog(@"RUNNING EXEC: %@", arguments);
+    NSLog(@"RUNNING EXEC WITH ARGS %@", arguments);
     if (!error) {
         BMLMinimalResource* script =
         [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
