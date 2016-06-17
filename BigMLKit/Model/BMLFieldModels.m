@@ -254,7 +254,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSImage*)image {
-    NSLog(@"DRAGGINg INPUT for state: %d", _dragDropStatus);
+    NSLog(@"DRAGGINg INPUT for state: %d", self.dragDropStatus);
     NSImage* baseImage = [NSImage imageNamed:[NSString stringWithFormat:@"btnCreate%@",
                                               [[_resourceTypes[_currentResourceType] stringValue]
                                                capitalizedString]]];
@@ -263,15 +263,15 @@
     
     CGImageRef cgImage = [baseImage CGImageForProposedRect:NULL context:NULL hints:nil];
 
-    if (_dragDropStatus == BMLDragDropStatusNone || _dragDropStatus == BMLDragDropStatusExited) {
+    if (self.dragDropStatus == BMLDragDropStatusNone || self.dragDropStatus == BMLDragDropStatusExited) {
         
         return [self imageWithCIImage:[self grayImage:cgImage b:0.0 c:1.0 s:0.0] size:baseImage.size];
         
-    } else if (_dragDropStatus == BMLDragDropStatusStarted) {
+    } else if (self.dragDropStatus == BMLDragDropStatusStarted) {
 
         return [self imageWithCIImage:[self grayImage:cgImage b:0.0 c:1.0 s:0.75] size:baseImage.size];
 
-    } else if (_dragDropStatus == BMLDragDropStatusDenied) {
+    } else if (self.dragDropStatus == BMLDragDropStatusDenied) {
 
         return [self imageWithCIImage:[self falseColoredImage:cgImage
                                               foregroundColor:[NSColor redColor]
