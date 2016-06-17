@@ -92,6 +92,7 @@ static NSString* const kBMLScriptArgumentCellNeedsDisplay = @"kBMLScriptArgument
 
 @property (nonatomic, copy) NSString* itemValue;
 @property (nonatomic, strong) NSArray* values;
+@property (nonatomic) BOOL isEditable;
 
 @end
 

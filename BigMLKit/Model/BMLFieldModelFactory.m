@@ -120,6 +120,7 @@
 + (BMLPopUpFieldModel*)newPopupValues:(NSArray*)values
                               currentValue:(NSString*)currentValue
                                 title:(NSString*)title
+                             editable:(BOOL)editable
                            importance:(NSNumber*)importance {
     
     BMLPopUpFieldModel* popup = [BMLPopUpFieldModel new];
@@ -138,6 +139,7 @@
     popup.name = title;
     popup.importance = [importance floatValue];
     popup.values = values;
+    popup.isEditable = editable;
     
     return popup;
 }
@@ -316,19 +318,20 @@
     BMLScriptArgumentFieldModel* scriptModel = [BMLScriptArgumentFieldModel new];
     scriptModel.name = name;
     scriptModel.title = name;
-    scriptModel.typeModel = [BMLFieldModelFactory
-                             newPopupValues:@[@"string",
-                                              @"number",
-                                              @"boolean",
-                                              @"list",
-                                              @"list-of-string",
-                                              @"list-of-number",
-                                              @"list-of_boolean",
-                                              @"objective-id",
-                                              @{@"resource types" : @[ @"1", @"2"]}]
-                             currentValue:type
-                             title:@"type"
-                             importance:@1.0];
+    scriptModel.typeModel =
+    [BMLFieldModelFactory newPopupValues:@[@"string",
+                                           @"number",
+                                           @"boolean",
+                                           @"list",
+                                           @"list-of-string",
+                                           @"list-of-number",
+                                           @"list-of_boolean",
+                                           @"objective-id",
+                                           @{@"resource types" : @[ @"1", @"2"]}]
+                            currentValue:type
+                                   title:@"type"
+                                editable:NO
+                              importance:@1.0];
     scriptModel.fieldDescription = description;
     scriptModel.isFieldIncluded = NO;
     scriptModel.isFieldReadOnly = readOnly;
@@ -376,6 +379,7 @@
         fieldModel = [BMLFieldModelFactory newPopupValues:categories
                                              currentValue:description[@"default"]
                                                     title:optionName
+                                                 editable:NO
                                                importance:nil];
         
     } else if ([description[@"type"] isEqualToString:@"indexed"]) {

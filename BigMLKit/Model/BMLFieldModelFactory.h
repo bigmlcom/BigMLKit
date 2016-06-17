@@ -46,6 +46,7 @@
 + (BMLPopUpFieldModel*)newPopupValues:(NSArray*)values
                          currentValue:(NSString*)currentValue
                                 title:(NSString*)title
+                             editable:(BOOL)editable
                            importance:(NSNumber*)importance;
 
 + (BMLIndexedPopUpFieldModel*)newIndexedPopupValues:(NSArray*)values
