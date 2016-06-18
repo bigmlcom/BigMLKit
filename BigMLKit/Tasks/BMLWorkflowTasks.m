@@ -725,9 +725,9 @@
     
     //-- let's consider only a pipeline: 1 input for 1-argument script
     //-- association is univocal.
-    if (inputs.count == parameters.count == 1) {
+    if (inputs.count == parameters.count && parameters.count == 1) {
         NSDictionary* p = parameters.firstObject;
-        BMLDragDropFieldModel* m = inputs.firstObject;
+        BMLFieldModel* m = inputs.firstObject;
         if ([p[@"type"] containsString:@"["]) {
             
             BMLResourceTypeIdentifier* type =

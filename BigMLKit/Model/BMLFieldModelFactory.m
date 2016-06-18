@@ -118,9 +118,10 @@
 
 /////////////////////////////////////////////////////////////////////////////////
 + (BMLPopUpFieldModel*)newPopupValues:(NSArray*)values
-                              currentValue:(NSString*)currentValue
+                         currentValue:(NSString*)currentValue
                                 title:(NSString*)title
                              editable:(BOOL)editable
+                                 list:(BOOL)list
                            importance:(NSNumber*)importance {
     
     BMLPopUpFieldModel* popup = [BMLPopUpFieldModel new];
@@ -140,6 +141,7 @@
     popup.importance = [importance floatValue];
     popup.values = values;
     popup.isEditable = editable;
+    popup.isList = list;
     
     return popup;
 }
@@ -331,6 +333,7 @@
                             currentValue:type
                                    title:@"type"
                                 editable:NO
+                                    list:NO
                               importance:@1.0];
     scriptModel.fieldDescription = description;
     scriptModel.isFieldIncluded = NO;
@@ -380,6 +383,7 @@
                                              currentValue:description[@"default"]
                                                     title:optionName
                                                  editable:NO
+                                                     list:NO
                                                importance:nil];
         
     } else if ([description[@"type"] isEqualToString:@"indexed"]) {

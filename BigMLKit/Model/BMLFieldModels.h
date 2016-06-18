@@ -111,6 +111,7 @@ typedef enum BMLDragDropStatus {
 @property (nonatomic, copy) NSString* itemValue;
 @property (nonatomic, strong) NSArray* values;
 @property (nonatomic) BOOL isEditable;
+@property (nonatomic) BOOL isList;
 
 @end
 
