@@ -18,7 +18,7 @@
 @class BMLWorkflowConfigurator;
 
 /**
- *  The following constants idnetify entities that can be stored inside of a BMLWorkflowTaskContext.
+ *  The following constants identify entities that can be stored inside of a BMLWorkflowTaskContext.
  *
  *  - kCSVSourceFilePath: the path to a CSV file to be used to create a datasource.
  *  - kDataSourceId: the id of a datasource (only one allowed).
@@ -56,7 +56,6 @@ static NSString* const kPredictionDefinition = @"kPredictionDefinition";
 
 static NSString* const kProjectFullUuid = @"kProjectFullUuid";
 
-//-- SDS: this does not seem to be in use...
 static NSString* const kWorkflowName = @"kWorkflowName";
 
 @class BMLWorkflow;

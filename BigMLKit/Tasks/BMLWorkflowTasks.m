@@ -880,7 +880,8 @@
                                               definition:@{}];
                 
                 NSMutableDictionary* options = [self optionsForCurrentContext:context];
-                if (![context.projectFullUuid isEqualToString:[BMLResource allProjectsPseudoFullUuid]])
+                if (context.projectFullUuid &&
+                    ![context.projectFullUuid isEqualToString:[BMLResource allProjectsPseudoFullUuid]])
                     [options setObject:context.projectFullUuid forKey:@"project"];
                 
                 [context.ml createResource:BMLResourceTypeSource

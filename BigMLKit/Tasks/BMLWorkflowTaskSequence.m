@@ -144,11 +144,13 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
                                forKeyPath:@"resourceStatus"
                                   options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
                                   context:NULL];
-
         self.status = BMLWorkflowStarted;
-        [(BMLWorkflowTask*)_steps[_currentStep] runWithArguments:inputs
-                                                       inContext:self.context
-                                                 completionBlock:nil];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            [(BMLWorkflowTask*)_steps[_currentStep] runWithArguments:inputs
+                                                           inContext:self.context
+                                                     completionBlock:nil];
+        });
     } else {
         
         [self stopWithError:nil];
