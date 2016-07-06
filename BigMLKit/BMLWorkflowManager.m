@@ -190,9 +190,10 @@
     }
 
     BMLResource* mainTask =
-    [BMLResource fetchByType:[BMLResourceTypeIdentifier typeFromFullUuid:macro.firstObject[@"fullUuid"]]
-                        uuid:[BMLResourceTypeIdentifier uuidFromFullUuid:macro.firstObject[@"fullUuid"]]].firstObject;
-     
+    [BMLResource
+     fetchByType:[BMLResourceTypeIdentifier typeFromFullUuid:macro.firstObject[@"fullUuid"]]
+     uuid:[BMLResourceTypeIdentifier uuidFromFullUuid:macro.firstObject[@"fullUuid"]]];
+    
     NSString* creationDate = [BMLUtils stringFromDate:[NSDate new]];
     NSString* uuid = [[NSUUID UUID] UUIDString];
     return @{ @"name" : _name ?: @"Custom macro",
