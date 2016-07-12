@@ -13,6 +13,6 @@
 + (BMLWhizzProvider*)providerForURL:(NSURL*)url;
 
 - (NSURL*)apiURL;
-- (NSDictionary*)whizzFromResponse:(NSDictionary*)dict;
+- (NSArray*)whizzFromResponse:(NSDictionary*)dict;
 
 @end

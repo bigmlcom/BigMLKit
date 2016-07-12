@@ -41,7 +41,7 @@
     return nil;
 }
 
-- (NSDictionary*)whizzFromResponse:(NSDictionary*)dict {
+- (NSArray*)whizzFromResponse:(NSDictionary*)dict {
     return nil;
 }
 
@@ -56,7 +56,7 @@
                                  self.userURL.path.lastPathComponent]];
 }
 
-- (NSDictionary*)whizzFromResponse:(NSDictionary*)gist {
+- (NSArray*)whizzFromResponse:(NSDictionary*)gist {
 
     NSString* sourceCode = @"";
     NSArray* parameters = @[];
@@ -77,12 +77,12 @@
         }
     }
     
-    return @{ @"source_code" : sourceCode,
+    return @[@{ @"source_code" : sourceCode,
               @"name" : gistName,
               @"description" : gistName,
               @"inputs" : parameters,
               @"provider_id" : self.userURL.absoluteString,
-              @"tags" : @[] };
+              @"tags" : @[] }];
 }
 
 @end
@@ -124,48 +124,55 @@
     return nil;
 }
 
-- (NSDictionary*)whizzFromResponse:(NSDictionary*)dict {
+- (NSArray*)whizzFromResponse:(NSDictionary*)dict {
 
+    NSMutableArray* whizzs = [NSMutableArray array];
     NSString* sourceCode = nil;
     NSDictionary* parameters = nil;
     
     NSError* error = nil;
     for (NSDictionary* file in [dict allValues]) {
-        if ([[file[@"name"] pathExtension] isEqualToString:@"json"]) {
-            parameters =
-            [NSJSONSerialization
-             JSONObjectWithData:[NSData dataWithContentsOfURL:
-                                 [NSURL URLWithString:file[@"download_url"]]]
-             options:NSJSONReadingAllowFragments
-             error:&error];
-        }
-        if ([[file[@"name"] pathExtension] isEqualToString:@"whizzml"]) {
-            sourceCode = [NSString stringWithContentsOfURL:
-                          [NSURL URLWithString:file[@"download_url"]]
-                                                   encoding:NSUTF8StringEncoding
-                                                      error:nil];
-        }
-    }
-    
-    if (parameters[@"components"]) {
-        return nil;
-    }
-    
-    if (sourceCode &&
-        parameters[@"inputs"] &&
-        parameters[@"outputs"] &&
-        parameters[@"name"] &&
-        parameters[@"description"]) {
+
+        if ([file[@"type"] isEqualToString:@"dir"]) {
+            
+            NSDictionary* component = [NSJSONSerialization
+                                       JSONObjectWithData:[NSData dataWithContentsOfURL:
+                                                           [NSURL URLWithString:file[@"download_url"]]]
+                                       options:NSJSONReadingAllowFragments
+                                       error:&error];
+            
+            [whizzs addObjectsFromArray:[self whizzFromResponse:component]];
+            
+        } else {
         
-        return @{ @"source_code" : sourceCode,
-                  @"name" : parameters[@"name"],
-                  @"description" : parameters[@"description"],
-                  @"inputs" : parameters[@"inputs"],
-                  @"outputs" : parameters[@"outputs"],
-                  @"provider_id" : self.userURL.absoluteString,
-                  @"tags" : @[] };
+            if ([[file[@"name"] pathExtension] isEqualToString:@"json"]) {
+                parameters =
+                [NSJSONSerialization
+                 JSONObjectWithData:[NSData dataWithContentsOfURL:
+                                     [NSURL URLWithString:file[@"download_url"]]]
+                 options:NSJSONReadingAllowFragments
+                 error:&error];
+            }
+            if ([[file[@"name"] pathExtension] isEqualToString:@"whizzml"]) {
+                sourceCode = [NSString stringWithContentsOfURL:
+                              [NSURL URLWithString:file[@"download_url"]]
+                                                       encoding:NSUTF8StringEncoding
+                                                          error:nil];
+            }
+        }
     }
-    return nil;
+    
+    if (parameters || sourceCode.length > 0) {
+        [whizzs addObject:@{ @"source_code" : sourceCode,
+                             @"name" : parameters[@"name"] ?: @"Untitled Script",
+                             @"description" : parameters[@"description"] ?: @"",
+                             @"inputs" : parameters[@"inputs"] ?: @"",
+                             @"outputs" : parameters[@"outputs"] ?: @"",
+                             @"provider_id" : self.userURL.absoluteString,
+                             @"tags" : @[] }];
+    }
+    
+    return whizzs;
 }
 
 @end
