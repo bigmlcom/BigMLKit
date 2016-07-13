@@ -59,14 +59,14 @@
 - (NSArray*)whizzFromResponse:(NSDictionary*)gist {
 
     NSString* sourceCode = @"";
-    NSArray* parameters = @[];
+    NSArray* metadata = @[];
     NSString* gistId = gist[@"id"] ?: @"";
     NSString* gistName = gist[@"description"] ?: [NSString stringWithFormat:@"Gist: %@", gistId];
     
     NSError* error = nil;
     for (NSDictionary* file in [gist[@"files"] allValues]) {
         if ([file[@"type"] isEqualToString:@"application/json"]) {
-            parameters =
+            metadata =
             [NSJSONSerialization
              JSONObjectWithData:[file[@"content"] dataUsingEncoding:NSUTF8StringEncoding]
              options:NSJSONReadingAllowFragments
@@ -80,7 +80,7 @@
     return @[@{ @"source_code" : sourceCode,
               @"name" : gistName,
               @"description" : gistName,
-              @"inputs" : parameters,
+              @"inputs" : metadata,
               @"provider_id" : self.userURL.absoluteString,
               @"tags" : @[] }];
 }
@@ -128,29 +128,37 @@
 
     NSMutableArray* whizzs = [NSMutableArray array];
     NSString* sourceCode = nil;
-    NSDictionary* parameters = nil;
+    NSMutableDictionary* metadata = nil;
     
     NSError* error = nil;
     for (NSDictionary* file in [dict allValues]) {
 
         if ([file[@"type"] isEqualToString:@"dir"]) {
             
-            NSDictionary* component = [NSJSONSerialization
-                                       JSONObjectWithData:[NSData dataWithContentsOfURL:
-                                                           [NSURL URLWithString:file[@"download_url"]]]
-                                       options:NSJSONReadingAllowFragments
-                                       error:&error];
+            NSArray* jsonObject = [NSJSONSerialization
+                                 JSONObjectWithData:[NSData dataWithContentsOfURL:
+                                                     [NSURL URLWithString:file[@"url"]]]
+                                 options:NSJSONReadingAllowFragments
+                                 error:&error];
             
-            [whizzs addObjectsFromArray:[self whizzFromResponse:component]];
+            NSMutableArray* keys = [NSMutableArray array];
+            for (NSUInteger i = 0; i < [jsonObject count]; i++) {
+                [keys addObject:@(i)];
+            }
+            NSDictionary* components = [NSDictionary dictionaryWithObjects:jsonObject
+                                                                   forKeys:keys];
+
+            [whizzs addObjectsFromArray:[self whizzFromResponse:components]];
+            
             
         } else {
         
             if ([[file[@"name"] pathExtension] isEqualToString:@"json"]) {
-                parameters =
+                metadata =
                 [NSJSONSerialization
                  JSONObjectWithData:[NSData dataWithContentsOfURL:
                                      [NSURL URLWithString:file[@"download_url"]]]
-                 options:NSJSONReadingAllowFragments
+                 options:NSJSONReadingAllowFragments | NSJSONReadingMutableContainers
                  error:&error];
             }
             if ([[file[@"name"] pathExtension] isEqualToString:@"whizzml"]) {
@@ -162,14 +170,22 @@
         }
     }
     
-    if (parameters || sourceCode.length > 0) {
-        [whizzs addObject:@{ @"source_code" : sourceCode,
-                             @"name" : parameters[@"name"] ?: @"Untitled Script",
-                             @"description" : parameters[@"description"] ?: @"",
-                             @"inputs" : parameters[@"inputs"] ?: @"",
-                             @"outputs" : parameters[@"outputs"] ?: @"",
-                             @"provider_id" : self.userURL.absoluteString,
-                             @"tags" : @[] }];
+    if (metadata && sourceCode.length > 0) {
+        
+        metadata[@"source_code"] = sourceCode;
+        metadata[@"provider_id"] = self.userURL.absoluteString;
+        metadata[@"tags"] = @[];
+        
+        [whizzs addObject: metadata];
+  
+  
+//  @{ @"source_code" : sourceCode,
+//                             @"name" : metadata[@"name"] ?: @"Untitled Script",
+//                             @"description" : metadata[@"description"] ?: @"",
+//                             @"inputs" : metadata[@"inputs"] ?: @"",
+//                             @"outputs" : metadata[@"outputs"] ?: @"",
+//                             @"provider_id" : self.userURL.absoluteString,
+//                             @"tags" : @[] }];
     }
     
     return whizzs;
