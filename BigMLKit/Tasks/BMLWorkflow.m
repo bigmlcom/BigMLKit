@@ -64,27 +64,28 @@
         
         if ([change[NSKeyValueChangeNewKey] intValue] != [change[NSKeyValueChangeOldKey] intValue]) {
             
-            BMLWorkflow* task = object;
-            if (task.resourceStatus == BMLResourceStatusEnded) {
-                
-                ///--- HERE WE SHOULD HANDLE OUTPUT AND INPUT RESOURCES!!
-                
-                if (self != task) {
-                    self.outputResources =
-                    [task.outputResources arrayByAddingObjectsFromArray:self.outputResources?:@[]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                BMLWorkflow* task = object;
+                if (task.resourceStatus == BMLResourceStatusEnded) {
+                    
+                    ///--- HERE WE SHOULD HANDLE OUTPUT AND INPUT RESOURCES!!
+                    if (self != task) {
+                        self.outputResources =
+                        [task.outputResources arrayByAddingObjectsFromArray:self.outputResources?:@[]];
+                    }
+                    [task removeObserver:self forKeyPath:@"resourceStatus"];
+                    [self executeStepWithArguments:task.outputResources];
+                    
+                } else if (task.resourceStatus == BMLResourceStatusFailed) {
+                    
+                    [task removeObserver:self forKeyPath:@"resourceStatus"];
+                    [self handleError:task.error];
+                    self.status = BMLWorkflowFailed;
+                    
+                } else {
+                    self.resourceStatus = task.resourceStatus;
                 }
-                [task removeObserver:self forKeyPath:@"resourceStatus"];
-                [self executeStepWithArguments:task.outputResources];
-                
-            } else if (task.resourceStatus == BMLResourceStatusFailed) {
-                
-                [task removeObserver:self forKeyPath:@"resourceStatus"];
-                [self handleError:task.error];
-                self.status = BMLWorkflowFailed;
-                
-            } else {
-                self.resourceStatus = task.resourceStatus;
-            }
+            });
         }
     }
 }
