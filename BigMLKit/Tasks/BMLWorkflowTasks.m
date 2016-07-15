@@ -804,7 +804,7 @@
     }
     
     BMLMinimalResource* resource =
-    [[BMLMinimalResource alloc] initWithName:context.info[@"name"] ?: @"Temporary Script"
+    [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
                                         type:BMLResourceTypeWhizzmlSource
                                         uuid:@""
                                   definition:@{}];
@@ -815,7 +815,7 @@
                                                      inputs:context.info[@"script_inputs"]] };
     
     [context.ml createResource:BMLResourceTypeWhizzmlScript
-                          name:context.info[@"name"] ?: @"Temporary Script"
+                          name:context.info[@"name"]
                        options:resourceDict
                           from:resource
                     completion:^(id<BMLResource> resource, NSError* error) {
@@ -938,7 +938,7 @@
                                         fullUuid:[inputs.firstObject fullUuid]
                                       definition:@{}];
         [context.ml createResource:BMLResourceTypeWhizzmlExecution
-                              name:context.info[@"name"]?:@"New Script"
+                              name:context.info[@"name"]
                            options:@{ @"inputs" : arguments,
                                       @"creation_defaults": [self optionsForCurrentContext:context]}
                               from:script
@@ -950,12 +950,14 @@
                                                 completion:completion];
                             
                             //-- if this was chained in through buildScript, then delete the script.
-                            //-- this is better solved by allowing script multiplexing.
-                            if (context.info[@"script_inputs"] || error) {
-                                [context.ml deleteResource:script.type
-                                                      uuid:script.uuid
-                                                completion:nil];
-                            }
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                BMLResource* r = [BMLResource fetchByFullUuid:script.fullUuid];
+                                if ([r.tags containsString:@"bigmlx_temp_script"]) {
+                                    [context.ml deleteResource:script.type
+                                                          uuid:script.uuid
+                                                    completion:nil];
+                                }
+                            });
                         }];
     } else {
         [self genericCompletionHandler:nil
