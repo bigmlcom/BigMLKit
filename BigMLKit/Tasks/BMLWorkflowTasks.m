@@ -26,6 +26,33 @@
 #import "BMLResourceTypeIdentifier.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
+NSArray* resultsFromExecution(id<BMLResource> resource) {
+    
+    NSMutableArray* outputResources = [NSMutableArray new];
+    if (resource) {
+        id results = resource.jsonDefinition[@"execution"][@"result"];
+        if (results) {
+            if ([results isKindOfClass:[NSDictionary class]]) {
+                results = [results allValues];
+            } else if (![results isKindOfClass:[NSArray class]]) {
+                results = @[results];
+            }
+            
+            for (id result in results) {
+                
+                if ([BMLResourceTypeIdentifier isValidFullUuid:result]) {
+                    [outputResources addObject:[[BMLMinimalResource alloc]
+                                                initWithName:resource.name
+                                                fullUuid:result
+                                                definition:nil]];
+                }
+            }
+        }
+    }
+    return outputResources;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 @interface BMLWorkflowTaskTest : BMLWorkflowTask
@@ -298,42 +325,21 @@
                        uuid:uuid
                  completion:^(id<BMLResource> __nullable resource, NSError* __nullable error) {
                      
-                     NSMutableArray* outputResources = [NSMutableArray new];
-                     if (resource) {
-                         id results = resource.jsonDefinition[@"execution"][@"result"];
-                         if (results) {
-                             if ([results isKindOfClass:[NSDictionary class]]) {
-                                 results = [results allValues];
-                             } else if (![results isKindOfClass:[NSArray class]]) {
-                                 results = @[results];
-                             }
-                             
-                             //-- convert all results into inputs (for use in macros)
-                             //-- and resources (for display in resource browers)
-                             NSMutableArray* outputs = [NSMutableArray new];
-                             for (id result in results) {
-
-                                 if ([BMLResourceTypeIdentifier isValidFullUuid:result]) {
-                                     BMLDragDropFieldModel* outputModel =
-                                     [BMLFieldModelFactory
-                                      newDragAndDropTarget:@"resource_id"
-                                      typeString:[NSString stringWithFormat:@"%@-id",
-                                                  [BMLResourceTypeIdentifier
-                                                   typeFromFullUuid:result].stringValue]];
-                                     outputModel.fullUuid = result;
-                                     [outputs addObject:outputModel];
-                                 }
-                                 
-                                 if ([BMLResourceTypeIdentifier isValidFullUuid:result]) {
-                                     [outputResources addObject:[[BMLMinimalResource alloc]
-                                                                 initWithName:resource.name
-                                                                 fullUuid:result
-                                                                 definition:nil]];
-                                 }
-                             }
-                             context.info[@"script_inputs"] = outputs;
+                     NSArray* outputResources = resultsFromExecution(resource);
+                     NSMutableArray* outputs = [NSMutableArray new];
+                     for (BMLMinimalResource* result in outputResources) {
+                         if ([BMLResourceTypeIdentifier isValidFullUuid:result.fullUuid]) {
+                             BMLDragDropFieldModel* outputModel =
+                             [BMLFieldModelFactory
+                              newDragAndDropTarget:@"resource_id"
+                              typeString:[NSString stringWithFormat:@"%@-id",
+                                          result.type.stringValue]];
+                             outputModel.fullUuid = result.fullUuid;
+                             [outputs addObject:outputModel];
                          }
                      }
+                     if (outputs.count > 0)
+                         context.info[@"script_inputs"] = outputs;
 
                      [self arrayCompletionHandler:outputResources
                                             error:error
@@ -945,9 +951,9 @@
                         completion:^(id<BMLResource> resource, NSError* error) {
                             
                             self.executionUuid = resource.uuid;
-                            [self genericCompletionHandler:resource
-                                                     error:error
-                                                completion:completion];
+                            [self arrayCompletionHandler:resultsFromExecution(resource)
+                                                   error:error
+                                              completion:completion];
                             
                             //-- if this was chained in through buildScript, then delete the script.
                             dispatch_async(dispatch_get_main_queue(), ^{
