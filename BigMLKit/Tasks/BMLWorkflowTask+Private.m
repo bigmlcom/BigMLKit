@@ -94,7 +94,7 @@ static void* gRunningResourcePropertyKey = &gRunningResourcePropertyKey;
                     completion:(BMLWorkflowCompletedBlock)completion {
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (resources) {
+        if (!error) {
             self.outputResources = resources;
             self.resourceStatus = BMLResourceStatusEnded;
         } else {

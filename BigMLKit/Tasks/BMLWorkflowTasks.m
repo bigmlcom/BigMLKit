@@ -172,7 +172,8 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
     [super runWithArguments:inputs inContext:context completionBlock:nil];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
         self.resourceStatus = BMLResourceStatusEnded;
     });
 }
@@ -201,7 +202,8 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
     [super runWithArguments:inputs inContext:context completionBlock:nil];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
         self.error = [NSError errorWithInfo:@"Test failure" code:-1];
         self.resourceStatus = BMLResourceStatusFailed;
     });
@@ -369,8 +371,9 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {
-    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeFile
-                                                                                  name:kWorkflowStartResource]}];
+    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc]
+                                         initWithType:BMLResourceTypeFile
+                                         name:kWorkflowStartResource]}];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -378,7 +381,8 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
 
-    NSAssert([inputs count] == 1, @"Calling BMLWorkflowTaskCreateSource with wrong number of input resources");
+    NSAssert([inputs count] == 1,
+             @"Calling BMLWorkflowTaskCreateSource with wrong number of input resources");
     if ([[NSFileManager defaultManager] fileExistsAtPath:[inputs.firstObject uuid]]) {
         
         [super runWithArguments:inputs inContext:context completionBlock:completion];
@@ -424,8 +428,9 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {
-    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeSource
-                                                                                  name:kWorkflowStartResource]}];
+    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc]
+                                         initWithType:BMLResourceTypeSource
+                                         name:kWorkflowStartResource]}];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -636,18 +641,18 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
         options = [NSMutableDictionary new];
     
     BMLMinimalResource* r = context.info[kWorkflowSecondResource];
-//    BMLResourceTypeIdentifier* t = [[BMLResourceTypeIdentifier alloc] initWithStringLiteral:r.type];
-//    options[[t stringValue]] = r.fullUuid;
         options[[r.type stringValue]] = r.fullUuid;
     return options;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {
-    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeModel
-                                                                                  name:kWorkflowStartResource],
-             kWorkflowSecondResource: [[BMLWorkflowInputDescriptor alloc] initWithType:BMLResourceTypeDataset
-                                                                                  name:kWorkflowSecondResource]}];
+    return @[@{kWorkflowStartResource : [[BMLWorkflowInputDescriptor alloc]
+                                         initWithType:BMLResourceTypeModel
+                                         name:kWorkflowStartResource],
+               kWorkflowSecondResource: [[BMLWorkflowInputDescriptor alloc]
+                                         initWithType:BMLResourceTypeDataset
+                                         name:kWorkflowSecondResource]}];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -657,60 +662,6 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
 }
 @end
 
-/*
-//////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////
-@implementation BMLWorkflowTaskCreateScript
-
-//////////////////////////////////////////////////////////////////////////////////////
-- (instancetype)init {
-    
-    if (self = [super initWithResourceType:BMLResourceTypeWhizzmlScript]) {
-    }
-    return self;
-}
-
-
-//////////////////////////////////////////////////////////////////////////////////////
-- (void)runWithArguments:(NSArray*)inputs
-               inContext:(BMLWorkflowTaskContext*)context
-         completionBlock:(BMLWorkflowCompletedBlock)completion {
-    
-    NSMutableArray* arguments = [NSMutableArray new];
-    for (BMLFieldModel* field in [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]) {
-        [arguments addObject:@[field.title, field.currentValue]];
-    }
-    BMLMinimalResource* resource =
-    [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
-                                    fullUuid:[inputs.firstObject fullUuid]
-                                  definition:@{}];
-    
-    [context.ml createResource:BMLResourceTypeWhizzmlExecution
-                          name:context.info[@"name"] ?: @"Temporary Name"
-                       options:@{ @"arguments" : arguments }
-                          from:resource
-                    completion:^(id<BMLResource> resource, NSError* error) {
-                        
-                        if (resource) {
-                            self.outputResources = resource.jsonDefinition[@"execution"][@"results"];
-                            self.resourceStatus = BMLResourceStatusEnded;
-                        } else {
-                            self.error = error ?: [NSError errorWithInfo:@"Could not complete task" code:-1];
-                            self.resourceStatus = BMLResourceStatusFailed;
-                        }
-                    }];
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
-- (NSArray*)inputResourceTypes {
-    
-    NSAssert(NO, @"BMLWorkflowTaskCreateScript inputResourceTypes SHOULD NOT BE HERE");
-    return nil;
-}
-
-@end
-*/
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -964,15 +915,13 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
                                                     completion:nil];
                                 }
                             });
+                        } uuid:^(BMLResourceFullUuid* fullUuid) {
+                            self.executionUuid = [BMLResourceTypeIdentifier uuidFromFullUuid:fullUuid];
                         }];
     } else {
         [self genericCompletionHandler:nil
                                  error:error
                             completion:completion];
-//        self.error = error;
-//        self.resourceStatus = BMLResourceStatusFailed;
-//        if (completion)
-//            completion(nil, error);
     }
 }
 
