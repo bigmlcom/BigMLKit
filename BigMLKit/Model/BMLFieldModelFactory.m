@@ -126,6 +126,10 @@
     
     BMLPopUpFieldModel* popup = [BMLPopUpFieldModel new];
     
+    if (currentValue && [values indexOfObject:currentValue] == NSNotFound) {
+        values = [values arrayByAddingObject:currentValue];
+    }
+    
     NSUInteger index = 0;
     if (currentValue) {
         index = [values indexOfObject:currentValue];
@@ -326,10 +330,31 @@
                                            @"boolean",
                                            @"list",
                                            @"list-of-string",
+                                           @"list-of-integer",
                                            @"list-of-number",
-                                           @"list-of_boolean",
+                                           @"list-of-boolean",
                                            @"objective-id",
-                                           @{@"resource types" : @[ @"1", @"2"]}]
+                                           @"resource-id",
+                                           @"source-id",
+                                           @"dataset-id",
+                                           @"model-id",
+                                           @"ensemble-id",
+                                           @"prediction-id",
+//                                           @"batchprediction-id",
+//                                           @"evaluation-id",
+                                           @"anomaly-id",
+//                                           @"anomalyscore-id",
+                                           @"batchanomalyscore-id",
+                                           @"cluster-id",
+                                           @"centroid-id",
+//                                           @"batchcentroid-id",
+//                                           @"correlation-id",
+//                                           @"statisticaltest-id",
+//                                           @"logisticregression-id",
+//                                           @"association-id",
+                                           @"execution-id",
+                                           @"library-id",
+                                           @"script-id"]
                             currentValue:type
                                    title:@"type"
                                 editable:NO
