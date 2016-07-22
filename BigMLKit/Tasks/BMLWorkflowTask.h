@@ -68,11 +68,6 @@
 @interface BMLWorkflowTask : BMLWorkflow
 
 /**
- *  A configuration object storing the current configuration for this task.
- */
-//@property (nonatomic, strong) BMLWorkflowTaskConfiguration* configuration;
-
-/**
  *  A descriptor object encapsulating both the main resource associated with this task
  *  as well as any additional properties to be used when instantiating the task.
  */
@@ -84,15 +79,34 @@
  *  to instantiate, e.g., BMLWorkflowTaskCreateDataset from a Create/Dataset descriptor.
  *  The descriptor's properties are used to initialize the task properties.
  *  The class must be defined, otherwise the program will crash.
- *  The task is set up to use the given configurator object.
  *
  *  @param descriptor    a descriptor representing the task to be created.
- *  @param configurator  the configurator object to use.
  *
  *  @return the initialized instance.
  */
 + (BMLWorkflowTask*)newTaskWithDescriptor:(BMLWorkflowTaskDescriptor*)step;
 
+/**
+ *  A convenience method to convert a resourceStatus into a workflowStatus.
+ *
+ *  @param resourceStatus    a BMLResourceStatus value.
+ *
+ *  @return the BMLResourceStatus corresponding to the passed BMLResourceStatus.
+ */
+//+ (BMLResourceStatus)statusFromResourceStatus:(BMLResourceStatus)resourceStatus;
+//+ (BMLResourceStatus)resourceStatusFromStatus:(BMLResourceStatus)status;
+
+/**
+ *  Designated initializer. It takes a descriptor and creates
+ *  a BMLWorkflowTask. The descriptor type and verb are used to identify the concrete class
+ *  to instantiate, e.g., BMLWorkflowTaskCreateDataset from a Create/Dataset descriptor.
+ *  The descriptor's properties are used to initialize the task properties.
+ *  The class must be defined, otherwise the program will crash.
+ *
+ *  @param descriptor    a descriptor representing the task to be created.
+ *
+ *  @return the initialized instance.
+ */
 - (instancetype)initWithDescriptor:(BMLWorkflowTaskDescriptor*)step NS_DESIGNATED_INITIALIZER;
 
 @end

@@ -126,8 +126,6 @@
     
         self.descriptor = descriptor;
         self.name = descriptor.taskName;
-//        self.configurator = configurator;
-        //    item.configuration = [configurator configurationForResourceType:item.inputResourceType];
     }
     return self;
 }
@@ -160,25 +158,27 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (BMLWorkflowStatus)status {
+- (BMLResourceStatus)status {
 
-    switch (self.resourceStatus) {
-        case BMLResourceStatusUndefined:
-            return [super status];
-        case BMLResourceStatusWaiting:
-        case BMLResourceStatusQueued:
-        case BMLResourceStatusStarted:
-            return BMLWorkflowStarted;
-        case BMLResourceStatusEnded:
-            return BMLWorkflowEnded;
-        case BMLResourceStatusFailed:
-            return BMLWorkflowFailed;
-        default:
-            NSAssert(NO, @"Should not be here: wrong resourceStatus found.");
-            break;
-    }
-    NSAssert(NO, @"Should not be here: wrong resourceStatus found.");
-    return BMLWorkflowIdle;
+    return self.resourceStatus;
+    
+    //    switch (self.resourceStatus) {
+//        case BMLResourceStatusUndefined:
+//            return [super status];
+//        case BMLResourceStatusWaiting:
+//        case BMLResourceStatusQueued:
+//        case BMLResourceStatusStarted:
+//            return BMLResourceStatusStarted;
+//        case BMLResourceStatusEnded:
+//            return BMLResourceStatusEnded;
+//        case BMLResourceStatusFailed:
+//            return BMLResourceStatusFailed;
+//        default:
+//            NSAssert(NO, @"Should not be here: wrong resourceStatus found.");
+//            break;
+//    }
+//    NSAssert(NO, @"Should not be here: wrong resourceStatus found.");
+//    return BMLResourceStatusWaiting;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

@@ -14,6 +14,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BigMLKit.h"
+#import "BMLResource.h"
 
 @class BMLWorkflow;
 
@@ -43,13 +44,11 @@
 
 /**
  *  An NSArrayController representing all tasks in execution.
- *  For each handled task, the array controller provides access to a NSDictionary
- *  with the following keys:
+ *  This includes both executions that are being created on the server
+ *  and older executions.
+ *  For each handled task, the array controller provides access to an object
+ *  conforming to the BMLResource protocol.
  *
- *   - task: task title, a NSString
- *   - status: task status, a BMLWorkflowStatus
- *   - task: the task itself, aBMLWorkflowTask
- *   - count: the sequence index of the task, an integer.
  */
 @property (nonatomic, weak) NSArrayController* tasks;
 
@@ -63,7 +62,7 @@
 /**
  *   The currently running workflow, i.e., the latest one.
  */
-@property(nonatomic, readonly, weak) BMLWorkflow* currentWorkflow;
+@property(nonatomic, readonly, weak) BMLExecutionResource* currentWorkflowResource;
 
  /**
  *  The number of workflows that this manages handles, i.e., those that are executing.
@@ -116,7 +115,7 @@
  *
  *  @param the index of the workflow to set as current.
  */
-- (void)selectCurrentWorkflow:(BMLWorkflow*)task;
+- (void)selectCurrentWorkflow:(BMLResource*)resource;
 
 /**
  *  Returns true is there are any workflows in tasks.

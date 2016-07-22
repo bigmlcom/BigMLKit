@@ -33,19 +33,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 @interface BMLWorkflowManager ()
 
-/**
- *  An NSArrayController representing all tasks in execution.
- *  For each handled task, the array controller provides access to a NSDictionary
- *  with the following keys:
- *
- *   - task: task title, a NSString
- *   - status: task status, a BMLWorkflowStatus
- *   - task: the task itself, aBMLWorkflowTask
- *   - count: the sequence index of the task, an integer.
- */
-//@property (nonatomic, weak) NSArrayController* tasks;
-
-@property (nonatomic, weak) BMLWorkflowTask* currentWorkflow;
+@property (nonatomic, weak) BMLExecutionResource* currentWorkflowResource;
 
 @end
 
@@ -67,45 +55,68 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSDictionary*)dictFromTask:(BMLWorkflow*)task count:(NSUInteger)count {
+- (BMLExecutionResource*)createTaskNamed:(NSString*)name
+                              definition:(NSDictionary*)definition
+                                fullUuid:(BMLResourceFullUuid*)fullUuid {
     
-    static int counter = 0;
-    if (count == NSNotFound)
-        count = ++counter;
+    NSAssert([NSThread isMainThread], @"This method can only be called on the main thread");
+    
+    if (!fullUuid) {
+        fullUuid = [NSString stringWithFormat:@"%@/%@",
+                    BMLResourceTypeWhizzmlExecution.stringValue,
+                    [NSUUID UUID].UUIDString];
+    }
+    
+    NSManagedObjectContext* context = [BMLCoreDataLayer dataLayer].managedObjectContext;
+    BMLResource* res = [BMLResource createPseudoResource:fullUuid
+                                                    name:name
+                                              definition:definition
+                                                 context:context];
+    res.isRemote = @NO;
+    NSError* error = nil;
+    [context saveToPersistentStore:&error];
+    if (error)
+        NSLog(@"ERROR CREATING TASK: %@", error);
+    
+    return res;
+}
 
+//////////////////////////////////////////////////////////////////////////////////////
+- (id<BMLResource>)resourceFromTask:(BMLWorkflow*)task count:(NSUInteger)count {
+
+    NSMutableDictionary* dict = [@{ @"name":task.name?:[NSString stringWithFormat:@"Task %d: %@",
+                                                       (int)count,
+                                                       task.statusMessage],
+                                   @"task":task,
+                                   @"status":@(task.status),
+                                   @"count":@(count)} mutableCopy];
+    
     if ([NSStringFromClass(task.currentTask.class) isEqualToString:@"BMLWorkflowTaskCreateExecution"])
-        return [@{ @"name":task.name?:[NSString stringWithFormat:@"Task %d: %@", (int)count, task.statusMessage],
-                  @"task":task,
-                  @"execution":task.currentTask,
-                  @"status":@(task.status),
-                  @"count":@(count)} mutableCopy];
-    else
-        return [@{ @"name":task.name?:[NSString stringWithFormat:@"Task %d: %@", (int)count, task.statusMessage],
-                  @"task":task,
-                  @"status":@(task.status),
-                  @"count":@(count)} mutableCopy];
+        dict[@"execution"] = task.currentTask;
+
+    BMLExecutionResource* resource = [self createTaskNamed:dict[@"name"]
+                                                definition:@{}
+                                                  fullUuid:nil];
+    
+    resource.status = BMLResourceStatusUndefined;
+    return resource;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)addWorkflowAsCurrent:(BMLWorkflow*)task {
 
     self.runningTasksCount = _runningTasksCount + 1;
-    [_tasks insertObject:[self dictFromTask:task count:NSNotFound] atArrangedObjectIndex:0];
-    self.currentWorkflow = task;
+    BMLMinimalResource* resource = [self resourceFromTask:task count:NSNotFound];
+    [_tasks insertObject:resource atArrangedObjectIndex:0];
+    self.currentWorkflowResource = resource;
     
-    BMLWorkflowManager* __weak wself = self;
-    BMLWorkflow* __weak wtask = task;
     [task addObserver:self
               keyPath:NSStringFromSelector(@selector(status))
               options:0
                 block:^(MAKVONotification* notification) {
 
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"task == %@", wtask];
-                        for (NSMutableDictionary* dict in [[wself.tasks arrangedObjects] filteredArrayUsingPredicate:predicate]) {
-                            NSUInteger index = [[wself.tasks arrangedObjects] indexOfObject:dict];
-                            wself.tasks.arrangedObjects[index][@"status"] = @(wtask.status);
-                        }
+                        resource.status = [(BMLWorkflow*)notification.target status];
                     });
                 }];
 }
@@ -160,19 +171,15 @@
  
     NSArray* arrangedObjects = _tasks.arrangedObjects;
     if (index < [arrangedObjects count])
-        self.currentWorkflow = arrangedObjects[index][@"task"];
+        self.currentWorkflowResource = arrangedObjects[index];
     else
-        self.currentWorkflow = nil;
+        self.currentWorkflowResource = nil;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)selectCurrentWorkflow:(BMLWorkflow*)task {
+- (void)selectCurrentWorkflow:(BMLResource*)resource {
     
-    NSArray* arrangedObjects =
-    [_tasks.arrangedObjects filteredArrayUsingPredicate:
-     [NSPredicate predicateWithFormat:@"task == %@", task]];
-    
-    NSUInteger index = [_tasks.arrangedObjects indexOfObject:arrangedObjects.firstObject];
+    NSUInteger index = [_tasks.arrangedObjects indexOfObject:resource];
     [self selectCurrentWorkflowAtIndex:index];
 }
 
@@ -184,9 +191,9 @@
     
     NSMutableArray* macro = [NSMutableArray new];
     for (long i = [_tasks.arrangedObjects count] - 1; i >= 0 ; --i) {
-        NSDictionary* w =  _tasks.arrangedObjects[i];
-        [macro addObject:@{ @"name" : w[@"name"],
-                                @"fullUuid" : [w[@"task"] workflowUuid]}];
+        BMLResource* r =  _tasks.arrangedObjects[i];
+        [macro addObject:@{ @"name" : r.name,
+                            @"fullUuid" : r.fullUuid}];
     }
 
     BMLResource* mainTask =

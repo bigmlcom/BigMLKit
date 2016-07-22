@@ -54,7 +54,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
         
         _workflowUuid = fullUuid;
         _inputs = inputs;
-        self.status = BMLWorkflowIdle;
+        self.status = BMLResourceStatusWaiting;
         _steps = [NSMutableArray new];
         for (BMLWorkflowTaskDescriptor* d in descriptors) {
             BMLWorkflowTask* newTask = [BMLWorkflowTask newTaskWithDescriptor:d];
@@ -82,7 +82,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)setInitialStep:(NSUInteger)initialStep {
     
-    NSAssert(self.status != BMLWorkflowStarting && self.status != BMLWorkflowStarted,
+    NSAssert(self.status != BMLResourceStatusQueued && self.status != BMLResourceStatusStarted,
              @"Trying to change initial step while workflow is running");
     NSAssert(initialStep < [_steps count], @"Wrong initial step (%d in %d elements)",
              (int)initialStep, (int)[_steps count]);
@@ -116,7 +116,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)statusMessage {
     
-    if (self.status == BMLWorkflowStarted)
+    if (self.status == BMLResourceStatusStarted)
         return self.currentTask.message;
     return [super statusMessage];
 }
@@ -134,7 +134,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)executeStepWithArguments:(NSArray*)inputs {
 
-    NSAssert(self.status == BMLWorkflowStarting || self.status == BMLWorkflowStarted,
+    NSAssert(self.status == BMLResourceStatusQueued || self.status == BMLResourceStatusStarted,
              @"Trying to execute step before starting workflow");
     
     if (_currentStep < (int)[_steps count]-1 && _currentStep < (int)_lastStep) {
@@ -144,7 +144,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
                                forKeyPath:@"resourceStatus"
                                   options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
                                   context:NULL];
-        self.status = BMLWorkflowStarted;
+        self.status = BMLResourceStatusStarted;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             [(BMLWorkflowTask*)_steps[_currentStep] runWithArguments:inputs
@@ -169,8 +169,6 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 - (NSPredicate*)outputPredicate {
     
     NSPredicate* predicate = nil;
-    //-- outputResources is only set when the workflow completes. this causes a delay
-    //-- in resources display, which are not shown as created.
     for (BMLResource* r in self.steps) {
         if (r.type == BMLResourceTypeWhizzmlExecution) {
             predicate = [NSPredicate predicateWithFormat:@"executionId = %@", r.uuid];

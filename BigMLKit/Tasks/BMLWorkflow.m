@@ -30,9 +30,9 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)statusMessage {
     
-    if (_status == BMLWorkflowFailed)
+    if (_status == BMLResourceStatusFailed)
         return @"Workflow failed!";
-    else if (_status == BMLWorkflowEnded)
+    else if (_status == BMLResourceStatusEnded)
         return @"Workflow Completed.";
     return @"";
 }
@@ -80,7 +80,7 @@
                     
                     [task removeObserver:self forKeyPath:@"resourceStatus"];
                     [self handleError:task.error];
-                    self.status = BMLWorkflowFailed;
+                    self.status = BMLResourceStatusFailed;
                     
                 } else {
                     self.resourceStatus = task.resourceStatus;
@@ -95,7 +95,7 @@
               inContext:(BMLWorkflowTaskContext*)context
         completionBlock:(BMLWorkflowCompletedBlock)completion {
     
-    NSAssert(_status == BMLWorkflowEnded || _status == BMLWorkflowIdle || _status == BMLWorkflowFailed,
+    NSAssert(_status == BMLResourceStatusEnded || _status == BMLResourceStatusWaiting || _status == BMLResourceStatusFailed,
              @"Trying to re-start running task");
     NSAssert(context, @"Improper BMLWorkflowTaskSequence API usage: you must specify a context.");
     
@@ -103,7 +103,7 @@
     _context = context;
     _outputResources = @[];
     
-    self.status = BMLWorkflowStarting;
+    self.status = BMLResourceStatusQueued;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -116,13 +116,13 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)stopWithError:(NSError*)error {
     
-    NSAssert(_status == BMLWorkflowStarted || _status == BMLWorkflowStarting,
+    NSAssert(_status == BMLResourceStatusStarted || _status == BMLResourceStatusQueued,
              @"Trying to stop idle task");
     
     if (_completion)
         _completion(self.outputResources, error);
     
-    self.status = error ? BMLWorkflowFailed : BMLWorkflowEnded;
+    self.status = error ? BMLResourceStatusFailed : BMLResourceStatusEnded;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

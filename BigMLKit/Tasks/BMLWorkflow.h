@@ -26,15 +26,6 @@
  **/
 typedef void(^BMLWorkflowCompletedBlock)(NSArray*, NSError*);
 
-//////////////////////////////////////////////////////////////////////////////////////
-typedef enum {
-    BMLWorkflowIdle,
-    BMLWorkflowStarting,
-    BMLWorkflowStarted,
-    BMLWorkflowEnded,
-    BMLWorkflowFailed,
-} BMLWorkflowStatus;
-
 @class BMLWorkflowTaskContext;
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +53,7 @@ typedef enum {
 /**
  *  The overall workflow status.
  */
-@property (nonatomic) BMLWorkflowStatus status;
+@property (nonatomic) BMLResourceStatus status;
 
 /**
  *  The current task-level status. This value represents the current task status in BigML REST API terms.
@@ -125,7 +116,7 @@ typedef enum {
 /**
  *  This method stops the current workflow execution and call the completion block.
  *  if an error is passed in, that error is forwarded to the completion block and
- *  the workflow status is set to BMLWorkflowFailed.
+ *  the workflow status is set to BMLResourceStatusFailed.
  *  If no error is given, then it is understood that the workflow completed successfully.
  *
  *  @param error The optional error that was encountered during execution.
