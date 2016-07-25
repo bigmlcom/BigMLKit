@@ -34,6 +34,7 @@
 @interface BMLWorkflowManager ()
 
 @property (nonatomic, weak) BMLExecutionResource* currentWorkflowResource;
+@property (nonatomic, strong) NSMutableArray* runningTasks;
 
 @end
 
@@ -50,8 +51,14 @@
  
     if (self = [super init]) {
         _keepTasksAfterCompletion = YES;
+        _runningTasks = [NSMutableArray new];
     }
     return self;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (NSUInteger)runningTasksCount {
+    return _runningTasks.count;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -73,16 +80,12 @@
                                               definition:definition
                                                  context:context];
     res.isRemote = @NO;
-    NSError* error = nil;
-    [context saveToPersistentStore:&error];
-    if (error)
-        NSLog(@"ERROR CREATING TASK: %@", error);
     
-    return res;
+    return (BMLExecutionResource*)res;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (id<BMLResource>)resourceFromTask:(BMLWorkflow*)task count:(NSUInteger)count {
+- (BMLExecutionResource*)resourceFromTask:(BMLWorkflow*)task count:(NSUInteger)count {
 
     NSMutableDictionary* dict = [@{ @"name":task.name?:[NSString stringWithFormat:@"Task %d: %@",
                                                        (int)count,
@@ -105,19 +108,24 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)addWorkflowAsCurrent:(BMLWorkflow*)task {
 
-    self.runningTasksCount = _runningTasksCount + 1;
-    BMLMinimalResource* resource = [self resourceFromTask:task count:NSNotFound];
+    [self.runningTasks addObject:task];
+    BMLExecutionResource* resource = [self resourceFromTask:task count:NSNotFound];
     [_tasks insertObject:resource atArrangedObjectIndex:0];
     self.currentWorkflowResource = resource;
     
     [task addObserver:self
-              keyPath:NSStringFromSelector(@selector(status))
-              options:0
+              keyPath:NSStringFromSelector(@selector(executionUuid))
+              options:NSKeyValueObservingOptionNew
                 block:^(MAKVONotification* notification) {
-
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        resource.status = [(BMLWorkflow*)notification.target status];
-                    });
+                    
+                    [resource.managedObjectContext performBlockAndWait:^{
+                        resource.uuid = notification.newValue;
+                        resource.isRemote = @YES;
+                        NSError* error = nil;
+                        [resource.managedObjectContext saveToPersistentStore:&error];
+                        if (error)
+                            NSLog(@"ERROR SAVING TASK: %@", error);
+                    }];
                 }];
 }
 
@@ -132,11 +140,8 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)cleanUpWorkflow:(BMLWorkflow*)task {
     
-    [task removeObserver:self keyPath:NSStringFromSelector(@selector(status))];
-    self.runningTasksCount = _runningTasksCount - 1;
-    if (!_keepTasksAfterCompletion) {
-        [self removeTask:task];
-    }
+    [task removeObserver:self keyPath:NSStringFromSelector(@selector(executionUuid))];
+    [self.runningTasks removeObject:task];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

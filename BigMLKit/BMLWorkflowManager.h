@@ -67,7 +67,7 @@
  /**
  *  The number of workflows that this manages handles, i.e., those that are executing.
  */
-@property (nonatomic) NSUInteger runningTasksCount;
+@property (nonatomic, readonly) NSUInteger runningTasksCount;
 
 /**
  *  Adds a new workflow to the manager so it is kept alive and its status exposed through tasks.
