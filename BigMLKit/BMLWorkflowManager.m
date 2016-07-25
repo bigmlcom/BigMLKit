@@ -66,7 +66,7 @@
                               definition:(NSDictionary*)definition
                                 fullUuid:(BMLResourceFullUuid*)fullUuid {
     
-    NSAssert([NSThread isMainThread], @"This method can only be called on the main thread");
+    NSAssert([NSThread isMainThread], @"createTaskNamed can only be called on the main thread");
     
     if (!fullUuid) {
         fullUuid = [NSString stringWithFormat:@"%@/%@",
