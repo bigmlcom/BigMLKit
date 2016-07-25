@@ -76,6 +76,11 @@ typedef void(^BMLWorkflowCompletedBlock)(NSArray*, NSError*);
 @property (nonatomic, readonly) BMLWorkflow* currentTask;
 
 /**
+ *  The parent task, if any.
+ */
+@property (nonatomic, weak) BMLWorkflow* parentTask;
+
+/**
  *  An array of the BMLResourceTypeIdentifier this workflow requires.
  */
 @property (nonatomic, readonly) NSArray* inputResourceTypes;

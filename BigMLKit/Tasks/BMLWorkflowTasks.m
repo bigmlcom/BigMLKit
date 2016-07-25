@@ -917,6 +917,7 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
                             });
                         } uuid:^(BMLResourceFullUuid* fullUuid) {
                             self.executionUuid = [BMLResourceTypeIdentifier uuidFromFullUuid:fullUuid];
+                            self.parentTask.executionUuid = self.executionUuid;
                         }];
     } else {
         [self genericCompletionHandler:nil

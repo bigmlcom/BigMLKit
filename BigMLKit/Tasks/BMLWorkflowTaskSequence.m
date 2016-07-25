@@ -146,13 +146,18 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
                                   context:NULL];
         self.status = BMLResourceStatusStarted;
         
+        BMLWorkflowTaskSequence* __weak wself = self;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            [(BMLWorkflowTask*)_steps[_currentStep] runWithArguments:inputs
-                                                           inContext:self.context
-                                                     completionBlock:nil];
+            
+            BMLWorkflowTask* step = (id)wself.steps[_currentStep];
+            [step setParentTask:wself];
+            [step runWithArguments:inputs
+                         inContext:self.context
+                   completionBlock:^(NSArray* r, NSError* e) {
+                       [step setParentTask:nil];
+                   }];
         });
     } else {
-        
         [self stopWithError:nil];
     }
 }
@@ -179,22 +184,6 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
         predicate = [NSPredicate predicateWithValue:NO];
 
     return predicate;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
-- (BMLResourceFullUuid*)executionUuid {
-    
-    for (BMLWorkflow* r in self.steps) {
-        if (r.executionUuid) {
-            return r.executionUuid;
-        }
-    }
-    return nil;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
-- (void)setExecutionUuid:(BMLResourceUuid*)executionUuid {
-    NSAssert(NO, @"Cannot set the execution ID of a task sequence");
 }
 
 #pragma mark - Error handling
