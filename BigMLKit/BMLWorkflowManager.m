@@ -23,7 +23,7 @@
 #import "BMLWorkflowTask.h"
 #import "BMLWorkflowTaskSequence.h"
 #import "MAKVONotificationCenter.h"
-
+#import "BMLAppAPIConnector.h"
 #import "BMLCoreDataLayer.h"
 #import "BMLUserDefaults.h"
 #import "BMLUtils.h"
@@ -44,6 +44,7 @@
 @implementation BMLWorkflowManager {
     
     NSArray* _stashedTasks;
+    NSTimer* _timer;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -127,6 +128,33 @@
                             NSLog(@"ERROR SAVING TASK: %@", error);
                     }];
                 }];
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)setTasks:(NSArrayController*)tasks {
+    
+    _tasks = tasks;
+    
+    NSArray* pendingExecutions =
+    [_tasks.arrangedObjects
+     filteredArrayUsingPredicate:
+     [NSPredicate predicateWithFormat:@"SELF.status > %d AND SELF.status < %d",
+      BMLResourceStatusWaiting, BMLResourceStatusEnded]];
+    
+    for (BMLResource* execution in pendingExecutions) {
+        
+        if (execution.isRemote) {
+            BMLAPIConnector* connector = [BMLAppAPIConnector newConnector];
+            [connector getResource:execution.type
+                              uuid:execution.uuid
+                        completion:^(id<BMLResource> r, NSError* e) {
+                            if (e.code == 404)
+                                [BMLResource deleteResource:execution];
+                        }];
+        } else {
+            [BMLResource deleteResource:execution];
+        }
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
