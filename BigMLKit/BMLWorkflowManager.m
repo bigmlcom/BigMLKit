@@ -88,20 +88,14 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (BMLExecutionResource*)resourceFromTask:(BMLWorkflow*)task count:(NSUInteger)count {
 
-    NSMutableDictionary* dict = [@{ @"name":task.name?:[NSString stringWithFormat:@"Task %d: %@",
-                                                       (int)count,
-                                                       task.statusMessage],
-                                   @"task":task,
-                                   @"status":@(task.status),
-                                   @"count":@(count)} mutableCopy];
+    NSString* name = task.name?:[NSString stringWithFormat:@"Task %d: %@",
+                                 (int)count,
+                                 task.statusMessage];
     
-    if ([NSStringFromClass(task.currentTask.class) isEqualToString:@"BMLWorkflowTaskCreateExecution"])
-        dict[@"execution"] = task.currentTask;
-
-    BMLExecutionResource* resource = [self createTaskNamed:dict[@"name"]
-                                                definition:@{}
+    BMLExecutionResource* resource = [self createTaskNamed:name
+                                                definition:@{ @"status" : @(task.status),
+                                                              @"name" : name }
                                                   fullUuid:nil];
-    
     resource.status = BMLResourceStatusUndefined;
     return resource;
 }
@@ -131,9 +125,7 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (void)setTasks:(NSArrayController*)tasks {
-    
-    _tasks = tasks;
+- (void)trackRunningTasks {
     
     NSArray* pendingExecutions =
     [_tasks.arrangedObjects
@@ -155,6 +147,13 @@
             [BMLResource deleteResource:execution];
         }
     }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)setTasks:(NSArrayController*)tasks {
+    
+    _tasks = tasks;
+    [self trackRunningTasks];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
