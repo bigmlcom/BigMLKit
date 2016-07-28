@@ -272,7 +272,9 @@
         
     } else if (self.dragDropStatus == BMLDragDropStatusStarted) {
 
-        return [self imageWithCIImage:[self grayImage:cgImage b:0.0 c:1.0 s:0.75] size:baseImage.size];
+        return [self imageWithCIImage:[self falseColoredImage:cgImage
+                                              foregroundColor:[NSColor redColor]
+                                              backgroundColor:[NSColor clearColor]] size:baseImage.size];
 
     } else if (self.dragDropStatus == BMLDragDropStatusDenied) {
 
