@@ -827,10 +827,12 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
     
     for (id obj in [inputs subarrayWithRange: NSMakeRange(1, inputs.count-1)]) {
         if ([obj isKindOfClass:[BMLDragDropFieldModel class]]) {
+            
+            dispatch_semaphore_t sem = dispatch_semaphore_create(0);
+
             BMLFieldModel* field = obj;
             if ([field.currentValue hasPrefix:@"file/"]) {
                 
-                dispatch_semaphore_t sem = dispatch_semaphore_create(0);
                 BMLMinimalResource* resource =
                 [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
                                                 fullUuid:field.currentValue
@@ -859,6 +861,38 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
                 dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
                 if (processingError)
                     break;
+                
+            } else if ([field.currentValue hasPrefix:@"dataset/"] && field.options) {
+                
+                BMLMinimalResource* dataset =
+                [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
+                                                fullUuid:field.currentValue
+                                              definition:@{}];
+                
+                NSMutableDictionary* options = [self optionsForCurrentContext:context];
+                options[@"input_fields"] = [[field.options[@"fields"]
+                                             filteredArrayUsingPredicate:
+                                             [NSPredicate predicateWithFormat:@"isIncluded == %d", YES]] valueForKey:@"FieldID"];
+                
+                [context.ml createResource:BMLResourceTypeDataset
+                                      name:nil
+                                   options:options
+                                      from:dataset
+                                completion:^(id<BMLResource> resource, NSError* error) {
+                                    
+                                    if (resource) {
+                                        [processedInputs addObject:@[field.title, resource.fullUuid]];
+                                    } else {
+                                        processingError = error ?:
+                                        [NSError errorWithInfo:@"Could not create datasource from file"
+                                                          code:-1];
+                                    }
+                                    dispatch_semaphore_signal(sem);
+                                }];
+                dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+                if (processingError)
+                    break;
+
             } else {
                 if (field.name && field.currentValue)
                     [processedInputs addObject:@[field.name, field.currentValue]];

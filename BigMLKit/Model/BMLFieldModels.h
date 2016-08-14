@@ -75,6 +75,12 @@ typedef enum BMLDragDropStatus {
  */
 @property (nonatomic) BMLDragDropStatus dragDropStatus;
 
+/**
+ *  This property represents options that have been set through the controls
+ *  attached to the input fields. E.g., in dataset input fields, you can select
+ *  the dataset fields to include/exclude.
+ */
+@property (nonatomic, strong) NSDictionary* options;
 
 @end
 
