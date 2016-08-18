@@ -862,22 +862,28 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
                 if (processingError)
                     break;
                 
-            } else if ([field.currentValue hasPrefix:@"dataset/"] && field.options) {
+            } else if (field.options) {
                 
-                BMLMinimalResource* dataset =
+                BMLMinimalResource* resource =
                 [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
                                                 fullUuid:field.currentValue
                                               definition:@{}];
-                
                 NSMutableDictionary* options = [self optionsForCurrentContext:context];
-                options[@"input_fields"] = [[field.options[@"fields"]
-                                             filteredArrayUsingPredicate:
-                                             [NSPredicate predicateWithFormat:@"isIncluded == %d", YES]] valueForKey:@"FieldID"];
+
+                if (field.options[@"fields"]) {
+                    options[@"input_fields"] = [[field.options[@"fields"]
+                                                 filteredArrayUsingPredicate:
+                                                 [NSPredicate predicateWithFormat:@"isIncluded == %d", YES]] valueForKey:@"FieldID"];
+                }
+                
+                if ([field.options[@"flatlineString"] length] > 0) {
+                    options[@"lisp_filter"] = field.options[@"flatlineString"];
+                }
                 
                 [context.ml createResource:BMLResourceTypeDataset
                                       name:nil
                                    options:options
-                                      from:dataset
+                                      from:resource
                                 completion:^(id<BMLResource> resource, NSError* error) {
                                     
                                     if (resource) {

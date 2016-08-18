@@ -80,7 +80,7 @@ typedef enum BMLDragDropStatus {
  *  attached to the input fields. E.g., in dataset input fields, you can select
  *  the dataset fields to include/exclude.
  */
-@property (nonatomic, strong) NSDictionary* options;
+@property (nonatomic, strong) NSMutableDictionary* options;
 
 @end
 
@@ -173,7 +173,17 @@ typedef enum BMLDragDropStatus {
 //////////////////////////////////////////////////////////////////////////////////////
 @interface BMLTokenFieldModel : BMLFieldModel
 
+//-- a comma-separated representation of a list of tokens
 @property (nonatomic, copy) NSString* rawValue;
+
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+@interface BMLMapFieldModel : BMLFieldModel
+
+@property (nonatomic, copy) NSDictionary* currentValue;
 
 @end
 

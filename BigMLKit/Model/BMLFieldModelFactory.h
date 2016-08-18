@@ -20,6 +20,7 @@
 @class BMLTextFormFieldModel;
 @class BMLCheckBoxFieldModel;
 @class BMLTokenFieldModel;
+@class BMLMapFieldModel;
 @class BMLDragDropFieldModel;
 @class BMLScriptArgumentFieldModel;
 
@@ -75,6 +76,9 @@
 + (BMLTokenFieldModel*)newTokenFieldTitle:(NSString*)title
                                 currentValue:(NSString*)currentValue
                                   importance:(float)importance;
+
++ (BMLMapFieldModel*)newMapFieldTitle:(NSString*)title
+                         currentValue:(NSDictionary*)currentValue;
 
 + (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
                                     typeString:(NSString*)typeString;

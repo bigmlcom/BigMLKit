@@ -232,6 +232,17 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
++ (BMLMapFieldModel*)newMapFieldTitle:(NSString*)title
+                         currentValue:(NSDictionary*)currentValue {
+    
+    BMLMapFieldModel* mapModel = [BMLMapFieldModel new];
+    mapModel.title = title;
+    mapModel.currentValue = currentValue;
+
+    return mapModel;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
 + (BMLStepperFieldModel*)newStepperFieldTitle:(NSString*)title
                                   currentValue:(NSUInteger)currentValue
                                     importance:(float)importance {

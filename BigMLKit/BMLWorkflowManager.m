@@ -80,6 +80,7 @@
                                                     name:name
                                               definition:definition
                                                  context:context];
+    NSLog(@"CREATED TASK %@", res.fullUuid);
     res.isRemote = @NO;
     
     return (BMLExecutionResource*)res;
@@ -114,6 +115,7 @@
                 block:^(MAKVONotification* notification) {
                     
                     [resource.managedObjectContext performBlockAndWait:^{
+                        NSLog(@"UPDATING EXECUTION ID from %@ to %@", resource.uuid, notification.newValue);
                         resource.uuid = notification.newValue;
                         resource.isRemote = @YES;
                         NSError* error = nil;
@@ -134,7 +136,7 @@
       BMLResourceStatusWaiting, BMLResourceStatusEnded]];
     
     for (BMLResource* execution in pendingExecutions) {
-        
+        NSLog(@"TRACK STATUS: %d", execution.status);
         if (execution.isRemote) {
             BMLAPIConnector* connector = [BMLAppAPIConnector newConnector];
             [connector getResource:execution.type
