@@ -7,6 +7,7 @@
 //
 
 #import "BMLWhizzProviders.h"
+#import "BMLHTTPConnector.h"
 
 @interface BMLWhizzProvider ()
 
@@ -35,6 +36,13 @@
     }
     provider.userURL = url;
     return provider;
+}
+
++ (void)listWhizzies:(NSString*)url completion:(void(^)(NSDictionary*, NSError*))completion {
+
+    if ([url containsString:@"github.com"]) {
+        [BMLWhizzGitHubProvider listWhizzies:url completion:completion];
+    }
 }
 
 - (NSURL*)apiURL {
@@ -87,9 +95,17 @@
 
 @end
 
-@implementation BMLWhizzGitHubProvider
+@implementation BMLWhizzGitHubProvider {
+    
+    NSString* _user;
+    NSString* _repo;
+    NSString* _branch;
+    NSString* _path;
+}
 
-- (NSURL*)apiURL {
+- (void)setUserURL:(NSURL*)userURL {
+    
+    [super setUserURL:userURL];
     
     NSRegularExpression* regex =
     [NSRegularExpression
@@ -104,24 +120,80 @@
     NSTextCheckingResult* match = [matches firstObject];
     if (match && [match numberOfRanges] == 5) {
         
-        NSString* user = [self.userURL.path substringWithRange:[match rangeAtIndex:1]];
-        NSString* repo = [self.userURL.path substringWithRange:[match rangeAtIndex:2]];
-        NSString* branch = [self.userURL.path substringWithRange:[match rangeAtIndex:3]];
-        NSString* path = [self.userURL.path substringWithRange:[match rangeAtIndex:4]];
+        _user = [self.userURL.path substringWithRange:[match rangeAtIndex:1]];
+        _repo = [self.userURL.path substringWithRange:[match rangeAtIndex:2]];
+        _branch = [self.userURL.path substringWithRange:[match rangeAtIndex:3]];
+        _path = [self.userURL.path substringWithRange:[match rangeAtIndex:4]];
         
-        NSArray* branchSplits = [branch componentsSeparatedByString:@"/"];
+        NSArray* branchSplits = [_branch componentsSeparatedByString:@"/"];
         if (branchSplits.count == 2) {
-            branch = branchSplits[0];
-            path = [NSString stringWithFormat:@"%@/%@", branchSplits[1], path];
+            _branch = branchSplits[0];
+            _path = [NSString stringWithFormat:@"%@/%@", branchSplits[1], _path];
         } else {
-            branch = branchSplits.firstObject;
+            _branch = branchSplits.firstObject;
         }
-        
+    } else {
+        _user = @"";
+        _repo = @"";
+        _branch = @"";
+        _path = @"";
+    }
+}
+
+- (NSURL*)apiURL {
+    
+    if (_user && _repo && _path && _branch) {
         return [NSURL URLWithString:[NSString stringWithFormat:
                                      @"https://api.github.com/repos/%@/%@/contents/%@?ref=%@",
-                                     user, repo, path, branch]];
+                                     _user, _repo, _path, _branch]];
     }
     return nil;
+}
+
++ (void)listWhizzies:(NSString*)url completion:(void(^)(NSDictionary*, NSError*))completion {
+
+    NSString* user = nil;
+    NSString* repo = nil;
+
+    NSRegularExpression* regex =
+    [NSRegularExpression
+     regularExpressionWithPattern:@"([^/]+)/([^/]+)/?$"
+     options:0
+     error:nil];
+    
+    NSArray* matches = [regex matchesInString:url
+                                      options:0
+                                        range:NSMakeRange(0, [url length])];
+    
+    
+    NSTextCheckingResult* match = [matches firstObject];
+    if (match && [match numberOfRanges] == 3) {
+        
+        user = [url substringWithRange:[match rangeAtIndex:1]];
+        repo = [url substringWithRange:[match rangeAtIndex:2]];
+    }
+
+    if (user && repo) {
+        
+        NSURL* url =  [NSURL URLWithString:[NSString stringWithFormat:
+                                            @"https://api.github.com/repos/%@/%@/contents?ref=master",
+                                            user, repo]];
+        
+        BMLHTTPConnector* connector = [BMLHTTPConnector new];
+        [connector getURL:url
+               completion:^(NSDictionary* dict, NSError* e) {
+                   
+                   NSMutableDictionary* whizzs = [NSMutableDictionary new];
+                   if (!e) {
+                       for (NSDictionary* whizz in [dict allValues]) {
+                           if (whizz[@"name"] && whizz[@"html_url"])
+                               whizzs[whizz[@"name"]] = whizz[@"html_url"];
+                       }
+                   }
+                   if (completion)
+                       completion(whizzs, e);
+               }];
+    }
 }
 
 - (NSArray*)whizzFromResponse:(NSDictionary*)dict {

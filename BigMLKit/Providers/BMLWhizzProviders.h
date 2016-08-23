@@ -15,4 +15,6 @@
 - (NSURL*)apiURL;
 - (NSArray*)whizzFromResponse:(NSDictionary*)dict;
 
++ (void)listWhizzies:(NSString*)url completion:(void(^)(NSDictionary*, NSError*))completion;
+
 @end
