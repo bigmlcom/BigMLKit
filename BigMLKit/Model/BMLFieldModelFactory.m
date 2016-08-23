@@ -124,14 +124,16 @@
                                  list:(BOOL)list
                            importance:(NSNumber*)importance {
     
-    if (![currentValue isKindOfClass:[NSString class]]) currentValue = @"";
-
     BMLPopUpFieldModel* popup = [BMLPopUpFieldModel new];
     
-    if (currentValue && [values indexOfObject:currentValue] == NSNotFound) {
+    if (currentValue &&
+        [values indexOfObject:currentValue] == NSNotFound &&
+        (id)currentValue != [NSNull null]) {
         values = [values arrayByAddingObject:currentValue];
     }
     
+    if (![currentValue isKindOfClass:[NSString class]]) currentValue = @"";
+
     NSUInteger index = 0;
     if (currentValue) {
         index = [values indexOfObject:currentValue];
