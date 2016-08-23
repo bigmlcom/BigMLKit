@@ -104,7 +104,7 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSArray*)inputResourceTypes {
     
-    //-- Create a common base class for all wzml workflows so we can tell them based on type
+    //-- TODO: Create a base class for all wzml workflows so we can tell them based on their type
     NSString* workflowClass = NSStringFromClass([_steps.firstObject class]);
     if ([workflowClass isEqualToString:@"BMLWorkflowTaskCreateScript"] ||
         [workflowClass isEqualToString:@"BMLWorkflowTaskBuildScript"] ||

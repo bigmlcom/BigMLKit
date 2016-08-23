@@ -124,6 +124,8 @@
                                  list:(BOOL)list
                            importance:(NSNumber*)importance {
     
+    if (![currentValue isKindOfClass:[NSString class]]) currentValue = @"";
+
     BMLPopUpFieldModel* popup = [BMLPopUpFieldModel new];
     
     if (currentValue && [values indexOfObject:currentValue] == NSNotFound) {
@@ -176,6 +178,8 @@
                                title:(NSString*)title
                           importance:(NSNumber*)importance {
  
+    if (![currentValue isKindOfClass:[NSString class]]) currentValue = @"";
+
     BMLRadioGroupFieldModel* radioGroup = [BMLRadioGroupFieldModel new];
     
     radioGroup.isFieldIncluded = YES;
@@ -191,6 +195,8 @@
 + (BMLTextFormFieldModel*)newTextFieldTitle:(NSString*)title
                                currentValue:(NSString*)currentValue
                                  importance:(float)importance {
+    
+    if (![currentValue isKindOfClass:[NSString class]]) currentValue = @"";
     
     BMLTextFormFieldModel* textField = [BMLTextFormFieldModel new];
     textField.isFieldIncluded = YES;
@@ -221,6 +227,8 @@
                              currentValue:(NSString*)currentValue
                                importance:(float)importance {
     
+    if (![currentValue isKindOfClass:[NSString class]]) currentValue = @"";
+
     BMLTokenFieldModel* tokenField = [BMLTokenFieldModel new];
     tokenField.isFieldIncluded = YES;
     tokenField.title = title;
