@@ -126,14 +126,16 @@
     
     BMLPopUpFieldModel* popup = [BMLPopUpFieldModel new];
     
-    if (currentValue &&
+    if ([currentValue isKindOfClass:[NSArray class]]) {
+        values = (NSArray*)currentValue;
+    } else if (currentValue &&
         [values indexOfObject:currentValue] == NSNotFound &&
         (id)currentValue != [NSNull null]) {
         values = [values arrayByAddingObject:currentValue];
+    } else {
+        currentValue = @"";
     }
     
-    if (![currentValue isKindOfClass:[NSString class]]) currentValue = @"";
-
     NSUInteger index = 0;
     if (currentValue) {
         index = [values indexOfObject:currentValue];
