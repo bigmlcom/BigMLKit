@@ -186,7 +186,7 @@
                    NSMutableDictionary* whizzs = [NSMutableDictionary new];
                    if (!e) {
                        for (NSDictionary* whizz in [dict allValues]) {
-                           if (whizz[@"name"] && whizz[@"html_url"])
+                           if (whizz[@"name"] && whizz[@"html_url"] && [whizz[@"size"] intValue] == 0)
                                whizzs[whizz[@"name"]] = whizz[@"html_url"];
                        }
                    }
