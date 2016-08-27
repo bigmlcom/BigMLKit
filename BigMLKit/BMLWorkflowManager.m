@@ -132,11 +132,10 @@
     NSArray* pendingExecutions =
     [_tasks.arrangedObjects
      filteredArrayUsingPredicate:
-     [NSPredicate predicateWithFormat:@"SELF.status > %d AND SELF.status < %d",
+     [NSPredicate predicateWithFormat:@"SELF.status >= %d AND SELF.status < %d",
       BMLResourceStatusWaiting, BMLResourceStatusEnded]];
     
     for (BMLResource* execution in pendingExecutions) {
-        NSLog(@"TRACK STATUS: %d", execution.status);
         if (execution.isRemote) {
             BMLAPIConnector* connector = [BMLAppAPIConnector newConnector];
             [connector getResource:execution.type
