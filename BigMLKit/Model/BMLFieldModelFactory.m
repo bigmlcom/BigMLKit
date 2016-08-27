@@ -128,11 +128,10 @@
     
     if ([currentValue isKindOfClass:[NSArray class]]) {
         values = (NSArray*)currentValue;
-    } else if (currentValue &&
-        [values indexOfObject:currentValue] == NSNotFound &&
-        (id)currentValue != [NSNull null]) {
+    } else if (currentValue && (id)currentValue != [NSNull null] &&
+        [values indexOfObject:currentValue] == NSNotFound) {
         values = [values arrayByAddingObject:currentValue];
-    } else {
+    } else if (!currentValue || (id)currentValue == [NSNull null]) {
         currentValue = @"";
     }
     
