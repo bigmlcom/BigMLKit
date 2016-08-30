@@ -151,7 +151,7 @@
     popup.values = values;
     popup.isEditable = editable;
     popup.isList = list;
-    
+
     return popup;
 }
 

@@ -264,7 +264,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSImage*)image {
-    NSLog(@"DRAGGINg INPUT for state: %d", self.dragDropStatus);
+
     NSImage* baseImage = [NSImage imageNamed:[NSString stringWithFormat:@"btnCreate%@",
                                               [[_resourceTypes[_currentResourceType] stringValue]
                                                capitalizedString]]];
@@ -280,14 +280,16 @@
     } else if (self.dragDropStatus == BMLDragDropStatusStarted) {
 
         return [self imageWithCIImage:[self falseColoredImage:cgImage
-                                              foregroundColor:[NSColor redColor]
-                                              backgroundColor:[NSColor clearColor]] size:baseImage.size];
+                                              foregroundColor:[BMLAppCore BMLGreenColor]
+                                              backgroundColor:[BMLAppCore BMLGreenColor]]
+                                 size:baseImage.size];
 
     } else if (self.dragDropStatus == BMLDragDropStatusDenied) {
 
         return [self imageWithCIImage:[self falseColoredImage:cgImage
                                               foregroundColor:[NSColor redColor]
-                                              backgroundColor:[NSColor redColor]] size:baseImage.size];
+                                              backgroundColor:[NSColor redColor]]
+                                 size:baseImage.size];
     }
     return baseImage;
 }
@@ -327,7 +329,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)setCurrentValue:(id)value {
-    _isSelected = [value boolValue];
+    self.isSelected = [value boolValue];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -342,6 +344,10 @@
     NSSet* keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
     
     if ([key isEqualToString:@"state"]) {
+        NSArray* affectingKeys = @[@"isSelected"];
+        keyPaths = [keyPaths setByAddingObjectsFromArray:affectingKeys];
+    }
+    if ([key isEqualToString:@"currentValue"]) {
         NSArray* affectingKeys = @[@"isSelected"];
         keyPaths = [keyPaths setByAddingObjectsFromArray:affectingKeys];
     }
