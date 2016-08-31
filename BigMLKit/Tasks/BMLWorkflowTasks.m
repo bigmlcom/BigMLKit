@@ -862,7 +862,7 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
                 if (processingError)
                     break;
                 
-            } else if (field.options) {
+            } else if (field.options.count > 0) {
                 
                 BMLMinimalResource* resource =
                 [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
