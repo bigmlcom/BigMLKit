@@ -66,7 +66,7 @@
                                  importance:(float)importance;
 
 + (BMLTextFormFieldModel*)newStepperFieldTitle:(NSString*)title
-                                  currentValue:(NSUInteger)currentValue
+                                  currentValue:(NSNumber*)currentValue
                                     importance:(float)importance;
 
 + (BMLCheckBoxFieldModel*)newCheckBoxFieldTitle:(NSString*)title

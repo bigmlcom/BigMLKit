@@ -181,11 +181,11 @@
                                title:(NSString*)title
                           importance:(NSNumber*)importance {
  
-    if (![currentValue isKindOfClass:[NSString class]]) currentValue = @"";
+    if (![currentValue isKindOfClass:[NSString class]]) currentValue = nil;
 
     BMLRadioGroupFieldModel* radioGroup = [BMLRadioGroupFieldModel new];
     
-    radioGroup.isFieldIncluded = YES;
+    radioGroup.isFieldIncluded = currentValue != nil;
     radioGroup.title = title;
     radioGroup.name = title;
     radioGroup.importance = [importance floatValue];
@@ -199,10 +199,10 @@
                                currentValue:(NSString*)currentValue
                                  importance:(float)importance {
     
-    if (![currentValue isKindOfClass:[NSString class]]) currentValue = @"";
+    if (![currentValue isKindOfClass:[NSString class]]) currentValue = nil;
     
     BMLTextFormFieldModel* textField = [BMLTextFormFieldModel new];
-    textField.isFieldIncluded = YES;
+    textField.isFieldIncluded = currentValue != nil;
     textField.title = title;
     textField.name = title;
     textField.importance = importance;
@@ -218,6 +218,7 @@
     
     BMLCheckBoxFieldModel* model = [BMLCheckBoxFieldModel new];
     model.isSelected = isSelected;
+    model.isFieldIncluded = YES;
     model.title = title;
     model.name = title;
     model.importance = importance;
@@ -249,21 +250,24 @@
     BMLMapFieldModel* mapModel = [BMLMapFieldModel new];
     mapModel.title = title;
     mapModel.currentValue = currentValue;
+    mapModel.isFieldIncluded = currentValue && ([currentValue isKindOfClass:[NSDictionary class]]);
 
     return mapModel;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLStepperFieldModel*)newStepperFieldTitle:(NSString*)title
-                                  currentValue:(NSUInteger)currentValue
+                                  currentValue:(NSNumber*)currentValue
                                     importance:(float)importance {
 
+    if (![currentValue isKindOfClass:[NSNumber class]]) currentValue = nil;
+
     BMLStepperFieldModel* stepperModel = [BMLStepperFieldModel new];
-    stepperModel.isFieldIncluded = YES;
+    stepperModel.isFieldIncluded = currentValue != nil;
     stepperModel.title = title;
     stepperModel.name = title;
     stepperModel.importance = importance;
-    stepperModel.currentValue = @(currentValue);
+    stepperModel.currentValue = currentValue ?: @(0);
     
     return stepperModel;
 }
