@@ -33,7 +33,18 @@
     if ([datatype isEqualToString:@"month"]) {
         
         BMLPopUpFieldModel* popValue = [BMLPopUpFieldModel new];
-        popValue.values = @[@"January", @"February", @"March", @"April", @"May", @"June", @"July", @"August", @"September", @"October", @"November", @"December"];
+        popValue.values = @[@"January",
+                            @"February",
+                            @"March",
+                            @"April",
+                            @"May",
+                            @"June",
+                            @"July",
+                            @"August",
+                            @"September",
+                            @"October",
+                            @"November",
+                            @"December"];
         popValue.isFieldIncluded = YES;
         popValue.title = title;
         popValue.name = title;
@@ -44,7 +55,13 @@
     } else if ([datatype isEqualToString:@"day-of-week"]) {
         
         BMLPopUpFieldModel* popValue = [BMLPopUpFieldModel new];
-        popValue.values = @[@"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", @"Sunday"];
+        popValue.values = @[@"Monday",
+                            @"Tuesday",
+                            @"Wednesday",
+                            @"Thursday",
+                            @"Friday",
+                            @"Saturday",
+                            @"Sunday"];
         popValue.isFieldIncluded = YES;
         popValue.title = title;
         popValue.name = title;
@@ -244,6 +261,18 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
++ (BMLListFieldModel*)newListFieldTitle:(NSString*)title
+                           currentValue:(NSDictionary*)currentValue {
+    
+    BMLListFieldModel* mapModel = [BMLListFieldModel new];
+    mapModel.title = title;
+    mapModel.currentValue = currentValue;
+    mapModel.isFieldIncluded = currentValue && ([currentValue isKindOfClass:[NSArray class]]);
+    
+    return mapModel;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
 + (BMLMapFieldModel*)newMapFieldTitle:(NSString*)title
                          currentValue:(NSDictionary*)currentValue {
     
@@ -251,7 +280,7 @@
     mapModel.title = title;
     mapModel.currentValue = currentValue;
     mapModel.isFieldIncluded = currentValue && ([currentValue isKindOfClass:[NSDictionary class]]);
-
+    
     return mapModel;
 }
 
@@ -274,6 +303,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
+                                  currentValue:(NSString*)currentValue
                                          types:(NSArray<BMLResourceTypeIdentifier*>*)types {
 
     BMLDragDropFieldModel* targetModel = [BMLDragDropFieldModel new];
@@ -282,20 +312,24 @@
     targetModel.resourceTypes = types;
     targetModel.importance = 1.0;
     targetModel.isFieldIncluded = NO;
+    targetModel.currentValue = currentValue;
     return targetModel;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
+                                  currentValue:(NSString*)currentValue
                                           type:(BMLResourceTypeIdentifier*)type {
     
     if (!type) return nil;
     return [self newDragAndDropTarget:title
+                         currentValue:currentValue
                                 types:@[type]];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 + (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
+                                  currentValue:(NSString*)currentValue
                                     typeString:(NSString*)typeString {
    
     BMLDragDropFieldModel* fieldModel = nil;
@@ -327,11 +361,13 @@
             
             fieldModel = [BMLFieldModelFactory
                           newDragAndDropTarget:title
+                          currentValue:currentValue
                           types:types];
         } else {
             
             fieldModel = [BMLFieldModelFactory
                           newDragAndDropTarget:title
+                          currentValue:currentValue
                           type:[BMLResourceTypeIdentifier typeFromTypeString:type]];
         }
     } else {
@@ -344,12 +380,13 @@
 + (BMLScriptArgumentFieldModel*)newScriptArgument:(NSString*)name
                                       description:(NSString*)description
                                              type:(NSString*)type
-                                     defaultValue:(NSString*)defaultValue
+                                     currentValue:(id)currentValue
                                          readOnly:(BOOL)readOnly {
     
     BMLScriptArgumentFieldModel* scriptModel = [BMLScriptArgumentFieldModel new];
     scriptModel.name = name;
     scriptModel.title = name;
+    scriptModel.defaultValue = currentValue;
     scriptModel.typeModel =
     [BMLFieldModelFactory newPopupValues:@[@"string",
                                            @"number",
@@ -393,10 +430,12 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-+ (BMLFieldModel*)fieldModelForOptionNamed:(NSString*)optionName description:(NSDictionary*)description {
++ (BMLFieldModel*)fieldModelForOptionNamed:(NSString*)optionName
+                               description:(NSDictionary*)description {
     
     BMLFieldModel* fieldModel = nil;
-    if ([description[@"type"] isEqualToString:@"double"] || [description[@"type"] isEqualToString:@"int"]) {
+    if ([description[@"type"] isEqualToString:@"double"] ||
+        [description[@"type"] isEqualToString:@"int"]) {
         
         float min = [description[@"min"] floatValue];
         float max = [description[@"max"] floatValue];

@@ -114,6 +114,17 @@ NSString* const BMLWorkflowTaskCompletedWorkflow = @"BMLWorkflowTaskCompletedWor
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
+- (void)overrideDefaultInputs:(NSArray*)inputs {
+    
+    NSString* workflowClass = NSStringFromClass([_steps.firstObject class]);
+    if ([workflowClass isEqualToString:@"BMLWorkflowTaskCreateScript"] ||
+        [workflowClass isEqualToString:@"BMLWorkflowTaskBuildScript"] ||
+        [workflowClass isEqualToString:@"BMLWorkflowTaskCreateExecution"])
+        _inputs = inputs;
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)statusMessage {
     
     if (self.status == BMLResourceStatusStarted)

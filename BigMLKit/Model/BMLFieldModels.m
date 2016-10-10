@@ -208,7 +208,7 @@
 - (NSString*)displayValue {
     
     if (!self.resourceName)
-        return @"";
+        return _fullUuid;
     
     if ([BMLResourceTypeIdentifier typeFromFullUuid:_fullUuid] == BMLResourceTypeFile) {
         return [self.resourceName lastPathComponent];
@@ -383,6 +383,13 @@
     
     return keyPaths;
 }
+
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+@implementation BMLListFieldModel
 
 @end
 

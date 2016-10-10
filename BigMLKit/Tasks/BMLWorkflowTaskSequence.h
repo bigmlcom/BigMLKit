@@ -56,4 +56,9 @@ extern NSString* const BMLWorkflowTaskCompletedWorkflow;
                              descriptors:(NSArray*)descriptors
                              inputs:(NSArray*)inputs;
 
+/** Override the workflow inputs.
+ *  This is used when re-running a script to re-create the inputs that were originally used.
+ */
+- (void)overrideDefaultInputs:(NSArray*)inputs;
+
 @end

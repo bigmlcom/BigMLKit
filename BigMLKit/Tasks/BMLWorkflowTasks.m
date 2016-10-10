@@ -24,6 +24,7 @@
 #import "BMLFieldModelFactory.h"
 
 #import "BMLResourceTypeIdentifier.h"
+#import "BMLResourceTypeIdentifier+BigML.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
 NSArray* resultsFromExecution(id<BMLResource> resource) {
@@ -334,9 +335,10 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
                              BMLDragDropFieldModel* outputModel =
                              [BMLFieldModelFactory
                               newDragAndDropTarget:@"resource_id"
+                              currentValue:result.fullUuid
                               typeString:[NSString stringWithFormat:@"%@-id",
                                           result.type.stringValue]];
-                             outputModel.fullUuid = result.fullUuid;
+//                             outputModel.fullUuid = result.fullUuid;
                              [outputs addObject:outputModel];
                          }
                      }
@@ -840,7 +842,7 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
                 
                 NSMutableDictionary* options = [self optionsForCurrentContext:context];
                 if (context.projectFullUuid &&
-                    ![context.projectFullUuid isEqualToString:[BMLResource allProjectsPseudoFullUuid]])
+                    ![context.projectFullUuid isEqualToString:[BMLResourceTypeIdentifier allProjectsPseudoFullUuid]])
                     [options setObject:context.projectFullUuid forKey:@"project"];
                 
                 [context.ml createResource:BMLResourceTypeSource

@@ -20,6 +20,7 @@
 @class BMLTextFormFieldModel;
 @class BMLCheckBoxFieldModel;
 @class BMLTokenFieldModel;
+@class BMLListFieldModel;
 @class BMLMapFieldModel;
 @class BMLDragDropFieldModel;
 @class BMLScriptArgumentFieldModel;
@@ -77,22 +78,28 @@
                                 currentValue:(NSString*)currentValue
                                   importance:(float)importance;
 
++ (BMLListFieldModel*)newListFieldTitle:(NSString*)title
+                           currentValue:(NSDictionary*)currentValue;
+
 + (BMLMapFieldModel*)newMapFieldTitle:(NSString*)title
                          currentValue:(NSDictionary*)currentValue;
 
 + (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
+                                  currentValue:(NSString*)currentValue
                                     typeString:(NSString*)typeString;
 
 + (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
+                                  currentValue:(NSString*)currentValue
                                           type:(BMLResourceTypeIdentifier*)type;
 
 + (BMLDragDropFieldModel*)newDragAndDropTarget:(NSString*)title
+                                  currentValue:(NSString*)currentValue
                                          types:(NSArray<BMLResourceTypeIdentifier*>*)types;
 
 + (BMLScriptArgumentFieldModel*)newScriptArgument:(NSString*)name
                                 description:(NSString*)description
                                        type:(NSString*)type
-                               defaultValue:(NSString*)defaultValue
+                               currentValue:(id)currentValue
                                          readOnly:(BOOL)readOnly;
 
 + (BMLFieldModel*)fieldModelForOptionNamed:(NSString*)optionName
