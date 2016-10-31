@@ -14,6 +14,7 @@
 
 #import "BMLFieldModelFactory.h"
 #import "BMLFieldModels.h"
+#import "BMLResource.h"
 
 /////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
@@ -311,7 +312,7 @@
     targetModel.name = title;
     targetModel.resourceTypes = types;
     targetModel.importance = 1.0;
-    targetModel.isFieldIncluded = NO;
+    targetModel.isFieldIncluded = currentValue && currentValue.length > 0;
     targetModel.currentValue = currentValue;
     return targetModel;
 }
@@ -369,6 +370,9 @@
                           newDragAndDropTarget:title
                           currentValue:currentValue
                           type:[BMLResourceTypeIdentifier typeFromTypeString:type]];
+        }
+        if (fieldModel) {
+            fieldModel.resourceName = [BMLResource fetchByFullUuid:currentValue].name;
         }
     } else {
         NSLog(@"Wrong type passed to newDragAndDropTarget: %@", typeString);
