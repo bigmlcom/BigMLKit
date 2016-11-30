@@ -88,6 +88,12 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
+@interface BMLWorkflowTaskGetorigindatasetResource : BMLWorkflowTask
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 @interface BMLWorkflowTaskGetExecution : BMLWorkflowTask
 @end
 
@@ -289,6 +295,47 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
                      [self genericCompletionHandler:resource
                                               error:error
                                          completion:completion];
+                 }];
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (NSString*)message {
+    
+    return @"Choose model";
+}
+@end
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+@implementation BMLWorkflowTaskGetorigindatasetResource
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)runWithArguments:(NSArray*)inputs
+               inContext:(BMLWorkflowTaskContext*)context
+         completionBlock:(BMLWorkflowCompletedBlock)completion {
+    
+    id<BMLResource> resource = inputs.lastObject;
+    if ([inputs.lastObject isKindOfClass:[BMLDragDropFieldModel class]])
+        resource = [[BMLMinimalResource alloc]
+                    initWithName:@""
+                    fullUuid:[(BMLDragDropFieldModel*)inputs.lastObject currentValue]
+                    definition:@{}];
+    NSAssert([resource type] &&  [resource uuid], @"No model ID provided");
+    [super runWithArguments:inputs inContext:context completionBlock:nil];
+    
+    [context.ml getResource:[resource type]
+                       uuid:[resource uuid]
+                 completion:^(id<BMLResource> __nullable resource, NSError* __nullable error) {
+                     
+                     [context.ml getResource:BMLResourceTypeDataset
+                                        uuid:[BMLResourceTypeIdentifier uuidFromFullUuid:[resource jsonDefinition][@"dataset"]]
+                                  completion:^(id<BMLResource> __nullable resource, NSError* __nullable error) {
+                                      
+                                      [self genericCompletionHandler:resource
+                                                               error:error
+                                                          completion:completion];
+                                  }];
                  }];
 }
 

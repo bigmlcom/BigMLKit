@@ -168,8 +168,10 @@
 //////////////////////////////////////////////////////////////////////////////////////
 - (void)cleanUpWorkflow:(BMLWorkflow*)task {
     
-    [task removeObserver:self keyPath:NSStringFromSelector(@selector(executionUuid))];
-    [self.runningTasks removeObject:task];
+    if ([self.runningTasks containsObject:task]) {
+        [task removeObserver:self keyPath:NSStringFromSelector(@selector(executionUuid))];
+        [self.runningTasks removeObject:task];
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
