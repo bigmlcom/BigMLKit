@@ -169,6 +169,32 @@
 //////////////////////////////////////////////////////////////////////////////////////
 @implementation BMLRadioGroupFieldModel
 
+//////////////////////////////////////////////////////////////////////////////////////
+- (id)currentValue {
+
+    if (_currentButtonIndex >= 0 && _currentButtonIndex < _choices.count)
+        return _choices[_currentButtonIndex];
+    return nil;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)setCurrentValue:(id)value {
+    
+    self.currentButtonIndex = [_choices indexOfObject:value];
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
++ (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
+    
+    NSSet* keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
+    
+    if ([key isEqualToString:@"currentValue"]) {
+        NSArray* affectingKeys = @[@"currentButtonIndex"];
+        keyPaths = [keyPaths setByAddingObjectsFromArray:affectingKeys];
+    }
+    return keyPaths;
+}
+
 @end
 
 //////////////////////////////////////////////////////////////////////////////////////

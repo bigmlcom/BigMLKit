@@ -68,7 +68,8 @@
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-+ (void)setOption:(NSString*)optionName withValue:(id)currentValue
++ (void)setOption:(NSString*)optionName
+        withValue:(id)currentValue
     configuration:(BMLWorkflowTaskConfiguration*)configuration {
     
     if ([currentValue isKindOfClass:[NSDictionary class]]) {

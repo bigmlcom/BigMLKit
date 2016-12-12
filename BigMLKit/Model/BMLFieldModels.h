@@ -136,6 +136,7 @@ typedef enum BMLDragDropStatus {
 @interface BMLRadioGroupFieldModel : BMLFieldModel
 
 @property (nonatomic, copy) NSString* currentValue;
+@property (nonatomic) NSInteger currentButtonIndex; //-- rawValue
 @property (nonatomic, strong) NSArray* choices;
 
 @end
