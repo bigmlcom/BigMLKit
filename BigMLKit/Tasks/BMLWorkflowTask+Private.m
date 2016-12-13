@@ -55,20 +55,12 @@ static void* gRunningResourcePropertyKey = &gRunningResourcePropertyKey;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (instancetype)initWithResourceType:(BMLResourceTypeIdentifier*)resourceName {
-    
-    if (self = [self init]) {
-        self.resourceStatus = BMLResourceStatusUndefined;
-        self.inputResourceType = resourceName;
-    }
-    return self;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////
 - (NSMutableDictionary*)optionsForCurrentContext:(BMLWorkflowTaskContext*)context {
     
-    return [[context.configurator configurationForResourceType:self.inputResourceType]
-            optionDictionaryAllOptions:NO];
+    return [context.configurator configurationDictionary][@"configurations"];
+    
+//    return [[context.configurator configurationForResourceType:self.inputResourceType]
+//            optionDictionaryAllOptions:NO];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
