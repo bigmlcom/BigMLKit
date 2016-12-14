@@ -22,7 +22,6 @@
 			<string>objective_field</string>
 			<string>pruning</string>
 			<string>number_of_models</string>
-			<string>tlp</string>
 		</array>
 		<key>Algorithm</key>
 		<array>
@@ -150,19 +149,6 @@
 			<string>Node Threshold</string>
 			<key>default</key>
 			<string>512</string>
-		</dict>
-		<key>tlp</key>
-		<dict>
-			<key>type</key>
-			<string>int</string>
-			<key>min</key>
-			<string>1</string>
-			<key>max</key>
-			<string>5</string>
-			<key>title</key>
-			<string>tlp</string>
-			<key>default</key>
-			<string>1</string>
 		</dict>
 		<key>sample_rate</key>
 		<dict>
