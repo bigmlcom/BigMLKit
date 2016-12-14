@@ -70,6 +70,11 @@ typedef enum BMLDragDropStatus {
 @property (nonatomic, strong) NSString* showOnValue;
 
 /**
+ */
+@property (nonatomic, strong) NSString* valueOnField;
+@property (nonatomic, strong) NSDictionary* valueOnMap;
+
+/**
  *  This property represents the current drag&drop status for the control.
  *  Defaults to BMLDragDropStatusNone.
  */

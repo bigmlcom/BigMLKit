@@ -558,6 +558,22 @@
                 fieldModel.showOnValue = showOnTerms[1];
             }
         }
+        if (description[@"valueOn"]) {
+            
+            NSMutableDictionary* dict = [NSMutableDictionary new];
+            for (NSString* key in [description[@"valueOn"] allKeys]) {
+            
+                NSArray* valueOnTerms =
+                [key componentsSeparatedByCharactersInSet:
+                 [NSCharacterSet characterSetWithCharactersInString:@"="]];
+                
+                if ([valueOnTerms count] == 2) {
+                    dict[valueOnTerms[1]] = description[@"valueOn"][key];
+                }
+                fieldModel.valueOnField = valueOnTerms[0];
+                fieldModel.valueOnMap = dict;
+            }
+        }
         if (description[@"showOnly"]) {
             fieldModel.showOnly = [description[@"showOnly"] boolValue];
         }

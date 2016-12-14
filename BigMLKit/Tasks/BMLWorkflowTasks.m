@@ -680,7 +680,7 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
                                   definition:@{}];
     resourceDict = @{ @"source_code" : resourceDict[@"source_code"],
                       @"description" : resourceDict[@"description"] ?: @"",
-                      @"tags" : @[@"bigmlx_temp_script"],
+                      @"tags" : @[kTempScriptTag],
                       @"inputs" : [self reifyParameters:resourceDict[@"inputs"]
                                                      inputs:context.info[@"script_inputs"]] };
     
@@ -845,7 +845,7 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
         //-- if this was chained in through buildScript, then delete the script.
         dispatch_sync(dispatch_get_main_queue(), ^{
             BMLResource* r = [BMLResource fetchByFullUuid:script.fullUuid];
-            if ([r.tags containsString:@"bigmlx_temp_script"] || !r) {
+            if ([r.tags containsString:kTempScriptTag] || !r) {
                 isTempExecution = YES;
             }
         });
@@ -853,7 +853,7 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
         [context.ml createResource:BMLResourceTypeWhizzmlExecution
                               name:context.info[@"name"]
                            options:@{ @"inputs" : arguments,
-                                      @"tags" : @[@"bigmlx_temp_script"],
+                                      @"tags" : @[kTempScriptTag],
                                       @"creation_defaults": [self optionsForCurrentContext:context]}
                               from:script
                         completion:^(id<BMLResource> resource, NSError* error) {
