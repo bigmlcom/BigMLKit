@@ -826,7 +826,7 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
 - (void)runWithArguments:(NSArray*)inputs
                inContext:(BMLWorkflowTaskContext*)context
          completionBlock:(BMLWorkflowCompletedBlock)completion {
-
+    
     //-- Here we handle the input arguments. The first object in inputs is the script to run.
     //-- The rest of arguments to be passed to the script are taken from inputs and the context.
     //-- Currently, only a one-to-one relationship is supported, so the second object in inputs
@@ -834,14 +834,26 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
     NSError* error = nil;
     NSMutableArray* arguments = [self argumentsFromInputs:inputs inContext:context error:&error];
     NSLog(@"RUNNING EXEC WITH ARGS %@", arguments);
+    BOOL __block isTempExecution = NO;
+    
     if (!error) {
         BMLMinimalResource* script =
         [[BMLMinimalResource alloc] initWithName:context.info[@"name"]
                                         fullUuid:[inputs.firstObject fullUuid]
                                       definition:@{}];
+        
+        //-- if this was chained in through buildScript, then delete the script.
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            BMLResource* r = [BMLResource fetchByFullUuid:script.fullUuid];
+            if ([r.tags containsString:@"bigmlx_temp_script"] || !r) {
+                isTempExecution = YES;
+            }
+        });
+        
         [context.ml createResource:BMLResourceTypeWhizzmlExecution
                               name:context.info[@"name"]
                            options:@{ @"inputs" : arguments,
+                                      @"tags" : @[@"bigmlx_temp_script"],
                                       @"creation_defaults": [self optionsForCurrentContext:context]}
                               from:script
                         completion:^(id<BMLResource> resource, NSError* error) {
@@ -852,14 +864,15 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
                                               completion:completion];
                             
                             //-- if this was chained in through buildScript, then delete the script.
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                BMLResource* r = [BMLResource fetchByFullUuid:script.fullUuid];
-                                if ([r.tags containsString:@"bigmlx_temp_script"]) {
-                                    [context.ml deleteResource:script.type
-                                                          uuid:script.uuid
-                                                    completion:nil];
-                                }
-                            });
+                            if (isTempExecution) {
+                                
+                                [context.ml deleteResource:script.type
+                                                      uuid:script.uuid
+                                                completion:nil];
+                                [context.ml deleteResource:resource.type
+                                                      uuid:resource.uuid
+                                                completion:nil];
+                            }
                         } uuid:^(BMLResourceFullUuid* fullUuid) {
                             self.executionUuid = [BMLResourceTypeIdentifier uuidFromFullUuid:fullUuid];
                             self.parentTask.executionUuid = self.executionUuid;
