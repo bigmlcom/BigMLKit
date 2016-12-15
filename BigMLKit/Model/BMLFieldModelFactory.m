@@ -577,6 +577,9 @@
         if (description[@"showOnly"]) {
             fieldModel.showOnly = [description[@"showOnly"] boolValue];
         }
+        if (description[@"dontShow"]) {
+            fieldModel.dontShow = [description[@"dontShow"] boolValue];
+        }
     }
 
     return fieldModel;

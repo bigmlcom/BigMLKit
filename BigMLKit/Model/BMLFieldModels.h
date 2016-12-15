@@ -69,10 +69,26 @@ typedef enum BMLDragDropStatus {
  */
 @property (nonatomic, strong) NSString* showOnValue;
 
-/**
+/** The valueOnField property is used for fields whose value is implicitly defined based
+ ** on another field's value. In such cases, this property speficies which field determines
+ ** the value of the current field.
  */
 @property (nonatomic, strong) NSString* valueOnField;
+
+/** The valueOnMap property is used for fields whose value is implicitly defined based
+ ** on another field's value. This property tells which value should be assigned to this
+ ** field when the valueOnField field has a given value (corresponding to the key of the
+ ** dictionary)
+ */
 @property (nonatomic, strong) NSDictionary* valueOnMap;
+
+/**
+ *  This property specifies that the field should not be displayed to the user.
+ *  This is mostly useful for those fields whose values are defined based on other
+ *  fields' values.
+ *  Defaults to NO.
+ */
+@property (nonatomic) BOOL dontShow;
 
 /**
  *  This property represents the current drag&drop status for the control.
