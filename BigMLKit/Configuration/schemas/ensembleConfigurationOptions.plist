@@ -134,16 +134,23 @@
 			<key>title</key>
 			<string>seed</string>
 		</dict>
-		<key>pruning</key>
+		<key>stat_pruning</key>
 		<dict>
 			<key>type</key>
-			<string>choice</string>
-			<key>choices</key>
-			<array>
-				<string>smart_pruning</string>
-				<string>active_pruning</string>
-				<string>no_pruning</string>
-			</array>
+			<string>bool</string>
+			<key>default</key>
+			<true/>
+			<key>dontShow</key>
+			<true/>
+			<key>valueOn</key>
+			<dict>
+				<key>pruning=smart_pruning</key>
+				<true/>
+				<key>pruning=active_pruning</key>
+				<true/>
+				<key>pruning=no_pruning</key>
+				<false/>
+			</dict>
 		</dict>
 		<key>objective_field</key>
 		<dict>

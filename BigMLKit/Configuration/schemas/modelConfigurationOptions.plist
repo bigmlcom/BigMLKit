@@ -14,6 +14,8 @@
 		<array>
 			<string>objective_field</string>
 			<string>pruning</string>
+			<string>stat_pruning</string>
+			<string>selective_pruning</string>
 		</array>
 		<key>Algorithm</key>
 		<array>
@@ -44,6 +46,8 @@
 		</dict>
 		<key>pruning</key>
 		<dict>
+			<key>showOnly</key>
+			<true/>
 			<key>type</key>
 			<string>choice</string>
 			<key>choices</key>
@@ -52,6 +56,42 @@
 				<string>active_pruning</string>
 				<string>no_pruning</string>
 			</array>
+		</dict>
+		<key>selective_pruning</key>
+		<dict>
+			<key>type</key>
+			<string>bool</string>
+			<key>default</key>
+			<true/>
+			<key>valueOn</key>
+			<dict>
+				<key>pruning=smart_pruning</key>
+				<true/>
+				<key>pruning=active_pruning</key>
+				<false/>
+				<key>pruning=no_pruning</key>
+				<false/>
+			</dict>
+			<key>dontShow</key>
+			<true/>
+		</dict>
+		<key>stat_pruning</key>
+		<dict>
+			<key>type</key>
+			<string>bool</string>
+			<key>default</key>
+			<true/>
+			<key>dontShow</key>
+			<true/>
+			<key>valueOn</key>
+			<dict>
+				<key>pruning=smart_pruning</key>
+				<true/>
+				<key>pruning=active_pruning</key>
+				<true/>
+				<key>pruning=no_pruning</key>
+				<false/>
+			</dict>
 		</dict>
 		<key>objective_field</key>
 		<dict>
