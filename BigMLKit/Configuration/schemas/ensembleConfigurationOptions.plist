@@ -20,7 +20,7 @@
 		<key>General</key>
 		<array>
 			<string>objective_field</string>
-			<string>pruning</string>
+			<string>stat_pruning</string>
 			<string>number_of_models</string>
 		</array>
 		<key>Algorithm</key>

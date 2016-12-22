@@ -85,9 +85,11 @@
 - (void)setOptionModel:(BMLWorkflowTaskConfigurationOption*)optionModel
         forOptionNamed:(NSString*)optionName {
     
-    if (!optionModel)
-        NSLog(@"ARRGGGHHHH");
     NSAssert(optionModel, @"Passing a nil optionModel for optionName: %@!", optionName);
+    if (!optionModel) {
+        NSLog(@"Improper call of BMLWorkflowTaskConfiguration setOptionModel:");
+        return;
+    }
     [_optionModels setObject:optionModel forKey:optionName];
 }
 
