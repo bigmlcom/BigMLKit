@@ -267,6 +267,7 @@
     
     BMLListFieldModel* mapModel = [BMLListFieldModel new];
     mapModel.title = title;
+    mapModel.name = title;
     mapModel.currentValue = currentValue;
     mapModel.isFieldIncluded = currentValue && ([currentValue isKindOfClass:[NSArray class]]);
     
@@ -279,6 +280,7 @@
     
     BMLMapFieldModel* mapModel = [BMLMapFieldModel new];
     mapModel.title = title;
+    mapModel.name = title;
     mapModel.currentValue = currentValue;
     mapModel.isFieldIncluded = currentValue && ([currentValue isKindOfClass:[NSDictionary class]]);
     
