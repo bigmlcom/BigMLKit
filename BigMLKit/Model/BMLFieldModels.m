@@ -222,6 +222,8 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)currentValue {
+    if ((id)_fullUuid == [NSNull null])
+        return nil;
     return _fullUuid;
 }
 
@@ -445,7 +447,6 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 - (id)currentValue {
-    
     return self.name;
 }
 
@@ -454,22 +455,10 @@
     self.name = value;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////
-//- (NSInteger)selectedState {
-//    
-//    return _isSelected ? NSOnState : NSOffState;
-//}
-//
-////////////////////////////////////////////////////////////////////////////////////////
-//+ (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
-//    
-//    NSSet* keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
-//    
-//    if ([key isEqualToString:@"state"]) {
-//        NSArray* affectingKeys = @[@"isSelected"];
-//        keyPaths = [keyPaths setByAddingObjectsFromArray:affectingKeys];
-//    }
-//    return keyPaths;
-//}
+//////////////////////////////////////////////////////////////////////////////////////
+- (void)setName:(NSString*)name {
+    [super setName:name];
+    self.title = name;
+}
 
 @end

@@ -22,6 +22,14 @@
 @implementation BMLFieldModelFactory
 
 /////////////////////////////////////////////////////////////////////////////////
++ (id)sanitizeDefault:(id)value {
+    
+    if (value == [NSNull null])
+        return nil;
+    return value;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
 + (BMLFieldModel*)newSliderVal:(float)val
                            min:(float)min
                            max:(float)max
@@ -315,7 +323,7 @@
     targetModel.resourceTypes = types;
     targetModel.importance = 1.0;
     targetModel.isFieldIncluded = currentValue && currentValue.length > 0;
-    targetModel.currentValue = currentValue;
+    targetModel.currentValue = [self sanitizeDefault:currentValue];
     return targetModel;
 }
 
@@ -386,10 +394,10 @@
                       currentValue:currentValue
                       type:type];
     }
-    if (fieldModel) {
+    if (fieldModel && currentValue.length > 0) {
         fieldModel.resourceName = [BMLResource fetchByFullUuid:currentValue].name;
     }
-    if (fieldModel.resourceName.length == 0) {
+    if (fieldModel.resourceName.length == 0 && currentValue.length > 0) {
         fieldModel.resourceName = currentValue;
     }
     return fieldModel;
