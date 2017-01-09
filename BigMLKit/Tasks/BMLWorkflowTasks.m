@@ -853,7 +853,7 @@ NSArray* resultsFromExecution(id<BMLResource> resource) {
         [context.ml createResource:BMLResourceTypeWhizzmlExecution
                               name:context.info[@"name"]
                            options:@{ @"inputs" : arguments,
-                                      @"tags" : @[kTempScriptTag],
+                                      @"tags" : isTempExecution ? @[kTempScriptTag] : @[],
                                       @"creation_defaults": [self optionsForCurrentContext:context]}
                               from:script
                         completion:^(id<BMLResource> resource, NSError* error) {
