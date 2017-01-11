@@ -205,7 +205,7 @@ typedef enum BMLDragDropStatus {
 //////////////////////////////////////////////////////////////////////////////////////
 @interface BMLListFieldModel : BMLFieldModel
 
-@property (nonatomic, copy) NSDictionary* currentValue;
+@property (nonatomic, copy) NSArray* currentValue;
 
 @end
 

@@ -420,7 +420,7 @@
 @implementation BMLListFieldModel
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (NSDictionary*)currentValue {
+- (NSArray*)currentValue {
     
     return _currentValue ?: @[];
 }
