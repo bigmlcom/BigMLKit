@@ -38,7 +38,7 @@
       "info": "Whether sampling should be performed with or without replacement."
     },
     "stats_sample_seed": {
-      "type": "string",
+      "type": "text",
       "info": "Random seed value used for stats sampling."
     },
     "stats_sample_size": {

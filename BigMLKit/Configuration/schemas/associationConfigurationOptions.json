@@ -1,0 +1,168 @@
+{
+  "optionNames": {
+      "Measures": [
+        "min_support",
+        "min_confidence",
+        "min_leverage",
+        "significance_level",
+        "min_lift"
+    ],
+    "Sampling": [
+      "sample_rate",
+      "range",
+      "replacement",
+      "out_of_bag",
+      "seed"
+    ],
+    "Discretization": [
+      "pretty",
+      "size",
+      "type",
+      "trim"
+    ],
+    "General": [
+        "max_k",
+        "max_lhs",
+        "search_strategy",
+        "complement",
+        "default_numeric_value"
+    ]
+  },
+  "optionGroups": [
+    "General",
+    "Discretization",
+    "Measures",
+    "Sampling"
+  ],
+
+  "optionDescriptions": {
+    "complement": {
+      "default": false,
+      "type": "bool",
+      "info": "If complement is true, complementary items are also taken into account. For example, for the item (coffee), the complement would be (NOT coffee), so a part of the association (milk, cofee) --> (sugar) complementary rules as (milk, NOT cofee) --> (chocolate) may also be detected."
+    },
+    "default_numeric_value": {
+      "default": "1.0",
+      "categories": [
+        "mean",
+        "median",
+        "minimum",
+        "maximum",
+        "zero"
+      ],
+      "type": "categorical",
+      "info": "What to substitute missing numeric values for across all the numeric fields in the dataset."
+    },
+    "max_k": {
+      "default": 100,
+      "type": "int",
+        "min": 1,
+        "max": 500,
+      "info": "The maximum number of associations to be discovered."
+    },
+    "max_lhs": {
+      "default": 4,
+      "type": "int",
+        "min": 1,
+        "max": 10,
+      "info": "The maximum number of items to be considered within the left-hand-side itemset."
+    },
+    "min_confidence": {
+      "default": 0.0,
+      "type": "double",
+      "min": 0.0,
+      "max": 1.0,
+      "info": "A real number between 0 and 1 specifying the minimum confidence for the rules discovered."
+    },
+    "min_leverage": {
+      "default": 0.0,
+      "type": "double",
+      "min": -1.0,
+      "max": 1.0,
+      "info": "A real number between -1 and 1 specifying the minimum leverage for the rules discovered."
+    },
+    "min_lift": {
+      "default": 1.0,
+      "type": "int",
+      "min": 0,
+        "max": 100,
+      "info": "A non-negative real number specifying the minimum lift for the rules discovered."
+    },
+    "min_support": {
+      "default": 1.0,
+      "type": "double",
+      "min": 0.0,
+      "max": 1.0,
+      "info": "A non-negative real number specifying the minimum support for the rules discovered, i.e., the number of instances matching both the left-hand and right-hand sides. A value less than 1 represents the percentage of the support, and will be multiplied by the total number of instances and rounded up."
+    },
+    "significance_level": {
+      "default": 0.005,
+      "type": "double",
+      "min": 0.0,
+      "max": 1.0,
+      "info": "The significance level between 0 and 1 used for statistical significance of the results."
+    },
+    "pretty": {
+      "default": true,
+      "type": "bool",
+        "collection": "discretization",
+      "info": "When enabled the bin locations and widths will be chosen to be easy to read numbers, specifically they will be 1, 2, 2.5, or 5 times a power of 10."
+    },
+    "size": {
+      "default": 32,
+      "type": "int",
+        "collection": "discretization",
+      "info": "The number of equal width bins. If pretty is enabled then this value acts as a maximum size, but the actual number of bins may be lower."
+    },
+    "type": {
+      "default": "population",
+      "type": "categorical",
+        "categories": [ "population", "width" ],
+        "collection": "discretization",
+      "info": "Whether the field is discretized using an equal width or equal population strategy."
+    },
+    "trim": {
+      "default": 0.0,
+      "type": "double",
+        "collection": "discretization",
+      "info": "A real number between 0 and 0.1 specifying the portion of the overall population that may be removed from either tail of the distribution. For example, 0.01 indicates that 1 percent of the data may be removed from either tail. Default is 0, however, 0.01 often gives nice looking results."
+    },
+    "search_strategy": {
+      "type": "categorical",
+        "default": "leverage",
+        "categories": [
+            "leverage", "confidence", "lhs_cover", "lift", "support"
+            ],
+      "info": "The strategy for prioritizing the rules in the search."
+    },
+    "seed": {
+      "type": "text",
+      "info": "A string to be hashed to generate deterministic samples."
+    },
+    "replacement": {
+      "title": "replacement",
+      "type": "bool",
+      "info": "Whether sampling should be performed with or without replacement."
+    },
+    "sample_rate": {
+      "default": "1.0",
+      "min": "0",
+      "title": "sample_rate",
+      "type": "double",
+      "max": "1",
+      "info": "A real number between 0 and 1 specifying the sample rate."
+    },
+    "out_of_bag": {
+      "title": "out_of_bag",
+      "type": "bool",
+      "info": "Setting this parameter to true will return a sequence of the out-of-bag instances instead of the sampled instances."
+    },
+    "range": {
+      "min": "1",
+      "title": "range",
+      "type": "int_range",
+      "max": "100",
+      "info": "The range of successive instances to build the logistic regression in percent."
+    }
+  }
+}
