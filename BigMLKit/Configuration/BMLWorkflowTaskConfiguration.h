@@ -42,7 +42,7 @@
 @property (nonatomic, readonly) NSDictionary* optionModels;
 @property (nonatomic, readonly) BMLResourceTypeIdentifier* resourceType;
 
-+ (NSString*)configurationPlistForResourceType:(BMLResourceTypeIdentifier*)resourceType;
++ (NSString*)configurationFileForResourceType:(BMLResourceTypeIdentifier*)resourceType;
 
 - (instancetype)initWithResourceType:(BMLResourceTypeIdentifier*)resourceType;
 

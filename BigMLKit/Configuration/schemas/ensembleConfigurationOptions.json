@@ -1,0 +1,158 @@
+{
+  "optionNames": {
+    "Algorithm": [
+      "ensemble_algorithm",
+      "random_candidates_selector",
+      "random_candidates_ratio",
+      "missing_splits",
+      "node_threshold",
+      "randomize",
+      "seed"
+    ],
+    "Ensemble Sample": [
+      "ensemble_sample_rate",
+      "ensemble_sample_replacement",
+      "ensemble_sample_seed"
+    ],
+    "Sampling": [
+      "sample_rate",
+      "range",
+      "replacement",
+      "out_of_bag",
+      "ordering"
+    ],
+    "General": [
+      "objective_field",
+      "stat_pruning",
+      "number_of_models"
+    ]
+  },
+  "optionGroups": [
+    "General",
+    "Algorithm",
+    "Sampling",
+    "Ensemble Sample"
+  ],
+  "optionDescriptions": {
+    "replacement": {
+      "title": "replacement",
+      "type": "bool"
+    },
+    "range": {
+      "min": "1",
+      "title": "range",
+      "type": "int_range",
+      "max": "100"
+    },
+    "randomize": {
+      "dontShow": true,
+      "title": "randomize",
+      "type": "bool",
+      "valueOn": {
+        "ensemble_algorithm=bagging": false,
+        "ensemble_algorithm=random_forest": true
+      }
+    },
+    "sampling": {
+      "title": "sampling",
+      "type": "bool"
+    },
+    "missing_splits": {
+      "title": "missing_splits",
+      "type": "bool"
+    },
+    "ordering": {
+      "choices": [
+        "deterministic",
+        "linear",
+        "random"
+      ],
+      "type": "choice"
+    },
+    "ensemble_sample_seed": {
+      "title": "seed",
+      "collection": "ensemble_sample",
+      "type": "text"
+    },
+    "seed": {
+      "title": "seed",
+      "type": "text"
+    },
+    "random_candidates_selector": {
+      "showOn": "ensemble_algorithm=random_forest",
+      "showOnly": true,
+      "categories": {
+        "default_random_candidates": "default_random_candidates",
+        "random_candidates_ratio": "random_candidates_ratio"
+      },
+      "type": "categorical"
+    },
+    "ensemble_algorithm": {
+      "showOnly": true,
+      "categories": {
+        "bagging": "bagging",
+        "random_forest": "random_forest"
+      },
+      "type": "categorical"
+    },
+    "ensemble_sample_replacement": {
+      "collection": "ensemble_sample",
+      "replacement": "replacement",
+      "type": "bool"
+    },
+    "sample_rate": {
+      "min": "0",
+      "title": "sample_rate",
+      "type": "double",
+      "max": "1"
+    },
+    "out_of_bag": {
+      "title": "out_of_bag",
+      "type": "bool"
+    },
+    "number_of_models": {
+      "min": "1",
+      "type": "int",
+      "max": "256",
+      "default": "10"
+    },
+    "stat_pruning": {
+      "dontShow": true,
+      "type": "bool",
+      "valueOn": {
+        "pruning=no_pruning": false,
+        "pruning=smart_pruning": true,
+        "pruning=active_pruning": true
+      },
+      "default": true
+    },
+    "objective_field": {
+      "categories": [
+        "last_field",
+        "first_field"
+      ],
+      "type": "categorical"
+    },
+    "ensemble_sample_rate": {
+      "min": "0",
+      "title": "rate",
+      "collection": "ensemble_sample",
+      "type": "double",
+      "max": "1"
+    },
+    "random_candidates_ratio": {
+      "showOn": "random_candidates_selector=random_candidates_ratio",
+      "min": "0",
+      "title": "random_candidates_ratio",
+      "type": "double",
+      "max": "1"
+    },
+    "node_threshold": {
+      "min": "0",
+      "title": "Node Threshold",
+      "type": "int",
+      "max": "512",
+      "default": "512"
+    }
+  }
+}

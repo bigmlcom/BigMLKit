@@ -1,0 +1,100 @@
+{
+  "optionNames": {
+    "Text Analysis": [
+      "enabled",
+      "language",
+      "tokenize",
+      "use_stop_words",
+      "stemming",
+      "case_sensitive"
+    ],
+    "General": [
+      "locale",
+      "separator",
+      "quote",
+      "missing_tokens"
+    ]
+  },
+  "optionGroups": [
+    "General",
+    "Text Analysis"
+  ],
+  "optionDescriptions": {
+    "locale": {
+      "categories": [
+        "en_us",
+        "en_uk",
+        "es_es",
+        "nl_nl"
+      ],
+      "collection": "source_parser",
+      "type": "categorical"
+    },
+    "enabled": {
+      "title": "Enabled",
+      "collection": "text_analysis",
+      "type": "bool"
+    },
+    "use_stop_words": {
+      "title": "Missing Splits",
+      "collection": "text_analysis",
+      "type": "bool"
+    },
+    "stemming": {
+      "title": "Stemming enabled",
+      "collection": "text_analysis",
+      "type": "bool"
+    },
+    "case_sensitive": {
+      "title": "Case sensitive",
+      "collection": "text_analysis",
+      "type": "bool"
+    },
+    "separator": {
+      "categories": [
+        ",",
+        ";",
+        "\\t",
+        " ",
+        "|"
+      ],
+      "collection": "source_parser",
+      "type": "categorical"
+    },
+    "language": {
+      "categories": [
+        "en",
+        "es",
+        "nl",
+        "ca",
+        "not_a_language",
+        "autodetect"
+      ],
+      "collection": "text_analysis",
+      "type": "categorical"
+    },
+    "tokenize": {
+      "categories": [
+        "tokens_all",
+        "tokens_only",
+        "full_terms_only"
+      ],
+      "collection": "text_analysis",
+      "type": "categorical"
+    },
+    "missing_tokens": {
+      "collection": "source_parser",
+      "title": "missing_tokens",
+      "type": "string_array",
+      "default": "\"\", NaN, NULL, N/A, null, -, #REF!, #VALUE!, ?, #NULL!, #NUM!, #DIV/0, n/a, #NAME?, NIL, nil, na, #N/A, NA"
+    },
+    "quote": {
+      "categories": [
+        "\"",
+        "'"
+      ],
+      "collection": "source_parser",
+      "type": "categorical"
+    }
+  }
+}

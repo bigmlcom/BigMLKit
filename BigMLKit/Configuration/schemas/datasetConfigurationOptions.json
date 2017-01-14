@@ -1,0 +1,19 @@
+{
+  "optionNames": {
+    "General": [
+      "size"
+    ]
+  },
+  "optionGroups": [
+    "General"
+  ],
+  "optionDescriptions": {
+    "size": {
+      "min": "0",
+      "title": "dataset_size",
+      "type": "double",
+      "max": "1.0",
+      "default": "1.0"
+    }
+  }
+}

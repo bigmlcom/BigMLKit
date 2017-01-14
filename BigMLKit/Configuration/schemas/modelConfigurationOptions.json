@@ -1,0 +1,107 @@
+{
+  "optionNames": {
+    "Algorithm": [
+      "missing_splits",
+      "node_threshold"
+    ],
+    "Sampling": [
+      "sample_rate",
+      "range",
+      "replacement",
+      "out_of_bag",
+      "ordering"
+    ],
+    "General": [
+      "objective_field",
+      "pruning",
+      "stat_pruning",
+      "selective_pruning"
+    ]
+  },
+  "optionGroups": [
+    "General",
+    "Algorithm",
+    "Sampling"
+  ],
+  "optionDescriptions": {
+    "selective_pruning": {
+      "dontShow": true,
+      "type": "bool",
+      "valueOn": {
+        "pruning=no_pruning": false,
+        "pruning=smart_pruning": true,
+        "pruning=active_pruning": false
+      },
+      "default": true
+    },
+    "objective_field": {
+      "categories": [
+        "last_field",
+        "first_field"
+      ],
+      "type": "categorical"
+    },
+    "node_threshold": {
+      "min": "0",
+      "title": "Node Threshold",
+      "type": "int",
+      "max": "512",
+      "default": "512"
+    },
+    "ordering": {
+      "choices": [
+        "deterministic",
+        "linear",
+        "random"
+      ],
+      "type": "choice"
+    },
+    "sample_rate": {
+      "min": "0",
+      "title": "sample_rate",
+      "type": "double",
+      "max": "1"
+    },
+    "missing_splits": {
+      "title": "missing_splits",
+      "type": "bool"
+    },
+    "out_of_bag": {
+      "title": "out_of_bag",
+      "type": "bool"
+    },
+    "pruning": {
+      "showOnly": true,
+      "choices": [
+        "smart_pruning",
+        "active_pruning",
+        "no_pruning"
+      ],
+      "type": "choice"
+    },
+    "range": {
+      "min": "1",
+      "title": "range",
+      "type": "int_range",
+      "max": "100"
+    },
+    "stat_pruning": {
+      "dontShow": true,
+      "type": "bool",
+      "valueOn": {
+        "pruning=no_pruning": false,
+        "pruning=smart_pruning": true,
+        "pruning=active_pruning": true
+      },
+      "default": true
+    },
+    "sampling": {
+      "title": "sampling",
+      "type": "bool"
+    },
+    "replacement": {
+      "title": "replacement",
+      "type": "bool"
+    }
+  }
+}

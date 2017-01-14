@@ -31,26 +31,29 @@
 @synthesize resourceType = _resourceType;
 
 //////////////////////////////////////////////////////////////////////////////////////
-+ (NSString*)configurationPlistForResourceType:(BMLResourceTypeIdentifier*)resourceType {
++ (NSString*)configurationFileForResourceType:(BMLResourceTypeIdentifier*)resourceType {
     
     return [NSString stringWithFormat:@"%@ConfigurationOptions", resourceType.stringValue];
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
-- (instancetype)initWithPList:(NSString*)plistName {
+- (instancetype)initWithFile:(NSString*)plistName {
  
     if (self = [super init]) {
         
-        NSString* path = [[NSBundle mainBundle] pathForResource:plistName ofType:@"plist"];
+        NSString* path = [[NSBundle mainBundle] pathForResource:plistName ofType:@"json"];
         NSFileManager* fileManager = [NSFileManager defaultManager];
         if ([fileManager fileExistsAtPath:path]) {
 
             _optionModels = [NSMutableDictionary new];
 
-            NSDictionary* myDic = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
-            _groups = myDic[@"optionGroups"];
-            _options = myDic[@"optionNames"];
-            _optionDescriptions = myDic[@"optionDescriptions"];
+            NSData* data = [NSData dataWithContentsOfFile:path];
+            NSDictionary* dict = [NSJSONSerialization JSONObjectWithData:data
+                                                                 options:0
+                                                                   error:nil];
+            _groups = dict[@"optionGroups"];
+            _options = dict[@"optionNames"];
+            _optionDescriptions = dict[@"optionDescriptions"];
         }
     }
     return self;
@@ -60,8 +63,8 @@
 - (instancetype)initWithResourceType:(BMLResourceTypeIdentifier*)resourceType {
     
     NSString* plistName = [BMLWorkflowTaskConfiguration
-                           configurationPlistForResourceType:resourceType];
-    if (self = [self initWithPList:plistName]) {
+                           configurationFileForResourceType:resourceType];
+    if (self = [self initWithFile:plistName]) {
         _resourceType = resourceType;
     }
     return self;

@@ -1,0 +1,123 @@
+{
+  "optionNames": {
+    "Algorithm": [
+      "bias",
+      "balance_field",
+      "c",
+      "normalize"
+    ],
+    "Sampling": [
+      "sample_rate",
+      "range",
+      "replacement",
+      "out_of_bag",
+      "stats_sample_seed",
+      "stats_sample_size"
+    ],
+    "General": [
+      "default_numeric_value",
+      "missing_numerics",
+      "eps",
+      "compute_stats"
+    ]
+  },
+  "optionGroups": [
+    "General",
+    "Algorithm",
+    "Sampling"
+  ],
+  "optionDescriptions": {
+    "missing_numerics": {
+      "default": true,
+      "type": "bool",
+      "info": "Whether to create an additional binary predictor each numeric field which denotes a missing value. If false, these predictors are not created, and rows containing missing numeric values are dropped. ."
+    },
+    "replacement": {
+      "title": "replacement",
+      "type": "bool",
+      "info": "Whether sampling should be performed with or without replacement."
+    },
+    "stats_sample_seed": {
+      "type": "string",
+      "info": "Random seed value used for stats sampling."
+    },
+    "stats_sample_size": {
+      "default": "-1",
+      "type": "int",
+      "info": "The number of rows to sample for calculating statistics. If -1 is given, then the number of rows will be calculated such that (rows x coefficients) <= 1E+8. The minimum between that number and the total number of input rows will be used. "
+    },
+    "sample_rate": {
+      "default": "1.0",
+      "min": "0",
+      "title": "sample_rate",
+      "type": "double",
+      "max": "1",
+      "info": "A real number between 0 and 1 specifying the sample rate."
+    },
+    "compute_stats": {
+      "default": false,
+      "type": "bool",
+      "info": "Whether to compute statistics and significance tests."
+    },
+    "c": {
+      "default": 1,
+      "min": 0,
+      "type": "double",
+      "max": 1000,
+      "info": "The inverse of the regularization strength. Must be greater than 0."
+    },
+    "default_numeric_value": {
+      "default": "1.0",
+      "categories": [
+        "mean",
+        "median",
+        "minimum",
+        "maximum",
+        "zero"
+      ],
+      "type": "categorical",
+      "info": "What to substitute missing numeric values for across all the numeric fields in the dataset."
+    },
+    "out_of_bag": {
+      "title": "out_of_bag",
+      "type": "bool",
+      "info": "Setting this parameter to true will return a sequence of the out-of-bag instances instead of the sampled instances."
+    },
+    "bias": {
+      "default": true,
+      "type": "bool",
+      "info": "Whether to include the bias term from the solution."
+    },
+    "eps": {
+      "default": "0.00001",
+      "type": "double",
+      "info": "Stopping criteria for solver. If the difference between the results from the current and last iterations is less than eps, then the solver is finished.."
+    },
+    "range": {
+      "min": "1",
+      "title": "range",
+      "type": "int_range",
+      "max": "100",
+      "info": "The range of successive instances to build the logistic regression in percent."
+    },
+    "normalize": {
+      "default": false,
+      "type": "bool",
+      "info": "Whether to normalize feature vectors in training and predicting."
+    },
+    "balance_field": {
+      "info": "Whether to scale each numeric field such that its values are zero mean with a standard deviation of 1, based on the field summary statistics at training time.",
+      "type": "bool",
+      "default": false
+    },
+    "regularization": {
+      "default": "l2",
+      "categories": [
+        "l1",
+        "l2"
+      ],
+      "type": "categorical",
+      "info": "Either l1 or l2, which selects the norm to minimize when regularizing the solution. Regularizing with respect to the l1 norm causes more coefficients to be zero, using the l2 norm forces the magnitudes of all coefficients towards zero. "
+    }
+  }
+}

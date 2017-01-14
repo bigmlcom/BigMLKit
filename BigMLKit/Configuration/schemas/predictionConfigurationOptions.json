@@ -1,0 +1,19 @@
+{
+  "optionNames": {
+    "General": [
+      "missing_strategy"
+    ]
+  },
+  "optionGroups": [
+    "General"
+  ],
+  "optionDescriptions": {
+    "missing_strategy": {
+      "categories": [
+        "last_prediction",
+        "proportional"
+      ],
+      "type": "indexed"
+    }
+  }
+}

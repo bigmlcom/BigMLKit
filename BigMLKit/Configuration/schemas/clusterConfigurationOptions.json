@@ -1,0 +1,83 @@
+{
+  "optionNames": {
+    "Algorithm": [
+      "algorithm",
+      "k",
+      "critical_value",
+      "default_numeric_value",
+      "model_clusters"
+    ],
+    "Sampling": [
+      "sample_rate",
+      "range",
+      "replacement",
+      "out_of_bag"
+    ]
+  },
+  "optionGroups": [
+    "Algorithm",
+    "Sampling"
+  ],
+  "optionDescriptions": {
+    "k": {
+      "showOn": "algorithm=k_means",
+      "min": "2",
+      "type": "int",
+      "max": "300",
+      "default": "8"
+    },
+    "sampling": {
+      "title": "sampling",
+      "type": "bool"
+    },
+    "out_of_bag": {
+      "title": "out_of_bag",
+      "type": "bool"
+    },
+    "sample_rate": {
+      "min": "0",
+      "title": "sample_rate",
+      "type": "double",
+      "max": "1",
+      "default": "1.0"
+    },
+    "range": {
+      "min": "1",
+      "title": "range",
+      "type": "int_range",
+      "max": "100"
+    },
+    "replacement": {
+      "title": "replacement",
+      "type": "bool"
+    },
+    "critical_value": {
+      "showOn": "algorithm=g_means",
+      "min": "1",
+      "type": "int",
+      "max": "10",
+      "default": "5"
+    },
+    "algorithm": {
+      "showOnly": true,
+      "categories": [
+        "k_means",
+        "g_means"
+      ],
+      "type": "categorical"
+    },
+    "default_numeric_value": {
+      "categories": [
+        "maximum",
+        "mean",
+        "median",
+        "minimum",
+        "zero"
+      ],
+      "type": "categorical"
+    },
+    "model_clusters": {
+      "type": "bool"
+    }
+  }
+}

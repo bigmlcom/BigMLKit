@@ -1,0 +1,61 @@
+{
+  "optionNames": {
+    "Algorithm": [
+      "seed",
+      "forest_size",
+      "anomaly_seed",
+      "top_n"
+    ],
+    "Sampling": [
+      "sample_rate",
+      "range",
+      "replacement",
+      "out_of_bag"
+    ]
+  },
+  "optionGroups": [
+    "Algorithm",
+    "Sampling"
+  ],
+  "optionDescriptions": {
+    "forest_size": {
+      "min": "2",
+      "type": "int",
+      "max": "1000",
+      "default": "256"
+    },
+    "out_of_bag": {
+      "title": "out_of_bag",
+      "type": "bool"
+    },
+    "sample_rate": {
+      "min": "0",
+      "title": "sample_rate",
+      "type": "double",
+      "max": "1",
+      "default": "1.0"
+    },
+    "seed": {
+      "type": "text"
+    },
+    "anomaly_seed": {
+      "type": "text"
+    },
+    "top_n": {
+      "min": "1",
+      "type": "int",
+      "max": "1024",
+      "default": "10"
+    },
+    "range": {
+      "min": "1",
+      "title": "range",
+      "type": "int_range",
+      "max": "100"
+    },
+    "replacement": {
+      "title": "replacement",
+      "type": "bool"
+    }
+  }
+}

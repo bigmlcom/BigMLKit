@@ -1,0 +1,98 @@
+{
+  "optionNames": {
+    "Sampling": [
+      "total",
+      "source",
+      "dataset",
+      "model",
+      "cluster",
+      "anomaly",
+      "ensemble"
+    ],
+    "General": [
+      "tlp",
+      "max_execution_time",
+      "max_execution_steps",
+      "max_recursion_depth"
+    ]
+  },
+  "optionGroups": [
+    "General",
+    "Resource Limits"
+  ],
+  "optionDescriptions": {
+    "max_execution_time": {
+      "min": "0",
+      "type": "int",
+      "max": "10000",
+      "default": "3600"
+    },
+    "source": {
+      "min": "0",
+      "collection": "resource_limits",
+      "type": "int",
+      "max": "10000",
+      "default": "3600"
+    },
+    "cluster": {
+      "min": "0",
+      "collection": "resource_limits",
+      "type": "int",
+      "max": "10000",
+      "default": "3600"
+    },
+    "ensemble": {
+      "min": "0",
+      "collection": "resource_limits",
+      "type": "int",
+      "max": "10000",
+      "default": "3600"
+    },
+    "max_execution_steps": {
+      "min": "0",
+      "type": "int",
+      "max": "10000",
+      "default": "3600"
+    },
+    "model": {
+      "min": "0",
+      "collection": "resource_limits",
+      "type": "int",
+      "max": "10000",
+      "default": "3600"
+    },
+    "max_recursion_depth": {
+      "min": "0",
+      "type": "int",
+      "max": "10000",
+      "default": "3600"
+    },
+    "total": {
+      "min": "0",
+      "collection": "resource_limits",
+      "type": "int",
+      "max": "10000",
+      "default": "3600"
+    },
+    "dataset": {
+      "min": "0",
+      "collection": "resource_limits",
+      "type": "int",
+      "max": "10000",
+      "default": "3600"
+    },
+    "anomaly": {
+      "min": "0",
+      "collection": "resource_limits",
+      "type": "int",
+      "max": "10000",
+      "default": "3600"
+    },
+    "tlp": {
+      "min": "0",
+      "type": "int",
+      "max": "128",
+      "default": "1"
+    }
+  }
+}
