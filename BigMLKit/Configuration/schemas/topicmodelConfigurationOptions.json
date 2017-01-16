@@ -1,0 +1,98 @@
+{
+    "optionNames": {
+        "General": [
+            "bigrams",
+            "case_sensitive",
+            "number_of_topics",
+            "term_limit",
+            "top_n_terms",
+            "topicmodel_seed",
+            "use_stopwords"
+        ],
+        "Sampling": [
+            "sample_rate",
+            "seed",
+            "range",
+            "replacement",
+            "out_of_bag"
+        ]
+    },
+    "optionGroups": [
+        "General",
+        "Sampling"
+    ],
+    "optionDescriptions": {
+        "bigrams": {
+            "type": "bool",
+            "info": "Whether to include a contiguous sequence of two items from a given sequence of text.",
+            "default": false
+        },
+        "case_sensitive": {
+            "type": "bool",
+            "info": "Whether the analysis is case-sensitive or not.",
+            "default": false
+        },
+        "number_of_topics": {
+            "type": "int",
+            "info": "The number of topics that topic model will generate. If it is unset, it will be chosen automatically based on the number documents (i.e., row count).",
+            "min": 2,
+            "max": 64
+        },
+        "term_limit": {
+            "type": "int",
+            "info": "The maximum number of terms used for the topic model vocabulary. Computation is linear with respect to this parameter.",
+            "min": 128,
+            "max": 16384,
+            "default": 4096
+        },
+        "top_n_terms": {
+            "type": "int",
+            "info": "The size of the most influential terms recorded.",
+            "min": 1,
+            "max": 128,
+            "default": 10
+        },
+        "use_stopwords": {
+            "type": "bool",
+            "info": "Whether to use stop words.",
+            "default": false
+        },
+        "topicmodel_seed": {
+            "type": "text",
+            "info": "With a seed, the topic model is deterministic.",
+        },
+        "seed": {
+            "type": "text",
+            "info": "A string to be hashed to generate deterministic samples.",
+        },
+        "sampling": {
+            "title": "sampling",
+            "type": "bool"
+        },
+        "out_of_bag": {
+            "title": "out_of_bag",
+            "info": "Setting this parameter to true will return a sequence of the out-of-bag instances instead of the sampled instances.",
+            "type": "bool"
+        },
+        "sample_rate": {
+            "min": "0",
+            "info": "A real number between 0 and 1 specifying the sample rate.",
+            "title": "sample_rate",
+            "type": "double",
+            "max": "1",
+            "default": "1.0"
+        },
+        "range": {
+            "info": "The range of successive instances to build the topic model.",
+            "min": "1",
+            "title": "range",
+            "type": "int_range",
+            "max": "100"
+        },
+        "replacement": {
+            "title": "replacement",
+            "info": "Whether sampling should be performed with or without replacement.",
+            "type": "bool"
+        }
+    }
+}
