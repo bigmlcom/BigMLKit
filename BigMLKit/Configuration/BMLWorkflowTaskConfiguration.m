@@ -79,7 +79,8 @@
         fieldModel = (id)[BMLFieldModelFactory fieldModelForOptionNamed:optionName
                                                         description:description];
         fieldModel.isFieldIncluded = NO;
-        [self setOptionModel:fieldModel forOptionNamed:optionName];
+        if (fieldModel)
+            [self setOptionModel:fieldModel forOptionNamed:optionName];
     }
     return _optionModels[optionName];
 }
